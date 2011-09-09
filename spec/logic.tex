@@ -1,0 +1,56 @@
+\section{First-Order Logic With Polymorphic Types} \label{sec_logic}
+
+\paragraph{Type expressions.} In TFF1, we distinguish
+{\em first-order types}%
+\footnote{Denoted {\tt tff\_atomic\_type} in the
+TPTP {\tt SyntaxBNF} document.}, attached to individual values,
+and {\em higher-order types}%
+\footnote{Denoted {\tt tff\_top\_level\_type} in {\tt SyntaxBNF}.}
+which specify the type signature of function and predicate symbols.
+
+First-order types are constructed from {\em type variables\/}
+and {\em type constructors\/} of fixed arity. A type constructor
+of arity 0 is called {\em type constant}. We follow the usual
+notation conventions of TPTP: type variables are written as
+upper-case words and type constructors are lower-case words.
+There are several predefined type constants:
+\verb+$iType+ (also written \verb+$i+),
+\verb+$int+, \verb+$rat+, and \verb+$real+. In this paper,
+we do not consider the arithmetic extensions of TPTP, and,
+therefore, the types \verb+$int+, \verb+$rat+, and \verb+$real+
+have no prescribed semantics%
+\footnote{Should we guarantee at least the infinite domains for these?}.
+Here are some examples of well-formed first-order types:
+\verb+A+, \verb+list(A)+, \verb+list($i)+, \verb+map($int,list(A))+.
+
+Higher-order types have several possible forms:
+\begin{itemize}
+\item a first-order type --- these types are attached to
+monomorphic constants;
+\item the Boolean type \verb+$oType+ (also written \verb+$o+)
+--- these types are attached to propositional variables and
+the predefined constants \verb+$true+ and \verb+$false+;
+\item {\tt ($T_1$ * $\dots$ * $T_n$) > $T$},
+where $T_1,\dots,T_n,T$ are first-order types ---
+these types are attached to monomorphic functions;
+\item {\tt ($T_1$ * $\dots$ * $T_n$) > \$oType},
+where $T_1,\dots,T_n$ are first-order types --- these types
+are attached to monomorphic predicates;
+\item {\tt !>~[$A_1$:\$tType,$\dots$,%
+$A_n$:\$tType]~:~$T$}, where $A_1,\dots,A_n$ are distinct
+type variables and $T$ has one of the previous four forms ---
+these types are given to polymorphic functions and predicates.
+Symbol {\tt !>} denotes the type-level universal quantifier.
+We require every type variable $A_1,\dots,A_n$ to occur
+in $T$ and vice versa, every type variable in $T$ should be
+among $A_1,\dots,A_n$.
+\end{itemize}
+
+A type with a quantifier prefix is called {\em polytype},
+otherwise we call it {\em monotype}.
+A type that does not contain type variables is called
+{\em monomorphic type\/} or {\em ground type}.
+A first-order monomorphic type is called {\em sort}.
+
+\paragraph{Type declarations.}
+
