@@ -220,9 +220,15 @@
 %                         (<tff_subtype>)
 
 %----See <thf_top_level_type> for commentary
-<tff_top_level_type> ::= <tff_atomic_type> | <tff_mapping_type>
+<tff_top_level_type>  ::= <tff_quantified_type> | <tff_simple_type>
+<tff_quantified_type> ::= !> [<tff_variable_list>] : <tff_simple_type> |
+                          (<tff_quantified_type>)
+<tff_simple_type>    ::= <tff_atomic_type> | <tff_mapping_type>
 <tff_unitary_type>   ::= <tff_atomic_type> | (<tff_xprod_type>)
-<tff_atomic_type>    ::= <atomic_word> | <defined_type>
+<tff_atomic_type>    ::= <tff_function_type> | <defined_type> | <variable>
+<tff_function_type>  ::= <constant> | <functor>(<tff_type_arguments>)
+<tff_type_arguments> ::= <tff_atomic_type> |
+                         <tff_atomic_type>,<tff_type_arguments>
 %----For consistency with <thf_unitary_type> (the analogue in thf),
 %----<tff_atomic_type> should also allow (<tff_atomic_type>), but that causes
 %----ambiguity.
@@ -397,7 +403,7 @@
 %----None yet <defined_infix_func> ::=
 <defined_plain_term> ::= <defined_constant> | <defined_functor>(<arguments>)
 <defined_constant>   ::= <defined_functor>
-<defined_constant>   :==
+<defined_constant>   :== <defined_type>
 <defined_functor>    ::= <atomic_defined_word>
 <defined_functor>    :== $itett |
                          $uminus | $sum | $difference | $product |
