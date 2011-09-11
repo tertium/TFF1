@@ -3,23 +3,25 @@
 \paragraph{Type expressions.} In TFF1, we distinguish
 {\em first-order types}%
 \footnote{Denoted {\tt tff\_atomic\_type} in the
-TPTP {\tt SyntaxBNF} document.}, attached to individual values,
+TPTP {\tt SyntaxBNF} document.}, assigned to individual values,
 and {\em higher-order types}%
 \footnote{Denoted {\tt tff\_top\_level\_type} in {\tt SyntaxBNF}.}
-which specify the type signature of function and predicate symbols.
+which specify the type signature of function and predicate symbols%
+\footnote{We could also call them ``value-level types'' and
+``function-level types''.}.
 
 First-order types are constructed from {\em type variables\/}
 and {\em type constructors\/} of fixed arity. A type constructor
 of arity 0 is called {\em type constant}. We follow the usual
-notation conventions of TPTP: type variables are written as
-upper-case words and type constructors are lower-case words.
+notation conventions of TPTP: type variables start with an
+uppercase letter and type constructors with a lowercase letter.
 There are several predefined type constants:
 \verb+$iType+ (also written \verb+$i+),
 \verb+$int+, \verb+$rat+, and \verb+$real+. In this paper,
 we do not consider the arithmetic extensions of TPTP, and,
 therefore, the types \verb+$int+, \verb+$rat+, and \verb+$real+
 have no prescribed semantics%
-\footnote{Should we guarantee at least the infinite domains for these?}.
+\footnote{Should we at least guarantee infinite domains for these?}.
 Here are some examples of well-formed first-order types:
 \verb+A+, \verb+list(A)+, \verb+list($i)+, \verb+map($int,list(A))+.
 
@@ -42,7 +44,7 @@ type variables and $T$ has one of the previous four forms ---
 these types are given to polymorphic functions and predicates.
 Symbol {\tt !>} denotes the type-level universal quantifier.
 We require every type variable $A_1,\dots,A_n$ to occur
-in $T$ and vice versa, every type variable in $T$ should be
+in $T$ and vice versa, every type variable in $T$ must be
 among $A_1,\dots,A_n$.
 \end{itemize}
 
@@ -52,5 +54,134 @@ A type that does not contain type variables is called
 {\em monomorphic type\/} or {\em ground type}.
 A first-order monomorphic type is called {\em sort}.
 
-\paragraph{Type declarations.}
+\paragraph{Type declarations.} Type constructors, as well as
+function and predicate symbols can be declared prior to use.
+For example, the following declarations introduce a type
+constant {\tt bird}, a unary type constructor {\tt list},
+and a binary type constructor {\tt map}:
+\begin{verbatim}
+    tff(bird_type, type, bird: $tType).
+
+    tff(list_type, type, list: $tType > $tType).
+
+    tff(map_type, type, map: ($tType * $tType) > $tType).
+\end{verbatim}
+Declaration of type constructors is not required. In TFF1,
+type constructors must be fully applied, and therefore
+their arity can be unambiguously determined at the first
+occurrence. However, one should keep in mind that a type
+expression can occur in a position of a term (see below
+the examples of {\tt cons} and other polymorphic symbols).
+A TFF parser should refer to the type signatures in order
+to know whether it parses a term or a type.
+
+A declaration of a function or predicate symbol gives it
+a higher-order type, which we call this symbol's
+{\em type signature}. For example, the following
+declarations introduce a monomorphic constant {\tt pi},
+a polymorphic predicate {\tt isEmpty}, and polymorphic
+functions {\tt cons} and {\tt get}:
+\begin{verbatim}
+    tff(pi_type, type, pi: $real).
+
+    tff(isEmpty_type, type, isEmpty: !> [A:$tType]: list(A) > $o).
+
+    tff(cons_type, type,
+                    cons: !> [A:$tType]: (A * list(A)) > list(A)).
+
+    tff(get_type, type,
+                 get: !> [A:$tType,B:$tType]: (map(A,B) * A) > B).
+\end{verbatim}
+If a function or predicate symbol is used without declaration,
+then default type signatures are assumed:
+\begin{itemize}
+\item a function symbol gets the signature
+{\tt (\$i * $\dots$ * \$i) > \$i};
+\item a predicate symbol gets the signature
+{\tt (\$i * $\dots$ * \$i) > \$o}.
+\end{itemize}
+
+Any symbol (a type constructor, a function symbol, or a predicate symbol)
+can be declared at most once. A symbol can be declared after being used
+for the first time. In this case, the declared type signature must be
+identical to the assumed one. All symbols share the same namespace; for
+example, a type constructor cannot have the same name as a function symbol%
+\footnote{Is this restriction present in TPTP FOF and TFF0? If not, we can
+lift it for TFF1.}.
+
+\paragraph{Function and predicate application.} In order to keep
+the required type inference to the minimum, every use of a polymorphic
+symbol must explicitly specify the corresponding monomorphic%
+\footnote{Well, it's rather ``monotypic'' than monomorphic.}
+type instance.
+A function symbol of type
+\begin{center}
+{\tt !>~[$A_1$:\$tType,$\dots$,$A_n$:\$tType]~:~($T_1$ * $\dots$ * $T_m$)
+> $T$}
+\end{center}
+must be applied to $n$ first-order type arguments and $m$ term arguments
+(likewise for predicate symbols). For example, here are some well-formed
+terms and atomic formulas of TFF1:
+\begin{verbatim}
+    isEmpty($i, cons($i, V, nil($i)))
+
+    get($int, list(A), M, 2)
+\end{verbatim}
+In the first example, {\tt V} is a variable of type {\tt \$i}
+and {\tt nil} is a function
+symbol of type {\tt !>~[A:\$tType]: list(A)}. In the second
+example, {\tt A} is a type variable, and {\tt M} is a variable
+of type {\tt map(\$int, list(A))}. Let us emphasize that type
+variables can only be instantiated with first-order types.
+In particular, neither \verb+$o+ nor \verb+$tType+ can occur
+in type arguments of polymorphic symbols.
+
+For systems that implement type inference, the following extension
+of TFF might be useful. Whenever a particular type argument of
+a polymorphic symbol can be inferred automatically, it may be
+replaced with
+the underscore character: \verb+isEmpty(_,cons(_,V,nil(_)))+%
+\footnote{Should this be part of {\tt SyntaxBNF}?}.
+Notice that the type argument of {\tt nil} cannot be inferred
+``locally'', from the types of other arguments (for there are none),
+but it can be inferred using Hindley-Milner type inference.
+The producer of a TFF problem must be aware of the type
+inference algorithm implemented in the consumer, to omit
+only the redundant type arguments.
+
+\paragraph{Type variables and individual variables.}
+Every variable in a TFF formula can be given a first-order type
+at binding time:
+\begin{verbatim}
+    tff(list_not_empty, axiom,
+      ! [B:bird, Bs:list(bird)]: ~ isEmpty(bird,cons(bird,B,Bs))).
+\end{verbatim}
+Any untyped variable gets the type \verb+$i+. The Boolean type
+\verb+$o+ cannot occur in the type of a variable%
+\footnote{Is this restriction present in TFF0?
+If not, we are in trouble!}
+
+Furthermore, every type variable occurring in a TFF formula
+(in a type argument or in a type of a bound variable)
+must be also bound:
+\begin{verbatim}
+    tff(get_set, axiom,
+      ! [A:$tType, B:$tType, M:map(A,B), I:A, V:B]:
+          get(A,B,set(A,B,M,I,V),I) = V).
+\end{verbatim}
+Notice that one can put type variables and ordinary variables
+under the same quantifier. The order of variables is important:
+if the type of an ordinary variable contains a type variable,
+the latter must appear before the former%
+\footnote{We can permit omitting the {\tt\$tType} annotations,
+too, but should we? If an untyped variable can turn to be
+a type variable or an {\tt\$i}-variable, then we must look
+into the formula to know which it is.}.
+
+Type variables can be bound both by universal and existential
+quantifiers. They can be also bound in let-statements%
+\footnote{By the way, why there is no term-level let in TFF0?}.
+We allow such bindings to occur under quantifiers over ordinary
+variables as well as under equivalence, negation, et cetera ---
+basically, wherever an ordinary variable can be bound.
 
