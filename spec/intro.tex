@@ -1,0 +1,36 @@
+\section{Introduction}
+\label{sec_intro}
+
+In part motivated by the desire to support arithmetic, TPTP has been slowly
+moving towards supporting types, in the form of simple types (many-typed/sorted)
+in TFF (Typed First-order Form) and THF0 (Typed Higher-order Form). In the
+coming days, a new version of Vampire supporting TFF (actually TFA, i.e., TFF +
+arithmetic) will be released, and the developers of E and SPASS are expected to
+follow suit.
+
+Since such transitions take many years, it is not too early to be thinking about
+the next move. Many specification languages rely on a polymorphic formalism
+(Boogie, Why3, Isabelle/HOL, Mizar, ...), and there is no entirely satisfactory
+way of translating it away and at the same time benefit from interpreted types
+(e.g. for arithmetic). Couchot and Lescuyer (2007) show how to do it in the
+context of SMT-LIB, but there's a performance cost (and some trickiness)
+associated with the bridging between the general encoding and the interpreted
+types. Monomorphization is simple but also not entirely satisfactory. Hybrid
+schemes seem to perform best but are fairly complicated.
+
+The time is ripe to develop a polymorphic version of the TFF format. Even if no
+ATPs would support it, it could still be worthwhile as an intermediate language
+(e.g. between MaLARea and various interactive theorem provers); but our ultimate
+goal should be to convince ATP developers to support polymorphic TFF natively.
+
+This wiki gathers documents related to a polymorphic TFF proposal. Such a
+proposal should be straightforward to develop: The THF people already did some
+work on polymorphism (although it's not in THF0), and monomorphic TFF would have
+to be a special case. The syntax should also be future-proof, so that dependent
+types, type classes, and other extensions are possible.
+
+The envisioned polymorphic TFF syntax should fit nicely with the rest of TPTP
+and subsume private experiments such as Josef Urban's extensions for MPTP 0.2. A
+polymorphic TFF syntax, just like Alt-Ergo, could be a major sensitization tool,
+and as ATP authors are poised to add types and arithmetic support to their
+little babies, they might just as well do it right and deal with polymorphism.
