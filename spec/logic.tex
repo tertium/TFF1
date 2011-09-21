@@ -45,16 +45,18 @@ $A_n$:\$tType]~:~$T$}, where $A_1,\dots,A_n$ are distinct
 type variables and $T$ has one of the previous four forms ---
 these types are given to polymorphic functions and predicates.
 Symbol {\tt !>} denotes the type-level universal quantifier.
-We require every type variable $A_1,\dots,A_n$ to occur
-in $T$ and vice versa, every type variable in $T$ must be
-among $A_1,\dots,A_n$.
+We require every type variable occurring in $T$ to appear
+among $A_1,\dots,A_n$. The opposite is not true, however:
+some $A_i$ may not occur in $T$.
 \end{itemize}
 
 A type with a quantifier prefix is called {\em polytype},
 otherwise we call it {\em monotype}.
 A type that does not contain type variables is called
 {\em monomorphic type\/} or {\em ground type}.
-A first-order monomorphic type is called {\em sort}.
+A first-order monomorphic type is called {\em sort}. Notice
+that a monotype can be a polymorphic type, i.e.~contain
+type variables.
 
 \paragraph{Type declarations.} Type constructors, as well as
 function and predicate symbols can be declared prior to use.
@@ -113,16 +115,14 @@ lift it for TFF1.}.
 
 \paragraph{Function and predicate application.} In order to keep
 the required type inference to the minimum, every use of a polymorphic
-symbol must explicitly specify the corresponding monomorphic%
-\footnote{Well, it's rather ``monotypic'' than monomorphic.}
-type instance.
+symbol must explicitly specify the corresponding type instance.
 A function symbol of type
 \begin{center}
 {\tt !>~[$A_1$:\$tType,$\dots$,$A_n$:\$tType]~:~($T_1$ * $\dots$ * $T_m$)
 > $T$}
 \end{center}
 must be applied to $n$ first-order type arguments and $m$ term arguments
-(likewise for predicate symbols). For example, here are some well-formed
+(likewise for predicate symbols). Here are some well-formed
 terms and atomic formulas of TFF1:
 \begin{verbatim}
     isEmpty($i, cons($i, V, nil($i)))
@@ -139,10 +139,9 @@ In particular, neither \verb+$o+ nor \verb+$tType+ can occur
 in type arguments of polymorphic symbols.
 
 For systems that implement type inference, the following extension
-of TFF might be useful. Whenever a particular type argument of
+of TFF might be useful. When a particular type argument of
 a polymorphic symbol can be inferred automatically, it may be
-replaced with
-the underscore character: \verb+isEmpty(_,cons(_,V,nil(_)))+%
+replaced with the underscore: \verb+isEmpty(_,cons(_,V,nil(_)))+%
 \footnote{Should this be part of {\tt SyntaxBNF}?}.
 Notice that the type argument of {\tt nil} cannot be inferred
 ``locally'', from the types of other arguments (for there are none),
@@ -160,8 +159,10 @@ at binding time:
 \end{verbatim}
 Any untyped variable gets the type \verb+$i+. The Boolean type
 \verb+$o+ cannot occur in the type of a variable%
-\footnote{Is this restriction present in TFF0?
-If not, we are in trouble!}
+\footnote{Propositional variables are allowed in TFF, but only
+as abbreviations for logic formulas. Such variables are introduced
+by a special let-statement and can only occur at a position of
+a formula.}
 
 Furthermore, every type variable occurring in a TFF formula
 (in a type argument or in a type of a bound variable)
@@ -182,6 +183,8 @@ into the formula to know which it is.}.
 
 Type variables can be bound both by universal and existential
 quantifiers. They can be also bound in let-statements%
+\footnote{Since any first-order type is a well-formed TFF term,
+we can reuse the existing grammar productions for these bindings.}
 \footnote{By the way, why there is no term-level let in TFF0?}.
 We allow such bindings to occur under quantifiers over ordinary
 variables as well as under equivalence, negation, et cetera ---
