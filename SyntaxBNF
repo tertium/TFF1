@@ -253,6 +253,7 @@
 <tff_let_list>       ::= <tff_defined_var> |
                          <tff_defined_var>,<tff_let_list>
 <tff_defined_var>    ::= <variable> := <tff_logic_formula> |
+                         <variable> :> <tff_atomic_type> |
                          <variable> :- <term> | (<tff_defined_var>)
 
 <tff_conditional>    ::= $itef(<tff_logic_formula>,<tff_logic_formula>,
