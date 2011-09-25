@@ -118,7 +118,7 @@ lift it for TFF1.}.
 \paragraph{Function and predicate application.} In order to keep
 the required type inference to the minimum, every use of a polymorphic
 symbol must explicitly specify the corresponding type instance.
-A function symbol with type signature
+A function symbol with the type signature
 \begin{center}
 {\tt !>\;[$A_1$:\$tType,$\dots$,$A_n$:\$tType]\;:\;%
 ($T_1$\;*\;$\dots$\;*\;$T_m$)\;>\;$T$}
@@ -241,7 +241,9 @@ function and predicate symbols using a fixed-width
 font: {\tt list}, {\tt map}, {\tt cons}, {\tt set}
 etc.
 
-We use symbols ${\times}$, ${\to}$, and ${\ALL}$
+We use symbols ${\times}$, ${\to}$, and ${\ALL}$%
+\footnote{We can also use ${\prod}$, but should we,
+given that there are no dependent types in TFF1?}
 to write higher-order types. We treat equality ($\approx$),
 negation ($\lnot$), conjunction ($\land$), and the universal
 quantifier ($\forall$) as logical symbols and we treat
@@ -271,3 +273,34 @@ The symbol $\circ$ denotes the composition
 of two (type) substitutions:
 $x(\sigma \circ \delta) \eqdef x\sigma\delta$.
 
+\paragraph{Type checking.} In a closed TFF formula, every
+term has a unique first-order type. The type of a variable is
+determined at the moment of binding. The type of a function
+application is determined according to the type signature
+of the function symbol and the type arguments of the application.
+Assuming a function symbol $f$ has the type signature
+$\forall \alpha_1\dots\alpha_n (T_1 \times \dots \times T_m \to T)$,
+the type of a term
+$f(S_1,\dots,S_n,t_1,\dots,t_m)$ is
+$T\pi$, where $\pi$ is the type substitution
+$[S_1/\alpha_1,\dots,S_n/\alpha_n]$.
+This function application is {\em well-typed\/}
+whenever every term argument $t_i$ has the type $T_i\pi$.
+
+Likewise, if a predicate symbol $p$ has the signature
+$\forall \alpha_1\dots\alpha_n (T_1 \times \dots \times T_m
+\to \text{\tt \$o})$, then a predicate application
+$p(S_1,\dots,S_n,t_1,\dots,t_m)$ is {\em well-typed\/}
+whenever every term argument $t_i$ has the type
+$T_i[S_1/\alpha_1,\dots,S_n/\alpha_n]$.
+%
+An equality application $t_1 \approx t_2$ is {\em well-typed\/}
+whenever the terms $t_1$ and $t_2$ have the same type.
+
+A closed TFF formula is {\em well-typed\/} if and only if
+every function, predicate, and equality application in it
+is well-typed. We restrict this definition to closed formulas
+because the type of a free variable is unspecified.
+In what follows, we suppose to deal only with well-typed formulas.
+
+\paragraph{Interpretation.}
