@@ -46,30 +46,32 @@ type variables and $T$ has one of the previous four forms ---
 these types are given to polymorphic functions and predicates.
 Symbol {\tt !>} denotes the type-level universal quantifier.
 We require every type variable occurring in $T$ to appear
-among $A_1,\dots,A_n$. The opposite is not true, however:
+among $A_1,\dots,A_n$. The opposite is not true:
 some $A_i$ may not occur in $T$.
 \end{itemize}
 
 %A type with a quantifier prefix is called {\em polytype},
 %otherwise we call it {\em monotype}.
 A type that does not contain type variables is called
-{\em monomorphic type\/} or {\em ground type}.
+{\em monomorphic}.
 A first-order monomorphic type is called {\em sort}.
 %Notice that a monotype can be a polymorphic type,
 %i.e.~contain type variables.
+In what follows, the term ``type'' means
+first-order type unless stated otherwise.
 
 \paragraph{Type declarations.} Type constructors, as well as
-function and predicate symbols can be declared prior to use.
+function and predicate symbols, can be declared prior to use.
 For example, the following declarations introduce a type
 constant {\tt bird}, a unary type constructor {\tt list},
 and a binary type constructor {\tt map}:
-\begin{verbatim}
-    tff(bird_type, type, bird: $tType).
-
-    tff(list_type, type, list: $tType > $tType).
-
-    tff(map_type, type, map: ($tType * $tType) > $tType).
-\end{verbatim}
+\begin{quote}
+\verb+tff(bird_t, type, bird: $tType).+
+\par\medskip
+\verb+tff(list_t, type, list: $tType > $tType).+
+\par\medskip
+\verb+tff(map_t, type, map: ($tType * $tType) > $tType).+
+\end{quote}
 Declaration of type constructors is not required. In TFF1,
 type constructors must be fully applied, and therefore
 their arity can be unambiguously determined at the first
@@ -85,17 +87,19 @@ a higher-order type, which we call this symbol's
 declarations introduce a monomorphic constant {\tt pi},
 a polymorphic predicate {\tt isEmpty}, and polymorphic
 functions {\tt cons} and {\tt get}:
-\begin{verbatim}
-    tff(pi_type, type, pi: $real).
-
-    tff(isEmpty_type, type, isEmpty: !> [A:$tType]: list(A) > $o).
-
-    tff(cons_type, type,
-                    cons: !> [A:$tType]: (A * list(A)) > list(A)).
-
-    tff(get_type, type,
-                 get: !> [A:$tType,B:$tType]: (map(A,B) * A) > B).
-\end{verbatim}
+\begin{quote}
+\verb+tff(pi_t, type, pi: $real).+
+\par\medskip
+\verb+tff(isEmpty_t, type, isEmpty: !> [A:$tType]: list(A) > $o).+
+\par\medskip
+\verb+tff(cons_t, type,+\\
+\mbox{}\hfill
+\verb+cons: !> [A:$tType]: (A * list(A)) > list(A)).+
+\par\medskip
+\verb+tff(get_t, type,+\\
+\mbox{}\hfill
+\verb+get: !> [A:$tType,B:$tType]: (map(A,B) * A) > B).+
+\end{quote}
 If a function or predicate symbol is used without declaration,
 then default type signatures are assumed:
 a function symbol gets the signature
@@ -114,19 +118,19 @@ lift it for TFF1.}.
 \paragraph{Function and predicate application.} In order to keep
 the required type inference to the minimum, every use of a polymorphic
 symbol must explicitly specify the corresponding type instance.
-A function symbol of type
+A function symbol with type signature
 \begin{center}
 {\tt !>\;[$A_1$:\$tType,$\dots$,$A_n$:\$tType]\;:\;%
 ($T_1$\;*\;$\dots$\;*\;$T_m$)\;>\;$T$}
 \end{center}
-must be applied to $n$ first-order type arguments and $m$ term arguments
+must be applied to $n$ type arguments and $m$ term arguments
 (likewise for predicate symbols). Here are some well-formed
 terms and atomic formulas of TFF1:
-\begin{verbatim}
-    isEmpty($i, cons($i, V, nil($i)))
-
-    get($int, list(A), M, 2)
-\end{verbatim}
+\begin{quote}
+\verb+isEmpty($i, cons($i, V, nil($i)))+
+\par\medskip
+\verb+get($int, list(A), M, 2)+
+\end{quote}
 In the first example, {\tt V} is a variable of type {\tt \$i}
 and {\tt nil} is a function
 symbol of type {\tt !>\;[A:\$tType]\;:\;list(A)}. In the second
@@ -221,4 +225,49 @@ The let-bindings can be eliminated from TFF formulas by simple
 substitution (with renaming of bound variables where necessary
 to avoid capture). For the sake of brevity, we do not consider
 them in the following sections.
+
+\paragraph{Notation.} From now on, we use standard
+mathematical notation to write types, terms, and formulas.
+We denote type variables with small Greek letters
+$\alpha$, $\beta$, $\gamma$, type constructors
+with letters $I$, $K$, $L$, and first-order
+types with letters $T$ and $S$. Ordinary variables
+are denoted $u$, $v$, $w$, $x$, $y$, $z$; function
+symbols are denoted $f$, $g$, $h$; predicate symbols
+are denoted $p$ and $q$. The letters $t$ and $s$ denote
+terms and the letters $F$, $G$, $H$ denote formulas.
+Sometimes, we write the names of type constructors,
+function and predicate symbols using a fixed-width
+font: {\tt list}, {\tt map}, {\tt cons}, {\tt set}
+etc.
+
+We use symbols ${\times}$, ${\to}$, and ${\ALL}$
+to write higher-order types. We treat equality ($\approx$),
+negation ($\lnot$), conjunction ($\land$), and the universal
+quantifier ($\forall$) as logical symbols and we treat
+disjunction ($\lor$), implication ($\limp$), equivalence
+($\lequ$), disequality ($\not\approx$), and the existential
+quantifier ($\exists$) as abbreviations.
+
+Given a formula $F$, the set of type variables
+freely occurring in $F$ (in type arguments of
+polymorphic symbols or in types of bound variables)
+is denoted $\FVT(F)$. The set of free variables of $F$
+is denoted $\FV(F)$. We call $F$ {\em closed\/}
+whenever both $\FVT(F)$ and $\FV(F)$ are empty.
+
+A {\em type substitution\/} is a mapping of type variables
+to first-order types. A {\em monomorphic\/} type substitution
+maps every type variable either to itself or to a sort.
+%
+A type $T$ is said to {\em match\/} another
+type $T'$ whenever there is a type substitution
+that instantiates $T$ to $T'$.
+We use Greek letters $\tau$, $\theta$, and $\pi$ for type
+substitutions.
+Ordinary substitutions that map variables to terms
+are denoted with letters $\sigma$ and $\delta$.
+The symbol $\circ$ denotes the composition
+of two (type) substitutions:
+$x(\sigma \circ \delta) \eqdef x\sigma\delta$.
 
