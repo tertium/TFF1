@@ -118,7 +118,7 @@ lift it for TFF1.}.
 \paragraph{Function and predicate application.} In order to keep
 the required type inference to the minimum, every use of a polymorphic
 symbol must explicitly specify the corresponding type instance.
-A function symbol with the type signature
+A function symbol with a type signature
 \begin{center}
 {\tt !>\;[$A_1$:\$tType,$\dots$,$A_n$:\$tType]\;:\;%
 ($T_1$\;*\;$\dots$\;*\;$T_m$)\;>\;$T$}
@@ -273,34 +273,104 @@ The symbol $\circ$ denotes the composition
 of two (type) substitutions:
 $x(\sigma \circ \delta) \eqdef x\sigma\delta$.
 
-\paragraph{Type checking.} In a closed TFF formula, every
-term has a unique first-order type. The type of a variable is
-determined at the moment of binding. The type of a function
-application is determined according to the type signature
-of the function symbol and the type arguments of the application.
-Assuming a function symbol $f$ has the type signature
+\paragraph{Type checking.} In a closed TFF formula, every term has
+a unique first-order type. The type of a variable is determined at
+the moment of binding and a variable term is always well-typed.
+The type of a function application is determined from the type
+signature of the function symbol and the type arguments of the
+application. Assuming that a function symbol $f$ has a signature
 $\forall \alpha_1\dots\alpha_n (T_1 \times \dots \times T_m \to T)$,
-the type of a term
-$f(S_1,\dots,S_n,t_1,\dots,t_m)$ is
-$T\pi$, where $\pi$ is the type substitution
-$[S_1/\alpha_1,\dots,S_n/\alpha_n]$.
-This function application is {\em well-typed\/}
-whenever every term argument $t_i$ has the type $T_i\pi$.
+the type of a term $f(S_1,\dots,S_n,t_1,\dots,t_m)$ is $T\tau$, where
+$\tau$ is the type substitution $[S_1/\alpha_1,\dots,S_n/\alpha_n]$.
+This term is well-typed whenever each term argument $t_i$
+is well-typed and has the type $T_i\tau$.
 
-Likewise, if a predicate symbol $p$ has the signature
+Likewise, if a predicate symbol $p$ has a signature
 $\forall \alpha_1\dots\alpha_n (T_1 \times \dots \times T_m
-\to \text{\tt \$o})$, then a predicate application
-$p(S_1,\dots,S_n,t_1,\dots,t_m)$ is {\em well-typed\/}
-whenever every term argument $t_i$ has the type
-$T_i[S_1/\alpha_1,\dots,S_n/\alpha_n]$.
+\to \text{\tt \$o})$, then an atomic formula
+$p(S_1,\dots,S_n,t_1,\dots,t_m)$ is well-typed
+whenever each term argument $t_i$ is well-typed and has
+the type $T_i[S_1/\alpha_1,\dots,S_n/\alpha_n]$.
 %
-An equality application $t_1 \approx t_2$ is {\em well-typed\/}
-whenever the terms $t_1$ and $t_2$ have the same type.
+An equality $t_1 \approx t_2$ is well-typed whenever
+the terms $t_1$ and $t_2$ are well-typed and have the same type.
 
-A closed TFF formula is {\em well-typed\/} if and only if
-every function, predicate, and equality application in it
-is well-typed. We restrict this definition to closed formulas
-because the type of a free variable is unspecified.
-In what follows, we suppose to deal only with well-typed formulas.
+A closed TFF formula is {\em well-typed\/} if and only if every
+atomic formula in it is well-typed. It is easy to extend this
+definition onto non-closed formulas by typing them in a context
+that assigns types to their free variables. A closed well-typed
+formula will be called {\em sentence}. In what follows, we suppose
+to deal only with well-typed formulas and sub-formulas
+and sub-terms thereof.
 
 \paragraph{Interpretation.}
+An interpretation $\cI$ for a given set of type constructors,
+function symbols, and predicate symbols is constructed as follows.
+Let us denote with $\sorts$ the set of all sorts (monomorphic
+first-order types) built from available type constructors and
+%, additionally,
+a countably infinite number of fresh type constants.
+To every sort $S$ in $\sorts$ we assign a non-empty {\em domain set},
+denoted $\dom_{\cI} S$.
+%We do not require the domains of different sorts to be disjoint.
+We denote with $\univ$ the union (not necessarily disjoint) of
+all sort domains: $\univ \eqdef \bigcup_{S\in\sorts} \dom_{\cI} S$.
+
+A function symbol $f$ of type signature
+$\forall \alpha_1\dots\alpha_n (T_1 \times \dots \times T_m \to T)$
+is interpreted as a function
+$f^{\cI} : \sorts^n \times \univ^m \to \univ$ that
+maps any $n$ sorts $S_1,\dots,S_n$ and $m$ elements of $\univ$
+to an element of $\dom_{\cI} (T[S_1/\alpha_1,\dots,S_n/\alpha_n])$.
+%Recall that every type variable occurring in a type signature
+%must be bound, and therefore, each $T_i\tau$ is a sort.
+%In a similar way, a
+A predicate symbol $p$ of type signature
+$\forall \alpha_1\dots\alpha_n (T_1 \times \dots \times T_m
+\to \text{\tt \$o})$ is interpreted as a %boolean-valued
+function
+$p^{\cI} : \sorts^n \times \univ^m \to \{ \top, \bot \}$.
+
+\newcommand{\eval}[1]{\llbracket#1\rrbracket^\cI_{\pi,\xi}}
+\newcommand{\evalT}[1]{\llbracket#1\rrbracket^\cI_{\pi}}
+\newcommand{\evalG}[1]{\llbracket#1\rrbracket^\cI}
+Let $\pi$ be a type substitution that instantiates every
+type variable to a sort. Let $\xi$ be a function that maps
+every ordinary variable to an element of $\univ$.
+We evaluate TFF types, terms, and formulas according
+to the following equations:
+\begin{align*}
+\eval{T} &\eqdef \dom_{\cI} (T\pi) \\
+\eval{u} &\eqdef \xi(u) \\
+\eval{f(S_1,\dots,S_n,t_1,\dots,t_m)} &\eqdef
+f^\cI(S_1\pi,\dots,S_n\pi,\eval{t_1},\dots,\eval{t_m}) \\
+\eval{p(S_1,\dots,S_n,t_1,\dots,t_m)} &\eqdef
+p^\cI(S_1\pi,\dots,S_n\pi,\eval{t_1},\dots,\eval{t_m}) \\
+\eval{t_1 \approx t_2} &\eqdef (\eval{t_1} = \eval{t_2}) \\
+\eval{\lnot F} &\eqdef \lnot\, \eval{F} \\
+\eval{F \land G} &\eqdef \eval{F} \land\, \eval{G} \\
+\eval{\forall (u \ty T) F} &\eqdef\!\!\!\!\!
+\bigwedge_{a \in \eval{T}} \!\!
+\llbracket F \rrbracket^\cI_{\pi,\xi[u\,\mapsto\,a]} \\
+\eval{\forall \alpha\, F} &\eqdef
+\bigwedge_{S \in \sorts}\;
+\llbracket F \rrbracket^\cI_{\pi[\alpha\,\mapsto\,S],\xi}
+\end{align*}
+Here, $\xi[u \mapsto a]$ denotes a function that
+maps the variable $u$ to $a$ and every other variable $v$
+to $\xi(v)$. Likewise, $\pi[\alpha \mapsto S]$ is a type
+substitution that maps the type variable $\alpha$ to the
+sort $S$ and every other type variable $\beta$ to $\beta\pi$.
+Notice that evaluation of an expression $e$ depends only
+on values of $\pi$ and $\xi$ on (type) variables that
+freely occur in $e$. Below, we omit the irrelevant
+subscripts and write $\evalT{T}$ to evaluate a type,
+and $\evalG{F}$ to evaluate a closed formula.
+
+We say that a sentence $F$ is {\em true} in an interpretation $\cI$
+and denote it by $\cI \models F$ if and only if $\evalG{F} = \top$.
+The interpretation $\cI$ is called then a {\em model\/} of $F$.
+A sentence that has a model is called {\em satisfiable}.
+A sentence that is true in every interpretation is called {\em valid}.
+
+\newpage

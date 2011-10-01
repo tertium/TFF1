@@ -1,5 +1,6 @@
 \usepackage[utf8]{inputenc} \usepackage[T1]{fontenc} \usepackage{lmodern}
 \usepackage{amsmath} \usepackage{amssymb} %\usepackage{xproof}
+\usepackage{stmaryrd}
 \usepackage{url}
 \usepackage{array}
 \usepackage{cite}
@@ -61,12 +62,17 @@
 
 %\newcommand{\LKTU}{\ensuremath{\mathbf{LK}^U_\mathrm{T}}}
 
-\newcommand{\types}{\mathcal{T}(\FT,\VT)}
-\newcommand{\sorts}{\mathcal{T}(\FT)}
+%\newcommand{\types}{\mathcal{T}(\FT,\VT)}
+%\newcommand{\sorts}{\mathcal{T}(\FT)}
+\newcommand{\sorts}{\mathbb{S}}
+\newcommand{\univ}{\mathbb{U}}
 
 %\newcommand{\MS}{\mathcal{M\!\!\!S}}
 
-\newcommand{\cA}{\mathcal{D}}
+\DeclareMathOperator{\dom}{Dom}
+%\newcommand{\dom}{\operatorname{Dom\,}}
+
+%\newcommand{\dom}{\mathcal{D}}
 %\newcommand{\cP}{\mathcal{P}}
 
 \newcommand{\cI}{\mathfrak{I}}
