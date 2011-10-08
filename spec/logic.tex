@@ -353,11 +353,9 @@ we suppose to deal only with well-typed formulas and terms.
 \paragraph{Interpretation.}
 An interpretation $\cI$ for a given set of type constructors,
 function symbols, and predicate symbols is constructed as follows.
-First of all, we choose a non-empty set $\univ$ containing
-individual values and a non-empty set $\sorts$, whose elements
-are called {\em sorts} and represent monomorphic first-order types.
-To every sort $X \in \sorts$ we assign a non-empty {\em domain}
-$\dom_{\cI} X \subseteq \univ$.
+We start with a {\em universe\/} $\univ$ and a collection $\sorts$
+of subsets of $\univ$, called {\em domains}. The sets $\univ$ and
+$\sorts$, as well as every domain must be non-empty.
 
 \newcommand{\eval}[1]{\llbracket#1\rrbracket^\cI_{\theta,\xi}}
 \newcommand{\evalT}[1]{\llbracket#1\rrbracket^\cI_{\theta}}
@@ -365,7 +363,7 @@ $\dom_{\cI} X \subseteq \univ$.
 A type constructor $K$ of arity $n$ is interpreted as a function
 $K^{\cI} : \sorts^n \to \sorts$.
 Let $\theta$ be a function that maps every type variable to
-a sort. We evaluate first-order types according to the
+a domain. We evaluate first-order types according to the
 following equations:
 \begin{align*}
 \evalT{\alpha} &\eqdef \theta(\alpha) &
@@ -373,10 +371,10 @@ following equations:
 \end{align*}
 Since evaluation depends only on the values of $\theta$
 on the type variables occurring in a type, we write $\evalG{S}$
-to denote the evaluation of a monomorphic type $S$. We also write
-$\evalG{T}_{[\alpha_1 \mapsto X_1,\dots,\alpha_n \mapsto X_n]}$
-to denote the evaluation of a type $T$ such that every type
-variable in $T$ belongs to $\{ \alpha_1,\dots,\alpha_n \}$.
+to denote the domain of a monomorphic type $S$. We also write
+$\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$
+to denote the domain of a type $T$ whose free type variables
+are all among $\alpha_1,\dots,\alpha_n$.
 
 A predicate symbol $p$ of signature
 $\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m
@@ -386,10 +384,10 @@ A function symbol $f$ of signature
 $\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$
 is interpreted as a function
 $f^{\cI}$ on $\sorts^n \times \univ^m$ that
-maps any $n$ sorts $X_1,\dots,X_n$ and
-any $m$ elements of $\univ$
+maps any $n$ domains $D_1,\dots,D_n$ and
+any $m$ elements of the universe
 to an element of
-$\dom_{\cI} \evalG{T}_{[\alpha_1 \mapsto X_1,\dots,\alpha_n \mapsto X_n]}$.
+$\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$.
 %Recall that every type variable occurring in a type signature
 %must be bound, and therefore every type variable in $T$ belongs
 %to $\{ \alpha_1,\dots,\alpha_n \}$.
@@ -404,19 +402,19 @@ according to the following equations:
 \eval{p(\bar{S},\bar{t})} &\eqdef p^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\
 \eval{\lnot F} &\eqdef \lnot\, \eval{F} &
 \eval{F \land G} &\eqdef \eval{F} \land\, \eval{G} \\
-\eval{\forall u \ty T .\, F} &\eqdef \!\!\!\!\!\!\!\!\!
-\bigwedge_{a \in \dom_{\cI} \evalT{T}} \!\!\!\!
+\eval{\forall u \ty T .\, F} &\eqdef \!\!\!\!
+\bigwedge_{a \in \evalT{T}}
 \llbracket F \rrbracket^\cI_{\pi,\xi[u\,\mapsto\,a]} &
 \eval{\forall \alpha \,.\, F} &\eqdef
-\bigwedge_{X \in \sorts}\;
-\llbracket F \rrbracket^\cI_{\theta[\alpha\,\mapsto\,X],\xi}
+\bigwedge_{D \in \sorts}\;
+\llbracket F \rrbracket^\cI_{\theta[\alpha\,\mapsto\,D],\xi}
 \end{align*}
 Here, $\bar{S}$ and $\bar{t}$ are sequences of types
 and terms, respectively. The expression $\xi[u \mapsto a]$
 stands for the function that maps
 variable $u$ to $a$ and every other variable $v$ to $\xi(v)$.
-Likewise, $\theta[\alpha \mapsto X]$ is the function that maps
-type variable $\alpha$ to the sort $X$ and every other type
+Likewise, $\theta[\alpha \mapsto D]$ is the function that maps
+type variable $\alpha$ to the domain $D$ and every other type
 variable $\beta$ to $\theta(\beta)$. In what follows,
 we omit the irrelevant subscripts and write $\evalG{F}$
 to denote the evaluation of a closed formula.
