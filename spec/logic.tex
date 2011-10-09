@@ -361,9 +361,9 @@ of all domains is called {\em universe\/} and denoted $\univ$.
 
 A type constructor $K$ of arity $n$ is interpreted as a function
 $K^{\cI} : \sorts^n \to \sorts$.
-Let $\theta$ be a function that maps every type variable to
-a domain. We evaluate first-order types according to the
-following equations:
+Let $\theta$ be a {\em type valuation}, a function that maps every
+type variable to a domain. We evaluate first-order types according
+to the following equations:
 \begin{align*}
 \evalT{\alpha} &\eqdef \theta(\alpha) &
 \evalT{K(T_1,\dots,T_n)} &\eqdef K^{\cI}(\evalT{T_1},\dots,\evalT{T_n})
@@ -391,9 +391,9 @@ $\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$.
 %must be bound, and therefore every type variable in $T$ belongs
 %to $\{ \alpha_1,\dots,\alpha_n \}$.
 
-Let $\xi$ be a function that assigns to every variable
-an element of $\univ$. We evaluate TFF terms and formulas
-according to the following equations:
+Let $\xi$ be a {\em variable valuation}, a function that assigns
+to every variable an element of $\univ$. We evaluate TFF terms
+and formulas according to the following equations:
 \begin{align*}
 \eval{u} &\eqdef \xi(u) &
 \eval{f(\bar{S},\bar{t})} &\eqdef f^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\

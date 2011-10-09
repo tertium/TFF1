@@ -31,8 +31,8 @@ To every predicate symbol $p$ of type signature
 $\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to \omicron$
 we assign a predicate symbol $\hat{p}$ of sort signature
 $\typ^n \times \und^m \to \omicron$.
-Finally, we add a new function symbol $\typeof$ of sort signature
-$\und \to \typ$.
+Finally, we add a new predicate symbol $\typeof$ of sort signature
+$\und \times \typ$.
 
 The $\MON$ transformation translates TFF types, terms, and formulas
 according to the following equations ($\bar{S}$ and $\bar{t}$ denote
@@ -47,8 +47,7 @@ sequences of types and terms, respectively):
 \MON(\lnot F) &\eqdef \lnot\, \MON(F) &
 \MON(F \land G) &\eqdef \MON(F) \land\, \MON(G) \\
 \MON(\forall u \ty T .\, F) &\eqdef
-\forall \hat{u} \,.\,
-\typeof(\hat{u}) \approx \MON(T) \limp \MON(F) &
+\forall \hat{u} \,.\, \typeof(\hat{u}, \MON(T)) \limp \MON(F) &
 \MON(\forall \alpha \,.\, F) &\eqdef
 \forall \hat{\alpha} \,.\, \MON(F)
 \end{align*}
@@ -60,7 +59,7 @@ $$
 \forall \hat{\alpha}_1\dots\hat{\alpha}_n \,.\,
 \forall \hat{v}_1\dots\hat{v}_m \,.\,
 \typeof(\hat{f}(\hat{\alpha}_1,\dots,\hat{\alpha}_n,
-\hat{v}_1,\dots,\hat{v}_m)) \approx \MON(T).
+\hat{v}_1,\dots,\hat{v}_m), \MON(T)).
 $$
 We denote with $\mathrm{Ax}_{\Delta}$ the set of typing axioms
 for all function symbols occurring in $\Delta$. Then we define
@@ -73,14 +72,70 @@ It is easy to see that $\MON$ converts TFF types into well-formed
 terms of sort $\typ$, TFF terms into well-formed terms of sort $\und$,
 and TFF formulas (not necessarily well-typed) into well-formed formulas.
 
-\begin{theorem} \label{thm:mon_sound}
+\begin{theorem}[Soundness of $\MON$] \label{thm:mon_sound}
 If a set of sentences $\Delta$ is satisfiable in TFF,
 then $\MON(\Delta)$ is satisfiable in classical
 many-sorted first-order logic with equality.
 \end{theorem}
+\begin{proof}
+Let $\cM$ be a model of $\Delta$.
+We are going to construct an interpretation $\cI$ of $\MON(\Delta)$
+such that, for every variable valuation $\nu$ in $\cI$,
+there exist a type valuation $\theta$ and a variable valuation
+$\xi$ in the original model $\cM$, such that:
+\begin{align*}
+\llb \MON(S) \rrb^\cI_{\nu} &= \llb S \rrb^\cM_{\theta} &
+\llb \MON(t) \rrb^\cI_{\nu} &= \llb t \rrb^\cM_{\theta,\xi} &
+\llb \MON(F) \rrb^\cI_{\nu} &= \llb F \rrb^\cM_{\theta,\xi}
+\end{align*}
+for every type $S$, term $t$, and formula $F$ occurring
+in $\Delta$.
 
-\begin{theorem} \label{thm:mon_compl}
-Given a set of TFF sentences $\Delta$, if $\MON(\Delta)$
+We denote with $\sorts$ and $\univ$, respectively,
+the set of domains and the universe in $\cM$.
+In $\cI$, we define the domain of sort $\typ$ to be $\sorts$
+and the domain of sort $\und$ to be $\univ$.
+Every function symbol $\hat{K}$ (function symbol $\hat{f}$,
+predicate symbol $\hat{p}$) is interpreted in $\cI$
+exactly as the type constructor $K$ (function symbol $f$,
+predicate symbol $p$) in $\cM$.
+The predicate symbol $\typeof$ is interpreted as the membership relation.
+This concludes the definition of interpretation $\cI$.
+%
+Now, consider a variable valuation $\nu$ in $\cI$.
+For every type variable $\alpha$ and every variable $u$,
+we set $\theta(\alpha) \eqdef \nu(\hat{\alpha})$ and
+$\xi(u) \eqdef \nu(\hat{u})$.
+
+We prove the three equalities above by induction on the structure
+of types, terms, and formulas. By construction, these equalities
+hold for every type, term, and atomic formula. The cases of
+negation, conjunction, and quantification over a type variable
+are also trivial. Thus, we only need to to consider the case
+of a universally quantified formula, $\forall u \ty T .\, F$.
+It is easy to see that an element $a \in \univ$ belongs
+to $\llb T \rrb^\cM_\theta$ if and only if
+$\llb \typeof(\hat{u},\MON(T)) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$
+is true. Indeed, the latter is equivalent to
+$a \in \llb \MON(T) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$.
+Since $\nu$ and $\nu[\hat{u} \mapsto a]$ produce the same
+$\theta$ in $\cM$,
+$\llb \MON(T) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$
+is exactly $\llb T \rrb^\cM_\theta$.
+Then, by induction hypothesis,
+$\llb \forall \hat{u} \,.\, \typeof(\hat{u},\MON(T))
+\limp \MON(F) \rrb^\cI_{\nu}$ is exactly
+$\llb \forall u \ty T .\, F \rrb^\cM_{\theta,\xi}$.
+
+It suffices to check that the typing axioms $\mathrm{Ax}_\Delta$
+hold in $\cI$. This immediately follows from the definition of
+interpretation in TFF and the first equality above.
+\qed
+\end{proof}
+
+
+\begin{theorem}[Completeness of $\MON$] \label{thm:mon_compl}
+Given a set of sentences $\Delta$, if $\MON(\Delta)$
 is satisfiable in classical many-sorted first-order logic
 with equality, then $\Delta$ is satisfiable in TFF.
 \end{theorem}
