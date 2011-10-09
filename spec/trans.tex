@@ -1,0 +1,91 @@
+\section{Translations} \label{sec:trans}
+
+\subsection{Encoding into a Many-Sorted Logic} \label{ssec:tff0}
+
+We describe here a simple translation from TFF1 to a traditional
+many-sorted first-order logic. More sophisticated encodings which
+preserve selected types (by translating them into separate sorts)
+or do not change the propositional structure of encoded formulas
+are described in \cite{leino10tacas,bobot11frocos}.
+Notice that both papers assume preliminary elimination
+of ghost type arguments (cf.~Section~\ref{ssec:ghost});
+the latter also assumes preliminary type skolemization
+(cf.~Section~\ref{ssec:skol}).
+
+Let $\Delta$ be a set of TFF sentences, that is, closed and well-typed
+formulas. We construct an equisatisfiable set of monomorphic two-sorted
+formulas $\MON(\Delta)$ as follows.
+%
+We introduce two sorts, $\typ$ and $\und$.
+To every type variable $\alpha$ in $\Delta$ we assign
+a fresh variable $\hat{\alpha}$ of sort $\typ$.
+To every ordinary variable $u$ we assign
+a fresh variable $\hat{u}$ of sort $\und$.
+To every type constructor $K$ of arity $n$ we assign
+a function symbol $\hat{K}$ of sort signature $\typ^n \to \typ$.
+To every function symbol $f$ of type signature
+$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$
+we assign a function symbol $\hat{f}$ of sort signature
+$\typ^n \times \und^m \to \und$.
+To every predicate symbol $p$ of type signature
+$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to \omicron$
+we assign a predicate symbol $\hat{p}$ of sort signature
+$\typ^n \times \und^m \to \omicron$.
+Finally, we add a new function symbol $\typeof$ of sort signature
+$\und \to \typ$.
+
+The $\MON$ transformation translates TFF types, terms, and formulas
+according to the following equations ($\bar{S}$ and $\bar{t}$ denote
+sequences of types and terms, respectively):
+\begin{align*}
+\MON(\alpha) &\eqdef \hat{\alpha} &
+\MON(K(\bar{S})) &\eqdef \hat{K}(\MON(\bar{S})) \\
+\MON(u) &\eqdef \hat{u} &
+\MON(f(\bar{S},\bar{t})) &\eqdef \hat{f}(\MON(\bar{S}),\MON(\bar{t})) \\
+\MON(t_1 \approx t_2) &\eqdef \MON(t_1) \approx \MON(t_2) &
+\MON(p(\bar{S},\bar{t})) &\eqdef \hat{p}(\MON(\bar{S}),\MON(\bar{t})) \\
+\MON(\lnot F) &\eqdef \lnot\, \MON(F) &
+\MON(F \land G) &\eqdef \MON(F) \land\, \MON(G) \\
+\MON(\forall u \ty T .\, F) &\eqdef
+\forall \hat{u} \,.\,
+\typeof(\hat{u}) \approx \MON(T) \limp \MON(F) &
+\MON(\forall \alpha \,.\, F) &\eqdef
+\forall \hat{\alpha} \,.\, \MON(F)
+\end{align*}
+
+Consider a function symbol $f$ of signature
+$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$.
+The {\em typing axiom} for $f$ is a formula
+$$
+\forall \hat{\alpha}_1\dots\hat{\alpha}_n \,.\,
+\forall \hat{v}_1\dots\hat{v}_m \,.\,
+\typeof(\hat{f}(\hat{\alpha}_1,\dots,\hat{\alpha}_n,
+\hat{v}_1,\dots,\hat{v}_m)) \approx \MON(T).
+$$
+We denote with $\mathrm{Ax}_{\Delta}$ the set of typing axioms
+for all function symbols occurring in $\Delta$. Then we define
+$$
+\MON(\Delta) \eqdef \{ \MON(F) \vb F \in \Delta \} \cup
+\mathrm{Ax}_{\Delta}.
+$$
+
+It is easy to see that $\MON$ converts TFF types into well-formed
+terms of sort $\typ$, TFF terms into well-formed terms of sort $\und$,
+and TFF formulas (not necessarily well-typed) into well-formed formulas.
+
+\begin{theorem} \label{thm:mon_sound}
+If a set of sentences $\Delta$ is satisfiable in TFF,
+then $\MON(\Delta)$ is satisfiable in classical
+many-sorted first-order logic with equality.
+\end{theorem}
+
+\begin{theorem} \label{thm:mon_compl}
+Given a set of TFF sentences $\Delta$, if $\MON(\Delta)$
+is satisfiable in classical many-sorted first-order logic
+with equality, then $\Delta$ is satisfiable in TFF.
+\end{theorem}
+
+\subsection{Elimination of Ghost Type Arguments} \label{ssec:ghost}
+\subsection{Type Skolemization} \label{ssec:skol}
+
+

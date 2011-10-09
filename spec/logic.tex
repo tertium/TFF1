@@ -330,15 +330,17 @@ $\qquad\displaystyle
 \frac{\Gamma \,\vdash\, t_1 \ty T \qquad \Gamma \,\vdash\, t_2 \ty T}{
 \Gamma \:\vdash\: t_1 \approx t_2 \,\ty\, \omicron}$ &
 $\displaystyle
-\frac{\Gamma \,\vdash\, F \ty \omicron}{
-\Gamma \,\vdash\, \lnot F \,\ty\, \omicron}\qquad$ \\[4ex]
-$\qquad\displaystyle
 \frac{\Gamma \,\vdash\, F \ty \omicron \qquad
 \Gamma \,\vdash\, G \ty \omicron}{
-\Gamma \,\vdash\, F \land G \,\ty\, \omicron}$ &
+\Gamma \,\vdash\, F \land G \,\ty\, \omicron}\qquad$ \\[4ex]
+\multicolumn{2}{c}{
 $\displaystyle
+\frac{\Gamma \,\vdash\, F \ty \omicron}{
+\Gamma \,\vdash\, \lnot F \,\ty\, \omicron}\qquad\qquad
 \frac{\Gamma, v \ty T \,\vdash\, F \ty \omicron}{
-\Gamma \,\vdash\, \forall v \ty T .\, F \,\ty\, \omicron}\qquad$
+\Gamma \,\vdash\, \forall v \ty T .\, F \,\ty\, \omicron}\qquad\qquad
+\frac{\Gamma \,\vdash\, F \ty \omicron}{
+\Gamma \,\vdash\, \forall \alpha \,.\, F \,\ty\, \omicron}$}
 \end{tabular}
 \end{center}
 \caption{Typing rules}
@@ -353,13 +355,10 @@ we suppose to deal only with well-typed formulas and terms.
 \paragraph{Interpretation.}
 An interpretation $\cI$ for a given set of type constructors,
 function symbols, and predicate symbols is constructed as follows.
-We start with a {\em universe\/} $\univ$ and a collection $\sorts$
-of subsets of $\univ$, called {\em domains}. The sets $\univ$ and
-$\sorts$, as well as every domain must be non-empty.
+We start with a non-empty collection $\sorts$ of non-empty sets,
+which we call {\em domains}. The union, not necessarily disjoint,
+of all domains is called {\em universe\/} and denoted $\univ$.
 
-\newcommand{\eval}[1]{\llbracket#1\rrbracket^\cI_{\theta,\xi}}
-\newcommand{\evalT}[1]{\llbracket#1\rrbracket^\cI_{\theta}}
-\newcommand{\evalG}[1]{\llbracket#1\rrbracket^\cI}
 A type constructor $K$ of arity $n$ is interpreted as a function
 $K^{\cI} : \sorts^n \to \sorts$.
 Let $\theta$ be a function that maps every type variable to
@@ -369,7 +368,7 @@ following equations:
 \evalT{\alpha} &\eqdef \theta(\alpha) &
 \evalT{K(T_1,\dots,T_n)} &\eqdef K^{\cI}(\evalT{T_1},\dots,\evalT{T_n})
 \end{align*}
-Since evaluation depends only on the values of $\theta$
+Since type evaluation depends only on the values of $\theta$
 on the type variables occurring in a type, we write $\evalG{S}$
 to denote the domain of a monomorphic type $S$. We also write
 $\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$
@@ -392,8 +391,8 @@ $\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$.
 %must be bound, and therefore every type variable in $T$ belongs
 %to $\{ \alpha_1,\dots,\alpha_n \}$.
 
-Let $\xi$ be a function that maps every ordinary variable
-to an element of $\univ$. We evaluate TFF terms and formulas
+Let $\xi$ be a function that assigns to every variable
+an element of $\univ$. We evaluate TFF terms and formulas
 according to the following equations:
 \begin{align*}
 \eval{u} &\eqdef \xi(u) &
@@ -404,10 +403,10 @@ according to the following equations:
 \eval{F \land G} &\eqdef \eval{F} \land\, \eval{G} \\
 \eval{\forall u \ty T .\, F} &\eqdef \!\!\!\!
 \bigwedge_{a \in \evalT{T}}
-\llbracket F \rrbracket^\cI_{\pi,\xi[u\,\mapsto\,a]} &
+\llb F \rrb^\cI_{\pi,\xi[u\,\mapsto\,a]} &
 \eval{\forall \alpha \,.\, F} &\eqdef
 \bigwedge_{D \in \sorts}\;
-\llbracket F \rrbracket^\cI_{\theta[\alpha\,\mapsto\,D],\xi}
+\llb F \rrb^\cI_{\theta[\alpha\,\mapsto\,D],\xi}
 \end{align*}
 Here, $\bar{S}$ and $\bar{t}$ are sequences of types
 and terms, respectively. The expression $\xi[u \mapsto a]$
@@ -424,5 +423,6 @@ and denote it by $\cI \models F$ if and only if $\evalG{F} = \top$.
 The interpretation $\cI$ is called then a {\em model\/} of $F$.
 A sentence that has a model is called {\em satisfiable}.
 A sentence that is true in every interpretation is called {\em valid}.
+These notions are extended to sets and sequents of TFF sentences in
+a usual way.
 
-\newpage

@@ -1,10 +1,13 @@
-\usepackage[utf8]{inputenc} \usepackage[T1]{fontenc} \usepackage{lmodern}
-\usepackage{amsmath} \usepackage{amssymb} %\usepackage{xproof}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+\usepackage{mathptmx}
+\usepackage{amsmath,amssymb}
+%\usepackage{xproof}
 \usepackage{stmaryrd}
 \usepackage{url}
 \usepackage{array}
 \usepackage{cite}
-\usepackage{mathptmx} %% Times New Roman (gives more space + looks less amateurish)
 %\usepackage[final]{graphicx}
 %\usepackage{bm}
 %\usepackage{xcolor}
@@ -25,6 +28,7 @@
 %\newcommand{\rdeduce}[2]{\deduce{#2}{#1}}
 
 \newcommand{\limp}{\supset} \newcommand{\lequ}{\equiv}
+\newcommand{\llb}{\llbracket} \newcommand{\rrb}{\rrbracket}
 \newcommand{\la}{\langle} \newcommand{\ra}{\rangle}
 \newcommand{\eqdef}{\:\triangleq\:}
 
@@ -46,19 +50,24 @@
 \newcommand{\FV}{\mathrm{FV}}
 \newcommand{\FVT}{\mathrm{FV}_\mathrm{T}}
 
-\newcommand{\TWU}{\text{\sc Tw}}
-\newcommand{\DIS}{\text{\sc Dis}}
+%\newcommand{\TWU}{\text{\sc Tw}}
+%\newcommand{\DIS}{\text{\sc Dis}}
 %\newcommand{\PAR}{\text{\sc Par}}
-\newcommand{\DEC}{\text{\sc Dec}}
-\newcommand{\DECc}{\DEC^\circ}
-\newcommand{\EXP}{\text{\sc Exp}}
-\newcommand{\EXPc}{\EXP^\circ}
-\newcommand{\GRD}{\text{\sc Grd}}
-
+%\newcommand{\DEC}{\text{\sc Dec}}
+%\newcommand{\DECc}{\DEC^\circ}
+%\newcommand{\EXP}{\text{\sc Exp}}
+%\newcommand{\EXPc}{\EXP^\circ}
+%\newcommand{\GRD}{\text{\sc Grd}}
 %\newcommand{\PIU}{\text{\sc PI}_U}
 
-\newcommand{\UF}{W}
-\newcommand{\UT}{U}
+\newcommand{\MON}{\mathcal{M}}
+
+%\newcommand{\UF}{W}
+%\newcommand{\UT}{U}
+
+\newcommand{\eval}[1]{\llb#1\rrb^\cI_{\theta,\xi}}
+\newcommand{\evalT}[1]{\llb#1\rrb^\cI_{\theta}}
+\newcommand{\evalG}[1]{\llb#1\rrb^\cI}
 
 %\newcommand{\LKTU}{\ensuremath{\mathbf{LK}^U_\mathrm{T}}}
 
@@ -69,7 +78,9 @@
 
 %\newcommand{\MS}{\mathcal{M\!\!\!S}}
 
-\DeclareMathOperator{\dom}{Dom}
+\newcommand{\typeof}{\mathrm{Ty}}
+
+%\DeclareMathOperator{\dom}{Dom}
 %\newcommand{\dom}{\operatorname{Dom\,}}
 
 %\newcommand{\dom}{\mathcal{D}}
@@ -96,9 +107,9 @@
 \newcommand{\tsL}{\mathsf{L}}
 \newcommand{\tsB}{\mathsf{B}}
 
-\newcommand{\toty}{\mathtt{to}}
-\newcommand{\fromty}{\mathtt{from}}
-\newcommand{\tdeco}{\mathtt{deco}}
+%\newcommand{\toty}{\mathtt{to}}
+%\newcommand{\fromty}{\mathtt{from}}
+%\newcommand{\tdeco}{\mathtt{deco}}
 
 \newcommand{\lsA}{\mathtt{A}}
 \newcommand{\lsS}{\mathtt{S}}
@@ -121,9 +132,9 @@
 \newcommand{\lsfortytwo}{\mathtt{42}}
 \newcommand{\lsI}{\mathtt{I}}
 
-\newcommand{\pty}[1]{\overline{#1}}
-\newcommand{\spty}[1]{\Bar{#1}}
-\newcommand{\sspty}[1]{\scriptscriptstyle{\pty{#1}}}
+%\newcommand{\pty}[1]{\overline{#1}}
+%\newcommand{\spty}[1]{\Bar{#1}}
+%\newcommand{\sspty}[1]{\scriptscriptstyle{\pty{#1}}}
 
 \DeclareMathOperator{\ty}{:}
 \DeclareMathOperator{\vb}{|}
