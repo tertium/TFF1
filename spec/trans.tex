@@ -52,20 +52,29 @@ sequences of types and terms, respectively):
 \forall \hat{\alpha} \,.\, \MON(F)
 \end{align*}
 
-Consider a function symbol $f$ of signature
+\newcommand{\AxD}{\text{\sc Ax}_{\Delta}}
+\newcommand{\Inh}{\text{\sc Inh}}
+\newcommand{\Dom}{\mathrm{Dom}}
+
+Consider a function symbol $f$ with type signature
 $\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$.
-The {\em typing axiom} for $f$ is a formula
+The {\em typing axiom\/} for $f$ is a formula
 $$
 \forall \hat{\alpha}_1\dots\hat{\alpha}_n \,.\,
 \forall \hat{v}_1\dots\hat{v}_m \,.\,
 \typeof(\hat{f}(\hat{\alpha}_1,\dots,\hat{\alpha}_n,
 \hat{v}_1,\dots,\hat{v}_m), \MON(T)).
 $$
-We denote with $\mathrm{Ax}_{\Delta}$ the set of typing axioms
-for all function symbols occurring in $\Delta$. Then we define
+We denote with $\AxD$ the set of typing axioms
+for all function symbols occurring in $\Delta$.
+The {\em inhabitance axiom}, denoted $\Inh$,
+is a formula
+$\forall \hat{\alpha} \exists \hat{u} \,.\,
+\typeof(\hat{u},\hat{\alpha}).$
+Then we define
 $$
 \MON(\Delta) \eqdef \{ \MON(F) \vb F \in \Delta \} \cup
-\mathrm{Ax}_{\Delta}.
+\AxD \cup \{ \Inh \}.
 $$
 
 It is easy to see that $\MON$ converts TFF types into well-formed
@@ -79,19 +88,8 @@ many-sorted first-order logic with equality.
 \end{theorem}
 \begin{proof}
 Let $\cM$ be a model of $\Delta$.
-We are going to construct an interpretation $\cI$ of $\MON(\Delta)$
-such that, for every variable valuation $\nu$ in $\cI$,
-there exist a type valuation $\theta$ and a variable valuation
-$\xi$ in the original model $\cM$, such that:
-\begin{align*}
-\llb \MON(S) \rrb^\cI_{\nu} &= \llb S \rrb^\cM_{\theta} &
-\llb \MON(t) \rrb^\cI_{\nu} &= \llb t \rrb^\cM_{\theta,\xi} &
-\llb \MON(F) \rrb^\cI_{\nu} &= \llb F \rrb^\cM_{\theta,\xi}
-\end{align*}
-for every type $S$, term $t$, and formula $F$ occurring
-in $\Delta$.
-
-We denote with $\sorts$ and $\univ$, respectively,
+We construct an interpretation $\cI$ of $\MON(\Delta)$ as follows.
+Let us denote with $\sorts$ and $\univ$, respectively,
 the set of domains and the universe in $\cM$.
 In $\cI$, we define the domain of sort $\typ$ to be $\sorts$
 and the domain of sort $\und$ to be $\univ$.
@@ -100,45 +98,88 @@ predicate symbol $\hat{p}$) is interpreted in $\cI$
 exactly as the type constructor $K$ (function symbol $f$,
 predicate symbol $p$) in $\cM$.
 The predicate symbol $\typeof$ is interpreted as the membership relation.
-This concludes the definition of interpretation $\cI$.
-%
-Now, consider a variable valuation $\nu$ in $\cI$.
-For every type variable $\alpha$ and every variable $u$,
-we set $\theta(\alpha) \eqdef \nu(\hat{\alpha})$ and
-$\xi(u) \eqdef \nu(\hat{u})$.
+%This concludes the definition of interpretation $\cI$.
 
-We prove the three equalities above by induction on the structure
-of types, terms, and formulas. By construction, these equalities
-hold for every type, term, and atomic formula. The cases of
-negation, conjunction, and quantification over a type variable
-are also trivial. Thus, we only need to to consider the case
-of a universally quantified formula, $\forall u \ty T .\, F$.
-It is easy to see that an element $a \in \univ$ belongs
+We are going to show that for every type $S$, term $t$,
+and formula $F$ occurring in $\Delta$,
+for every variable valuation $\nu$ in $\cI$, we have
+\begin{align*}
+\llb \MON(S) \rrb^\cI_{\nu} &= \llb S \rrb^\cM_{\theta} &
+\llb \MON(t) \rrb^\cI_{\nu} &= \llb t \rrb^\cM_{\theta,\xi} &
+\llb \MON(F) \rrb^\cI_{\nu} &= \llb F \rrb^\cM_{\theta,\xi}
+\end{align*}
+where $\theta(\alpha) \eqdef \nu(\hat{\alpha})$ and
+$\xi(u) \eqdef \nu(\hat{u})$ for every
+type variable $\alpha$ and every variable $u$.
+%
+We prove these equalities by induction on the structure
+of types, terms, and formulas. The only non-trivial case is
+that of a quantified formula, $\forall u \ty T .\, F$.
+It is easy to see that any $a \in \univ$ belongs
 to $\llb T \rrb^\cM_\theta$ if and only if
 $\llb \typeof(\hat{u},\MON(T)) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$
-is true. Indeed, the latter is equivalent to
+holds. Indeed, the latter is equivalent to
 $a \in \llb \MON(T) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$.
 Since $\nu$ and $\nu[\hat{u} \mapsto a]$ produce the same
 $\theta$ in $\cM$,
-$\llb \MON(T) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$
-is exactly $\llb T \rrb^\cM_\theta$.
-Then, by induction hypothesis,
+$\llb \MON(T) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]} =
+\llb T \rrb^\cM_\theta$.
+Then
 $\llb \forall \hat{u} \,.\, \typeof(\hat{u},\MON(T))
 \limp \MON(F) \rrb^\cI_{\nu}$ is exactly
-$\llb \forall u \ty T .\, F \rrb^\cM_{\theta,\xi}$.
+$\llb \forall u \ty T .\, F \rrb^\cM_{\theta,\xi}$
+by induction hypothesis.
 
-It suffices to check that the typing axioms $\mathrm{Ax}_\Delta$
-hold in $\cI$. This immediately follows from the definition of
+Now we only have to check that the typing axioms
+$\AxD$ and the inhabitance axiom $\Inh$ hold in $\cI$.
+This immediately follows from the definition of
 interpretation in TFF and the first equality above.
 \qed
 \end{proof}
-
 
 \begin{theorem}[Completeness of $\MON$] \label{thm:mon_compl}
 Given a set of sentences $\Delta$, if $\MON(\Delta)$
 is satisfiable in classical many-sorted first-order logic
 with equality, then $\Delta$ is satisfiable in TFF.
 \end{theorem}
+\begin{proof}
+Let $\cM$ be a model of $\MON(\Delta)$. We construct
+an interpretation $\cI$ of $\Delta$ as follows.
+Let $\Dom$ be a function on the domain of $\typ$ such that
+$\Dom(d) \eqdef \{ \la d,a \ra \,|\, \typeof^\cM(a,d) \}$.
+Since the inhabitance axiom $\Inh$ holds in $\cM$,
+every set in the range of $\Dom$ is non-empty.
+We define the set of domains $\sorts$ in $\cI$ to be the range
+of $\Dom$. Notice that the union of all domains $\univ$
+may be a proper subset of the domain of $\und$ in $\cM$.
+Let $\overline{\Dom}$ denote the inverse of $\Dom$.
+
+The symbols of $\Delta$ are interpreted in $\cI$
+according to the following equations:
+\begin{align*}
+K^\cI(D_1,\dots,D_n) &\eqdef
+\Dom(\hat{K}^\cM(\overline{\Dom}(D_1),\dots,\overline{\Dom}(D_n))) \\
+f^\cI(D_1,\dots,D_n,\la d_1,a_1 \ra,\dots,\la d_m,a_m \ra) &\eqdef
+\la d,
+\hat{f}^\cM(\overline{\Dom}(D_1),\dots,\overline{\Dom}(D_n),a_1,\dots,a_m)
+\ra \\
+p^\cI(D_1,\dots,D_n,\la d_1,a_1 \ra,\dots,\la d_m,a_m \ra) &\eqdef
+\hat{p}^\cM(\overline{\Dom}(D_1),\dots,\overline{\Dom}(D_n),a_1,\dots,a_m)
+\end{align*}
+where $K$ is of arity $n$,
+the type signature of $p$ is
+$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to
+\omicron$,
+the type signature of $f$ is
+$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$,
+and
+$d$ is $\overline{\Dom}(\llb T
+\rrb^\cI_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]})$.
+The result of $f^\cI$ indeed belongs to $\Dom(d)$, since the
+typing axioms $\AxD$ hold in $\cM$.
+
+\qed
+\end{proof}
 
 \subsection{Elimination of Ghost Type Arguments} \label{ssec:ghost}
 \subsection{Type Skolemization} \label{ssec:skol}
