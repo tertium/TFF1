@@ -276,7 +276,7 @@ type.
 A type $T$ is said to {\em match\/} another
 type $T'$ whenever there is a type substitution
 that instantiates $T$ to $T'$.
-We use Greek letters $\tau$ and $\pi$ for type
+We use Greek letters $\tau$ and $\rho$ for type
 substitutions.
 Ordinary substitutions that map variables to terms
 are denoted with letters $\sigma$ and $\delta$.
@@ -403,7 +403,7 @@ and formulas according to the following equations:
 \eval{F \land G} &\eqdef \eval{F} \land\, \eval{G} \\
 \eval{\forall u \ty T .\, F} &\eqdef \!\!\!\!
 \bigwedge_{a \in \evalT{T}}
-\llb F \rrb^\cI_{\pi,\xi[u\,\mapsto\,a]} &
+\llb F \rrb^\cI_{\theta,\xi[u\,\mapsto\,a]} &
 \eval{\forall \alpha \,.\, F} &\eqdef
 \bigwedge_{D \in \sorts}\;
 \llb F \rrb^\cI_{\theta[\alpha\,\mapsto\,D],\xi}
