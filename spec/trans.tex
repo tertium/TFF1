@@ -187,32 +187,51 @@ $\typeof^\cM(f^\cM(D_1,\dots,D_n,a_1,\dots,a_m), D)$,
 and therefore, the result of $f^\cI$ belongs indeed to $D$.
 This concludes the definition of $\cI$.
 
-Now we are going to show that for every type context $\gamma$,
-type valuation $\theta$, and variable valuation $\xi$ in $\cI$,
-for every type $S$, term $t$, and formula $F$ such that
-$\gamma\,\vdash F \ty \omicron$ and
-$\xi(v) \in \evalT{\gamma(v)}$ for every free variable $v$ in $F$,
-we have
+Let us show that for every type $S$, term $t$, and formula $F$,
+for every type context $\gamma$, type valuation $\theta$,
+and variable valuation $\xi$ in $\cI$ such that
+$\gamma\,\vdash F \ty \omicron$ and $\xi(v) \in \evalT{\gamma(v)}$
+for every variable $v$ in $\FV(F)$, we have
 \begin{align*}
-\llb S \rrb^\cI_{\theta} &= \llb \MON(S) \rrb^\cM_{\nu} &
-\pi_1(\llb t \rrb^\cI_{\theta,\xi}) &= \llb \MON(t) \rrb^\cM_{\nu} &
-\llb F \rrb^\cI_{\theta,\xi} &= \llb \MON(F) \rrb^\cM_{\nu}
+\evalT{S} &= \llb \MON(S) \rrb^\cM_{\nu} &
+\pi_1(\eval{t}) &= \llb \MON(t) \rrb^\cM_{\nu} &
+\eval{F} &= \llb \MON(F) \rrb^\cM_{\nu}
 \end{align*}
 where $\nu(\hat{\alpha}) \eqdef \theta(\alpha)$ and
 $\nu(\hat{u}) \eqdef \pi_1(\xi(u))$
 for every type variable $\alpha$ and variable $u$.
 
-The proof goes by induction on the structure
-of types, terms, and formulas. As in the previous proof,
-the only non-trivial case is
-that of a quantified formula, $\forall u \ty T .\, F$.
-We must show that for every pair $\la a,d \ra$
-in $\llb T \rrb^\cI_\theta$, we have
+The proof goes by induction on the structure of types, terms, and formulas.
+We have three non-trivial cases: equality, quantification over an ordinary
+variable, and quantification over a type variable.
+
+Let $F$ be an equality $t_1 \approx t_2$.
+Let $\la a_1, d_1 \ra$ be $\eval{t_1}$ and $\la a_2, d_2 \ra$ be $\eval{t_2}$.
+By induction hypothesis, $\llb \MON(t_1) \rrb^\cM_{\nu} = a_1$ and
+$\llb \MON(t_2) \rrb^\cM_{\nu} = a_2$. Let us show that $d_1 = d_2$.
+By assumption, $F$ is well-typed in context $\gamma$.
+Thus, $\gamma\,\vdash t_1 \ty S$ and $\gamma\,\vdash t_2 \ty S$
+for some type $S$.
+If $t_1$ is a variable $v$, then
+$\eval{t_1} = \xi(v) \in \eval{\gamma(v)} = \evalT{S}$.
+Let $t_1$ be a function application $f(S_1,\dots,S_n,s_1,\dots,s_m)$,
+where $f \ty
+\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$.
+Let $D_i = \evalT{S_i}$ for every $i \in [1,n]$.
+Then $S = T[S_1/\alpha_1,\dots,S_n/\alpha_n]$ and
+$\evalT{S} = \llb T \rrb^\cI_{[\alpha_1 \,\mapsto\, D_1,\dots,
+\alpha_n \,\mapsto\, D_n]}$.
+By construction of $\cI$, $\eval{t_1} \in \evalT{S}$.
+By the same argument, $\eval{t_2} \in \evalT{S}$.
+Hence, $d_1 = d_2$ and $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$.
+
+Let $F$ be a quantified formula $\forall u \ty T .\, G$.
+We must show that for every pair $\la a,d \ra$ in $\evalT{T}$, we have
 $\typeof^\cM(a, \llb \MON(T) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]})$,
 and vice versa, for every $a$ in the domain of $\und$, if
 $\typeof^\cM(a, \llb \MON(T) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]})$
 holds, then there exists some $d$ such that $\la a,d \ra \in
-\llb T \rrb^\cI_\theta$.
+\evalT{T}$.
 %
 Since ordinary variables do not occur in type expressions,
 $\llb \MON(T) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]} =
@@ -222,11 +241,20 @@ $\typeof^\cM(a, \llb T \rrb^\cI_\theta)$
 holds if and only if there exists some $d'$ such that
 $\la a,d' \ra \in \llb T \rrb^\cI_\theta$.
 %
-Then
-$\llb \forall u \ty T .\, F \rrb^\cI_{\theta,\xi}$
-is exactly
+Then $\eval{\forall u \ty T .\, G}$ is exactly
 $\llb \forall \hat{u} \,.\, \typeof(\hat{u},\MON(T))
-\limp \MON(F) \rrb^\cM_{\nu}$ by induction hypothesis.
+\limp \MON(G) \rrb^\cM_{\nu}$ by induction hypothesis.
+Indeed, $G$ is well-typed in the context $\gamma[u \mapsto T]$,
+and for every variable $v \in \FV(G)$, we have
+$\xi[u \mapsto \la a,d \ra](v) \in
+\evalT{\gamma[u \mapsto T](v)}$.
+
+Let $F$ be a quantified formula $\forall \alpha \,.\, G$.
+Let $D$ be an element of $\sorts$. Under the no-clash assumption,
+formula $G$ is well-typed in context $\gamma$, and for all
+$v \in \FV(G) = \FV(F)$, we have
+$\evalG{\gamma(v)}_{\theta[\alpha\,\mapsto\,D]} = \evalT{\gamma(v)}$.
+Then $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$ by induction hypothesis.
 \qed
 \end{proof}
 
