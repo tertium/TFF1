@@ -144,8 +144,7 @@ with equality, then $\Delta$ is satisfiable in TFF.
 \end{theorem}
 \begin{proof}
 Let $\cM$ be a model of $\MON(\Delta)$. Let us replace every element $d$
-in the domain of $\typ$ by a set
-$D = \{ \la a,d \ra \,|\, \typeof^\cM(a,d) \}$
+in the domain of $\typ$ by a set $D = \{\la a,d \ra \,|\, \typeof^\cM(a,d)\}$
 and update correspondingly the interpretations of type constructors
 and function and predicate symbols in $\cM$.
 We can safely perform this substitution, because the inhabitance
@@ -188,9 +187,11 @@ $\typeof^\cM(f^\cM(D_1,\dots,D_n,a_1,\dots,a_m), D)$,
 and therefore, the result of $f^\cI$ belongs indeed to $D$.
 This concludes the definition of $\cI$.
 
-Now we are going to show that for every type $S$, term $t$,
-and formula $F$ occurring in $\Delta$,
-for every type valuation $\theta$ and variable valuation $\xi$ in $\cI$,
+Now we are going to show that for every type context $\gamma$,
+type valuation $\theta$, and variable valuation $\xi$ in $\cI$,
+for every type $S$, term $t$, and formula $F$ such that
+$\gamma\,\vdash F \ty \omicron$ and
+$\xi(v) \in \evalT{\gamma(v)}$ for every free variable $v$ in $F$,
 we have
 \begin{align*}
 \llb S \rrb^\cI_{\theta} &= \llb \MON(S) \rrb^\cM_{\nu} &
