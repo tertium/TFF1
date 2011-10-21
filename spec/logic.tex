@@ -243,7 +243,7 @@ are denoted $p$ and $q$. The letters $t$ and $s$ denote
 terms and the letters $F$, $G$, $H$ denote formulas.
 Sometimes, we write the names of type constructors,
 function and predicate symbols using a fixed-width
-font: {\tt list}, {\tt map}, {\tt cons}, {\tt set}
+font: {\tt list}, {\tt map}, {\tt cons}, {\tt set},
 etc.
 
 We use symbols ${\times}$, ${\to}$, and ${\ALL}$
@@ -259,10 +259,10 @@ quantifier ($\exists$) as abbreviations.
 %The symbols $\top$ and $\bot$ stand for ``true'' and ``false'',
 %respectively.
 
-Given a formula $F$, the set of type variables
-freely occurring in $F$ (in type arguments of
-polymorphic symbols or in types of bound variables)
-is denoted $\FVT(F)$. The set of free variables of $F$
+The set of type variables freely occurring in a formula $F$
+(in the type arguments of polymorphic symbols or
+in the types of bound variables) is denoted $\FVT(F)$.
+The set of free ordinary variables of $F$
 is denoted $\FV(F)$. We call $F$ {\em closed\/}
 whenever both $\FVT(F)$ and $\FV(F)$ are empty.
 
@@ -272,8 +272,6 @@ maps every type variable either to itself or to a monomorphic type.
 %
 A type $T$ is said to {\em match\/} another type $T'$ whenever
 there is a type substitution that instantiates $T$ to $T'$.
-%When applied to terms and formulas, type substitutions instantiate
-%the freely occurring type variables.
 We use Greek letters $\tau$ and $\rho$ for type substitutions.
 %
 Ordinary substitutions that map variables to terms
@@ -302,16 +300,17 @@ variable $v$ to type $T$ and every other variable $u$ to $\gamma(u)$.
 In the last rule, $\alpha'$ is an arbitrary type variable that
 occurs neither in $F$ nor in the values of $\gamma$.
 The renaming is necessary to reject formulas like
-$\forall\alpha\forall u\ty\alpha\forall\alpha\forall v\ty\alpha.
+$\forall\alpha\forall u\ty\alpha\forall\alpha\forall v\ty\alpha \,.\,
 u \approx v$, where the types of $u$ and $v$ are actually different.
 In order to simplify our subsequent definitions, we assume from now on
-that no type variable can be both free and bound in the same formula.
+that no type variable can be both free and bound in the same formula;
+we call this the {\em no-clash assumption}.
 %Consequently, nested quantifiers on the same type
 %variable are not allowed, either.
 Then we can do without explicit renaming of type variables,
 and the last typing rule is simply
-$$\frac{\gamma\, \,\vdash\, F \ty \omicron}{
-\gamma\, \,\vdash\, \forall \alpha \,.\, F \,\ty\, \omicron}$$
+$\frac{\gamma\, \,\vdash\, F \ty \omicron}{
+\gamma\, \,\vdash\, \forall \alpha \,.\, F \,\ty\, \omicron}$.
 
 \begin{figure}
 \begin{center}
@@ -359,13 +358,13 @@ $\displaystyle
 \label{fig:typing}
 \end{figure}
 
-A closed TFF formula $F$ is {\em well-typed\/} if and only if
-the judgement $\gamma\, \vdash F \ty \omicron$ is derivable
+A closed TFF formula $H$ is {\em well-typed\/} if and only if
+the judgement $\gamma\, \vdash H \ty \omicron$ is derivable
 for any $\gamma$.
 Obviously, if a closed formula is
-well-typed in one type context, it is well-typed in any other one.
-Thus, in what follows, we will omit $\gamma$ and simply write
-${} \vdash F \ty \omicron$.
+well-typed in one type context, it is well-typed in any other one;
+in what follows, we omit $\gamma$ and simply write
+${} \vdash H \ty \omicron$.
 Closed well-typed formulas are called {\em sentences}.
 
 \paragraph{Interpretation.}
@@ -388,8 +387,8 @@ Since type evaluation depends only on the values of $\theta$
 on the type variables occurring in a type, we write $\evalG{S}$
 to denote the domain of a monomorphic type $S$. We also write
 $\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$
-to denote the domain of a type $T$ whose free type variables
-are all among $\alpha_1,\dots,\alpha_n$.
+to evaluate a type whose free type variables
+belong to $\alpha_1,\dots,\alpha_n$.
 
 A predicate symbol $p$ of signature
 $\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m
@@ -417,12 +416,16 @@ and formulas according to the following equations:
 \eval{p(\bar{S},\bar{t})} &\eqdef p^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\
 \eval{\lnot F} &\eqdef \lnot\, \eval{F} &
 \eval{F \land G} &\eqdef \eval{F} \land\, \eval{G} \\
-\eval{\forall u \ty T .\, F} &\eqdef \!\!\!\!
-\bigwedge_{a \in \evalT{T}} \!
+\eval{\forall u \ty T .\, F} &\eqdef \forall {a \in \evalT{T}} \,.\,
 \evalG{F}_{\theta,\xi[u\,\mapsto\,a]} &
-\eval{\forall \alpha \,.\, F} &\eqdef
-\bigwedge_{D \in \sorts}\;
-\evalG{F}_{\theta[\alpha\,\mapsto\,D],\xi}
+\eval{\forall \alpha \,.\, F} &\eqdef \forall {D \in \sorts} \,.\,
+\evalG{F}_{\theta[\alpha\,\mapsto\,D],\xi} % \\
+%\eval{\forall u \ty T .\, F} &\eqdef \!\!\!\!
+%\bigwedge_{a \in \evalT{T}} \!
+%\evalG{F}_{\theta,\xi[u\,\mapsto\,a]} &
+%\eval{\forall \alpha \,.\, F} &\eqdef
+%\bigwedge_{D \in \sorts}\;
+%\evalG{F}_{\theta[\alpha\,\mapsto\,D],\xi}
 \end{align*}
 Here, $\bar{S}$ and $\bar{t}$ are sequences of types and terms, respectively.
 The expression $\xi[u \mapsto a]$ stands for the function that
