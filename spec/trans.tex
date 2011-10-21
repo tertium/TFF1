@@ -189,17 +189,16 @@ This concludes the definition of $\cI$.
 
 Given a type context $\gamma$, a type valuation $\theta$,
 and a variable valuation $\xi$, we say that they are admissible
-for a formula $F$, whenever the following conditions are satisfied:
+for a TFF formula $F$, when the following conditions are satisfied:
 \begin{itemize}
 \item $F$ is well-typed in context $\gamma$;
 \item for every variable $v$ free in $F$, no type variable
 occurring in $\gamma(v)$ is bound in $F$;
 \item for every variable $v$ free in $F$, $\xi(v) \in \evalT{\gamma(v)}$.
 \end{itemize}
-
+Obviously, every triple is admissible for a sentence.
 Let us show that for every type $S$, term $t$, and formula $F$,
-and for every triple $\gamma$, $\theta$, $\xi$ admissible for $F$,
-we have
+and for all $\gamma$, $\theta$, $\xi$ admissible for $F$, we have
 \begin{align*}
 \evalT{S} &= \llb \MON(S) \rrb^\cM_{\nu} &
 \pi_1(\eval{t}) &= \llb \MON(t) \rrb^\cM_{\nu} &
@@ -271,9 +270,29 @@ Then $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$ by induction hypothesis.
 \qed
 \end{proof}
 
-\newpage
-
 \subsection{Elimination of Ghost Type Arguments} \label{ssec:ghost}
+The explicit type arguments of polymorphic symbols
+in TFF let us introduce operations and relations directly on types.
+Thus, one could declare and axiomatize a polymorphic propositional
+constant $\mathtt{isOrdered}$ of type signature $\forall\alpha\,.\,\omicron$.
+Such predicate symbols can be used to encode type classes:
+for example, the axioms of order for a polymorphic predicate
+$\mathtt{lessEq} \,\ty\, \forall\alpha\,.\,\alpha\times\alpha\to\omicron$
+can be restricted to types that satisfy $\mathtt{isOrdered}$.
+
+However, type signatures such as that of $\mathtt{isOrdered}$ are not
+allowed in languages where function and predicate symbols do not take
+type arguments, and the concrete instance of the symbol's type signature
+is determined by the types of its term arguments and the type of the
+result. One particularly important example of such language is HOL
+and its incarnations, HOL Light~\cite{harrison09hollight} and
+Isabelle/HOL~\cite{NipkowPaulsonWenzel2002Isabelle}.
+The same restriction is adopted in the theorem proving systems
+Boogie~\cite{leino10tacas}, Why3~\cite{boogie11why3}, and
+Alt-Ergo~\cite{conchon08smt}%
+\footnote{Other relevant citations, please? What about Mizar?}.
+
+
 \subsection{Type Skolemization} \label{ssec:skol}
 
 
