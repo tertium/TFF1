@@ -340,7 +340,7 @@ $\ELI(F)$ and $\ELI(\Delta)$ denote the result of
 applying $\ELI$ to every atomic formula in $F$ and
 $\Delta$, respectively.
 
-\begin{theorem}[Soundness and completeness of $\ELI$] \label{thm:eli}
+\begin{theorem} \label{thm:eli}
 Any $\Delta$ is equisatisfiable to $\ELI(\Delta)$.
 \end{theorem}
 \begin{proof}
@@ -380,33 +380,51 @@ perform type skolemization in premises and in goals, respectively
 (the latter should be rather called ``type herbrandization'').
 Let us call a formula $F$ {\em dependently typed} whenever
 it contains a quantifier over a type variable in the scope
-of a quantifier of the opposite polarity over an ordinary
-variable%
-\footnote{We might not even talk about polarities and prohibit
-types-under-values outright.}.
+of a quantifier over an ordinary variable%
+\footnote{We might take polarities into account, but then
+the proof of Theorem~\ref{thm:sko} wouldn't be so sweet.
+Types-under-values are nasty anyway.}.
+The transformations $\SKO^-$ and $\SKO^+$ apply to
+non-dependently typed TFF formulas according to the
+following equations:
+\begin{align*}
+\SKO^-(p(\bar{S},\bar{t})) &\eqdef p(\bar{S},\bar{t}) &
+\SKO^+(p(\bar{S},\bar{t})) &\eqdef p(\bar{S},\bar{t}) \\
+\SKO^-(t_1 \approx t_2) &\eqdef t_1 \approx t_2 &
+\SKO^+(t_1 \approx t_2) &\eqdef t_1 \approx t_2 \\
+\SKO^-(\forall u \ty T .\, F) &\eqdef \forall u \ty T .\, F &
+\SKO^+(\forall u \ty T .\, F) &\eqdef \forall u \ty T .\, F \\
+\SKO^-(F \land G) &\eqdef \SKO^-(F) \land \SKO^-(G) &
+\SKO^+(F \land G) &\eqdef \SKO^+(F) \land \SKO^+(G) \\
+\SKO^-(\lnot F) &\eqdef \lnot \SKO^+(F) &
+\SKO^+(\lnot F) &\eqdef \lnot \SKO^-(F) \\
+\SKO^-(\forall \alpha \,.\, F) &\eqdef \forall \alpha \,.\, \SKO^-(F) &
+\SKO^+(\forall \alpha \,.\, F) &\eqdef
+\SKO^+(F[K(\beta_1,\dots,\beta_n)/\alpha])
+\end{align*}
+where $K$ is a fresh type constructor and $\beta_1,\dots,\beta_n$ are
+the free type variables of $\forall \alpha \,.\, F$.
+Given a set $\Delta$ of non-dependently typed sentences,
+$\SKO^-(\Delta)$ and $\SKO^+(\Delta)$ denote the result of applying
+the corresponding transformations to every formula in $\Delta$.
 
-Let $\Delta$ be a set of non-dependently typed sentences.
+\begin{theorem} \label{thm:sko}
+Any non-dependently typed $\Delta$ is equisatisfiable to $\SKO(\Delta)$.
+\end{theorem}
+\begin{proof}
+It is easy to see that
+skolemizing the $\typ$-sorted variables in $\MON(\Delta)$ gives
+exactly $\MON(\SKO(\Delta))$ modulo renaming of Skolem symbols and
+permutation of their arguments. Theorems~\ref{thm:mon_sound} and
+\ref{thm:mon_compl} conclude the proof.
+\qed
+\end{proof}
 
-We construct an equisatisfiable set $\EL(\Delta)$ as follows.
-%
-We introduce a new unary type constructor $\ghost$.
-We replace every function symbol $f$ of type signature
-$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$
-with a new function symbol $\hat{f}$ of type signature
-$\forall \alpha_1\dots\alpha_n \,.\,
-\ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
-T_1 \times \dots \times T_m \to T$,
-where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
-variables from the quantifier prefix that do not occur in
-$T_1,\dots,T_m,T$.
-Likewise, every predicate symbol $p \,\ty\,
-\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to \omicron$
-is replaced with a new predicate symbol $\hat{p} \,\ty\,
-\forall \alpha_1\dots\alpha_n \,.\,
-\ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
-T_1 \times \dots \times T_m \to \omicron$,
-where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
-variables from the quantifier prefix that do not occur in
-$T_1,\dots,T_m$.
-
+For dependently typed problems, type skolemization would require
+Skolem type constructors to take ordinary variables as arguments,
+which is beyond the current scope of TFF. In order to submit such
+problems to systems that do not accept quantifiers over types,
+one can resort to $\MON$ or some other translation into monomorphic
+logic (cf.~Section~\ref{ssec:tff0}). At present, we are not aware
+on any less intrusive way to handle dependently typed TFF formulas.
 
