@@ -289,14 +289,14 @@ One particularly important example of such language is HOL
 and its incarnations, HOL Light~\cite{harrison09hollight}
 and Isabelle/HOL~\cite{NipkowPaulsonWenzel2002Isabelle}.
 The same restriction is adopted in the theorem proving systems
-Boogie~\cite{leino10tacas}, Why3~\cite{boogie11why3}, and
+Boogie~\cite{Barnett06boogie}, Why3~\cite{boogie11why3}, and
 Alt-Ergo~\cite{conchon08smt}%
 \footnote{Other relevant citations, please? What about Mizar?}.
 To be able to translate TFF problems for these systems, we need
 to get rid of {\em ghost type arguments} in polymorphic symbols,
 that is, the type variables in the symbol's type signature that
-do not appear in the quantifier-free matrix. Fortunately, this
-can be done in an easy and lightweight manner.
+do not appear in the quantifier-free matrix.
+This can be done in an easy and lightweight manner.
 
 Let $\Delta$ be a set of sentences.
 We construct an equisatisfiable set $\ELI(\Delta)$ as follows.
@@ -360,7 +360,53 @@ likewise for predicate symbols.
 \qed
 \end{proof}
 
-\newpage
 \subsection{Type Skolemization} \label{ssec:skol}
+
+Another feature of TFF which is not universally supported
+by other systems with polymorphic types is explicit
+quantification over type variables.
+For example, Coq and Boogie accept quantifiers over types%
+\footnote{Mizar? Anybody else?}.
+On the other side, the systems based on HOL as well as Why3 and
+Alt-Ergo treat all type variables as implicitly universally
+quantified at the top of a formula, which is similar to
+the treatment of variables in clauses.
+A simple and practical solution to translate TFF problems
+for the systems of the second kind is type skolemization.
+Unfortunately, not every TFF problem can be treated this way.
+
+We introduce two transformations $\SKO^-$ and $\SKO^+$ to
+perform type skolemization in premises and in goals, respectively
+(the latter should be rather called ``type herbrandization'').
+Let us call a formula $F$ {\em dependently typed} whenever
+it contains a quantifier over a type variable in the scope
+of a quantifier of the opposite polarity over an ordinary
+variable%
+\footnote{We might not even talk about polarities and prohibit
+types-under-values outright.}.
+
+Let $\Delta$ be a set of non-dependently typed sentences.
+
+We construct an equisatisfiable set $\EL(\Delta)$ as follows.
+%
+We introduce a new unary type constructor $\ghost$.
+We replace every function symbol $f$ of type signature
+$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$
+with a new function symbol $\hat{f}$ of type signature
+$\forall \alpha_1\dots\alpha_n \,.\,
+\ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
+T_1 \times \dots \times T_m \to T$,
+where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
+variables from the quantifier prefix that do not occur in
+$T_1,\dots,T_m,T$.
+Likewise, every predicate symbol $p \,\ty\,
+\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to \omicron$
+is replaced with a new predicate symbol $\hat{p} \,\ty\,
+\forall \alpha_1\dots\alpha_n \,.\,
+\ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
+T_1 \times \dots \times T_m \to \omicron$,
+where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
+variables from the quantifier prefix that do not occur in
+$T_1,\dots,T_m$.
 
 
