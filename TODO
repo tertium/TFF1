@@ -2,9 +2,29 @@
 - TPTP syntax proposal
 
     dummy type variables (aka $tType > ...)?
+
+        DONE: dummy type vars are allowed, the syntax $tType > ... is not.
+
     free use of arrows?
+
+        DONE: not allowed. Type signatures have one accepted form.
 
 - spec
 
     $o handling?
+
+        NOT DONE: what could we do about it anyway?
+
+- Decide what to do with types-under-values quantifiers.
+  We have no easy way to translate them for Isabelle/Why3/Alt-Ergo
+  (short of translation to monomorphic logic).
+  However, to banish them from TFF1 is kind of silly:
+  - both native semantics and encoding to TFF0 handle them fine;
+  - Boogie accepts them just as fine;
+  - from the syntax POV, the restriction would be ugly.
+
+- Decide on the use of TFF, TFF0, and TFF1. So far, I've never used
+  TFF0 in the main text (only in footnotes), and employed TFF and
+  TFF1 interchangeably. Do we plan to make the names TFFx official?
+  Can we say that TFF is always the most recent TFFx?
 
