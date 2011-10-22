@@ -409,12 +409,12 @@ $\SKO^-(\Delta)$ and $\SKO^+(\Delta)$ denote the result of applying
 the corresponding transformations to every formula in $\Delta$.
 
 \begin{theorem} \label{thm:sko}
-Any non-dependently typed $\Delta$ is equisatisfiable to $\SKO(\Delta)$.
+Any non-dependently typed $\Delta$ is equisatisfiable to $\SKO^-(\Delta)$.
 \end{theorem}
 \begin{proof}
 It is easy to see that
 skolemizing the $\typ$-sorted variables in $\MON(\Delta)$ gives
-exactly $\MON(\SKO(\Delta))$ modulo renaming of Skolem symbols and
+exactly $\MON(\SKO^-(\Delta))$ modulo renaming of Skolem symbols and
 permutation of their arguments. Theorems~\ref{thm:mon_sound} and
 \ref{thm:mon_compl} conclude the proof.
 \qed
