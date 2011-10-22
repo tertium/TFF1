@@ -282,17 +282,85 @@ can be restricted to types that satisfy $\mathtt{isOrdered}$.
 
 However, type signatures such as that of $\mathtt{isOrdered}$ are not
 allowed in languages where function and predicate symbols do not take
-type arguments, and the concrete instance of the symbol's type signature
-is determined by the types of its term arguments and the type of the
-result. One particularly important example of such language is HOL
-and its incarnations, HOL Light~\cite{harrison09hollight} and
-Isabelle/HOL~\cite{NipkowPaulsonWenzel2002Isabelle}.
+explicit type arguments, and the concrete instance of the symbol's type
+signature is determined by the types of its term arguments and the type
+of the result.
+One particularly important example of such language is HOL
+and its incarnations, HOL Light~\cite{harrison09hollight}
+and Isabelle/HOL~\cite{NipkowPaulsonWenzel2002Isabelle}.
 The same restriction is adopted in the theorem proving systems
 Boogie~\cite{leino10tacas}, Why3~\cite{boogie11why3}, and
 Alt-Ergo~\cite{conchon08smt}%
 \footnote{Other relevant citations, please? What about Mizar?}.
+To be able to translate TFF problems for these systems, we need
+to get rid of {\em ghost type arguments} in polymorphic symbols,
+that is, the type variables in the symbol's type signature that
+do not appear in the quantifier-free matrix. Fortunately, this
+can be done in an easy and lightweight manner.
 
+Let $\Delta$ be a set of sentences.
+We construct an equisatisfiable set $\ELI(\Delta)$ as follows.
+%
+We introduce a new unary type constructor $\ghost$.
+We replace every function symbol $f$ of type signature
+$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$
+with a new function symbol $\hat{f}$ of type signature
+$\forall \alpha_1\dots\alpha_n \,.\,
+\ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
+T_1 \times \dots \times T_m \to T$,
+where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
+variables from the quantifier prefix that do not occur in
+$T_1,\dots,T_m,T$.
+Likewise, every predicate symbol $p \,\ty\,
+\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to \omicron$
+is replaced with a new predicate symbol $\hat{p} \,\ty\,
+\forall \alpha_1\dots\alpha_n \,.\,
+\ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
+T_1 \times \dots \times T_m \to \omicron$,
+where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
+variables from the quantifier prefix that do not occur in
+$T_1,\dots,T_m$.
+Finally, we add a ``witness'' constant $\wit$
+of type signature $\forall \alpha\,.\,\ghost(\alpha)$.
+The $\ELI$ transformation translates terms and atomic
+formulas according to the following equations:
+\begin{align*}
+\ELI(u) \eqdef u
+\quad\quad & \qquad\qquad\qquad\quad
+\ELI(t_1 \approx t_2) \eqdef \ELI(t_1) \approx \ELI(t_2) \\
+\ELI(f(S_1,\dots,S_n,t_1,\dots,t_m)) &\eqdef
+\hat{f}(S_1,\dots,S_n,\wit(S_{i_1}),\dots,\wit(S_{i_r}),
+\ELI(t_1),\dots,\ELI(t_m)) \\
+\ELI(p(S_1,\dots,S_n,t_1,\dots,t_m)) &\eqdef
+\hat{p}(S_1,\dots,S_n,\wit(S_{i_1}),\dots,\wit(S_{i_r}),
+\ELI(t_1),\dots,\ELI(t_m))
+\end{align*}
+Given a formula $F$ or a set of sentences $\Delta$,
+$\ELI(F)$ and $\ELI(\Delta)$ denote the result of
+applying $\ELI$ to every atomic formula in $F$ and
+$\Delta$, respectively.
 
+\begin{theorem}[Soundness and completeness of $\ELI$] \label{thm:eli}
+Any $\Delta$ is equisatisfiable to $\ELI(\Delta)$.
+\end{theorem}
+\begin{proof}
+A model of $\Delta$ can be converted to a model of $\ELI(\Delta)$
+as follows. We choose an arbitrary value $e$ and set the singleton
+$\{ e \}$ as the domain of $\ghost(D)$ for any domain $D$.
+Accordingly, $\wit$ evaluates to $e$ on any argument.
+Interpretations of other function and predicate symbols are
+adjusted in an obvious way.
+
+To convert a model of $\ELI(\Delta)$
+to a model of $\Delta$, we evaluate any functional symbol
+$f$ on $D_1,\dots,D_n,a_1,\dots,a_m$ exactly as
+$\hat{f}$ on $D_1,\dots,D_n,e_1,\dots,e_r,a_1,\dots,a_m$,
+where each $e_j$ is the evaluation of $\wit$ on $D_{i_j}$;
+likewise for predicate symbols.
+\qed
+\end{proof}
+
+\newpage
 \subsection{Type Skolemization} \label{ssec:skol}
 
 
