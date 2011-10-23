@@ -8,7 +8,7 @@ to individual values, and {\em higher-order types\/},
 which specify the type signature of function and predicate symbols.
 %\footnote{We could also call these two kinds of type ``value-level types'' and
 %``function-level types,'' respectively.}%
-%%% ANDREI: I'm fine with either terminology, but it seems hardly anybody uses
+%%% @ANDREI: I'm fine with either terminology, but it seems hardly anybody uses
 %%% the terminology from the footnote (try Google).
 %
 First-order types are built from {\em type variables\/}
@@ -30,9 +30,9 @@ Higher-order types may take the following forms:
 \begin{enumerate}
 \item[(a)] a first-order type;
 \item[(b)] the Boolean type \verb+$o+ (also called \verb+$oType+);
-\item[(c)] {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$T$},
+\item[(c)] {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$T$} for $n > 0$,
 where $T_1,\dots,T_n$ and $T$ are first-order types;
-\item[(d)] {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;\$o},
+\item[(d)] {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;\$o} for $n > 0$,
 where $T_1,\dots,T_n$ are first-order types;
 \item[(e)] {\tt !>\ [$A_1$\;:\;\$tType,} {\tt ${\dots}$,} {\tt
 $A_n$\;:\;\$tType]:\;$T$}, where $A_1,\dots,A_n$ are distinct type variables, $T$
@@ -43,7 +43,6 @@ appears among $A_1,\dots,A_n$.
 %
 We omit the parentheses in forms (c) and (d) if $n = 1$. The binder {\tt !>} in
 form (e) denotes type-level universal quantifier.
-%
 A type that contains type variables (whether bound or free), or a term of such a
 type, is {\em polymorphic}; terms and types that are not polymorphic are {\em
 monomorphic}.
@@ -52,6 +51,14 @@ Form (a) is used for variables and monomorphic constants; form (b), for
 propositional constants, including the predefined symbols \verb+$true+ and
 \verb+$false+; form (c), for monomorphic functions; form (d), for monomorphic
 predicates; and form (e), for polymorphic functions and predicates.
+It is sometimes convenient to regard all the forms above as a special case of
+the general syntax
+\begin{center}
+{\tt !>} {\tt [$A_1$\;:\;\$tType,\;${\dots}$,\;$A_m$\;:\;\$tType]:\;%
+($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$\widehat T$}
+\end{center}
+where $m$ and $n$ may be 0 and $\widehat T$ may be any first-order type or
+{\tt \$o}.
 
 %A type with a quantifier prefix is called {\em polytype},
 %otherwise we call it {\em monotype}.
@@ -61,7 +68,7 @@ predicates; and form (e), for polymorphic functions and predicates.
 
 %In the sequel, the term ``type'' means
 %first-order type unless stated otherwise.
-%%% ANDREI: This convention is often violated. E.g. in "Function and
+%%% @ANDREI: This convention is often violated. E.g. in "Function and
 %%% predicate application below", many of the "types" are higher-order, e.g.
 %%% "type instance" of a symbol...
 
@@ -81,7 +88,7 @@ and a binary type constructor {\tt map}:
 Type constructors must be fully applied, and therefore
 their arity can be %unambiguously
 determined at the first occurrence.
-%%% ANDREI: Too early for this. TODO: move where it belongs (and edit)
+%%% @ANDREI: Too early for this. TODO: move where it belongs (and edit)
 %However, one should keep in mind that a type
 %expression can occur in a position of a term (see below
 %the examples of {\tt cons} and other polymorphic symbols).
@@ -89,12 +96,10 @@ determined at the first occurrence.
 %and predicate symbols in order to know whether it parses
 %a term or a type.
 
-A declaration of a function or predicate symbol gives it
-a higher-order type, which we call this symbol's
-{\em type signature}. For example, the following
-declarations introduce a monomorphic constant {\tt pi},
-a polymorphic predicate {\tt isEmpty}, and polymorphic
-functions {\tt cons} and {\tt get}:
+A declaration of a function or predicate symbol gives it a higher-order
+type---the symbol's {\em type signature}. For example, the following
+declarations introduce a monomorphic constant {\tt pi}, a polymorphic predicate
+{\tt isEmpty}, and a pair of polymorphic functions {\tt cons} and {\tt lookup}:
 \begin{quote}
 \verb+tff(pi_t, type, pi: $real).+
 \par\smallskip
@@ -103,60 +108,59 @@ functions {\tt cons} and {\tt get}:
 \verb+tff(cons_t, type,+\\
 \verb+    cons : !> [A : $tType]: (A * list(A)) > list(A)).+
 \par\smallskip
-\verb+tff(get_t, type,+\\
-\verb+    get : !> [A : $tType, B : $tType]: (map(A, B) * A) > B).+
+\verb+tff(lookup_t, type,+\\
+\verb+    lookup : !> [A : $tType, B : $tType]: (map(A, B) * A) > B).+
 \end{quote}
-If a function or predicate symbol is used without declaration,
-then default type signatures are assumed:
-a function symbol gets the signature
-{\tt (\$i\;*\;${\dots}$\;*\;\$i)\;>\;\$i} and
-a predicate symbol gets the signature
-{\tt (\$i\;*\;${\dots}$\;*\;\$i)\;>\;\$o}.
+If a function or predicate symbol is used before being declared, a
+default type signature is assumed:\ {\tt (\$i\;*\;${\dots}$\;*\;\$i)\;>\;\$i}
+for functions and {\tt (\$i\;*\;${\dots}$\;*\;\$i)\;>\;\$o} for predicates.
 
-Any symbol (a type constructor, a function symbol, or a predicate symbol)
-can be declared at most once. A symbol can be declared after being used
-for the first time. In this case, the declared type signature must be
-identical to the assumed one. All symbols share the same namespace; for
-example, a type constructor cannot have the same name as a function symbol%
-\footnote{Is this restriction present in TPTP FOF and TFF0? If not, we can
-lift it for TFF1.}.
+Each type constructor, function symbol, and predicate symbol may be declared at
+most once. If a symbol is declared after its first use, the declared signature
+must agree with the default signature. All symbols share the same namespace; in
+particular, a type constructor may not have the same name as a function or
+predicate symbol.
 
-\ourparagraph{Function and predicate application.} In order to keep
-the required type inference to the minimum, every use of a polymorphic
-symbol must explicitly specify the corresponding type instance.
-A function symbol with a type signature
-\begin{center}
-{\tt !>\;[$A_1$:\$tType,${\dots}$,$A_n$:\$tType]\;:\;%
-($T_1$\;*\;${\dots}$\;*\;$T_m$)\;>\;$T$}
-\end{center}
-must be applied to $n$ type arguments and $m$ term arguments
-(likewise for predicate symbols). Here are some well-formed
-terms and atomic formulas of TFF1:
-\begin{quote}
-\verb+isEmpty($i, cons($i, V, nil($i)))+
-\par\smallskip
-\verb+get($int, list(A), M, 2)+
-\end{quote}
-In the first example, {\tt V} is a variable of type {\tt \$i}
-and {\tt nil} is a function
-symbol of type {\tt !>\;[A:\$tType]\;:\;list(A)}. In the second
-example, {\tt A} is a type variable, and {\tt M} is a variable
-of type {\tt map(\$int,list(A))}. Let us emphasize that type
-variables can only be instantiated with first-order types.
-In particular, neither \verb+$o+ nor \verb+$tType+ can occur
-in type arguments of polymorphic symbols.
+%\footnote{Is this restriction present in TPTP FOF and TFF0? If not, we can
+%lift it for TFF1.}.
+%%% @ANDREI: FOF definitely shares the namespace for functions and symbols.
+%%% TFF0 doesn't seem to mention anything but Sutcliffe's ToFoF cannot cope with
+%%%   tff(foo_type, type, foo : $tType).
+%%%   tff(foo_const, type, foo : foo).
+%%%   tff(foo_ax, axiom, (![X : foo] : (X = foo))).
+%%% Since TFFx is supposed to be about interoperability, in matters like these
+%%% I tend not to put too heavy a burden on implementors.
+
+\ourparagraph{Function and predicate application.} To keep the required type
+inference to a minimum, every use of a polymorphic symbol must explicitly
+specify the type instance. A function or predicate symbol with a type signature
+\[\hbox{{\tt !>} {\tt [$A_1$\;:\;\$tType,\;${\dots}$,\;$A_m$\;:\;\$tType]:\;%
+($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$\widehat T$}}\]
+must be applied to $m$ type arguments and $n$ term arguments. Given the above
+signatures for {\tt isEmpty}, {\tt cons}, and {\tt lookup}, the term
+\[\hbox{\tt isEmpty(\$i,\;\,cons(\$i,\;V,\;nil(\$i)))}\]
+and the atomic formula
+\[\hbox{\tt lookup(\$int,\;\,list(A),\;\,M,\;\,2)}\]
+are well-formed, assuming {\tt V} has type {\tt \$i}, {\tt A} has type {\tt
+\$tType} (i.e., it is a type variable), and {\tt M} has type {\tt
+map(\$int,\;list(A))}.
+
+In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
+instantiated with first-order types. In particular, \verb+$o+ and \verb+$tType+
+may not occur in type arguments of polymorphic symbols.
 
 For systems that implement type inference, the following extension
-of TFF1 might be useful. When a particular type argument of
+of TFF1 might be useful. When a type argument of
 a polymorphic symbol can be inferred automatically, it may be
-replaced with the underscore: \verb+isEmpty(_,cons(_,V,nil(_)))+%
-\footnote{Should this be part of {\tt SyntaxBNF}?}.
-Notice that the type argument of {\tt nil} cannot be inferred
-``locally'', from the types of other arguments (for there are none),
-but it can be inferred using Hindley-Milner type inference.
-The producer of a TFF1 problem must be aware of the type
-inference algorithm implemented in the consumer, to omit
-only the redundant type arguments.
+replaced with an underscore ({\tt \_}), for example:
+\[\hbox{{\tt isEmpty(\_,} {\tt cons(\_,\;V,\;nil(\_)))}}\]
+% \footnote{Should this be part of {\tt SyntaxBNF}?}
+% @ANDREI: I don't care much either way... SyntaxBNF is anyway very slack; I
+% wouldn't be surprised if it could be used to parse C++. ;)
+Although {\tt nil}'s type argument cannot be inferred locally from the types of
+the term arguments, it can be deduced using the Hindley--Milner type inference.
+The producer of a TFF1 problem must be aware of the type inference algorithm
+implemented in the consumer to omit only the redundant type arguments.
 
 \ourparagraph{Type variables and individual variables.}
 Every variable in a TFF1 formula can be given a first-order type
@@ -170,9 +174,9 @@ Furthermore, every type variable occurring in a TFF1 formula
 (in a type argument or in a type of a bound variable)
 must be also bound:
 \begin{verbatim}
-    tff(get_set, axiom,
+    tff(lookup_set, axiom,
       ! [A:$tType, B:$tType, M:map(A,B), I:A, V:B]:
-          get(A,B,set(A,B,M,I,V),I) = V).
+          lookup(A,B,set(A,B,M,I,V),I) = V).
 \end{verbatim}
 Notice that one can put type variables and ordinary variables
 under the same quantifier. The order of variables is important:
