@@ -12,7 +12,7 @@ of ghost type arguments (cf.~Section~\ref{ssec:ghost});
 the latter also assumes preliminary type skolemization
 (cf.~Section~\ref{ssec:skol}).
 
-Let $\Delta$ be a set of TFF sentences, that is, closed and well-typed
+Let $\Delta$ be a set of TFF1 sentences, that is, closed and well-typed
 formulas. We construct an equisatisfiable set of monomorphic two-sorted
 formulas $\MON(\Delta)$ as follows.
 %
@@ -34,7 +34,7 @@ $\typ^n \times \und^m \to \omicron$.
 Finally, we add a new predicate symbol $\typeof$ of sort signature
 $\und \times \typ$.
 
-The $\MON$ transformation translates TFF types, terms, and formulas
+The $\MON$ transformation translates TFF1 types, terms, and formulas
 according to the following equations ($\bar{S}$ and $\bar{t}$ denote
 sequences of types and terms, respectively):
 \begin{align*}
@@ -77,12 +77,12 @@ $$
 \AxD \cup \{ \Inh \}.
 $$
 
-It is easy to see that $\MON$ converts TFF types into well-formed
-terms of sort $\typ$, TFF terms into well-formed terms of sort $\und$,
-and TFF formulas (not necessarily well-typed) into well-formed formulas.
+It is easy to see that $\MON$ converts TFF1 types into well-formed
+terms of sort $\typ$, TFF1 terms into well-formed terms of sort $\und$,
+and TFF1 formulas (not necessarily well-typed) into well-formed formulas.
 
 \begin{theorem}[Soundness of $\MON$] \label{thm:mon_sound}
-If a set of sentences $\Delta$ is satisfiable in TFF,
+If a set of sentences $\Delta$ is satisfiable in TFF1,
 then $\MON(\Delta)$ is satisfiable in classical
 many-sorted first-order logic with equality.
 \end{theorem}
@@ -133,14 +133,14 @@ by induction hypothesis.
 Now we only have to check that the typing axioms
 $\AxD$ and the inhabitance axiom $\Inh$ hold in $\cI$.
 This immediately follows from the definition of
-interpretation in TFF and the first equality above.
+interpretation in TFF1 and the first equality above.
 \qed
 \end{proof}
 
 \begin{theorem}[Completeness of $\MON$] \label{thm:mon_compl}
 Given a set of sentences $\Delta$, if $\MON(\Delta)$
 is satisfiable in classical many-sorted first-order logic
-with equality, then $\Delta$ is satisfiable in TFF.
+with equality, then $\Delta$ is satisfiable in TFF1.
 \end{theorem}
 \begin{proof}
 Let $\cM$ be a model of $\MON(\Delta)$. Let us replace every element $d$ in
@@ -189,7 +189,7 @@ This concludes the definition of $\cI$.
 
 Given a type context $\gamma$, a type valuation $\theta$,
 and a variable valuation $\xi$, we say that they are admissible
-for a TFF formula $F$, when the following conditions are satisfied:
+for a TFF1 formula $F$, when the following conditions are satisfied:
 \begin{itemize}
 \item $F$ is well-typed in context $\gamma$;
 \item for every variable $v$ free in $F$, no type variable
@@ -272,7 +272,7 @@ Then $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$ by induction hypothesis.
 
 \subsection{Elimination of Ghost Type Arguments} \label{ssec:ghost}
 The explicit type arguments of polymorphic symbols
-in TFF let us introduce operations and relations directly on types.
+in TFF1 let us introduce operations and relations directly on types.
 Thus, one could declare and axiomatize a polymorphic propositional
 constant $\mathtt{isOrdered}$ of type signature $\forall\alpha\,.\,\omicron$.
 Such predicate symbols can be used to encode type classes:
@@ -292,7 +292,7 @@ The same restriction is adopted in the theorem proving systems
 Boogie~\cite{Barnett06boogie}, Why3~\cite{boogie11why3}, and
 Alt-Ergo~\cite{conchon08smt}%
 \footnote{Other relevant citations, please? What about Mizar?}.
-To be able to translate TFF problems for these systems, we need
+To be able to translate TFF1 problems for these systems, we need
 to get rid of {\em ghost type arguments} in polymorphic symbols,
 that is, the type variables in the symbol's type signature that
 do not appear in the quantifier-free matrix.
@@ -362,7 +362,7 @@ likewise for predicate symbols.
 
 \subsection{Type Skolemization} \label{ssec:skol}
 
-Another feature of TFF which is not universally supported
+Another feature of TFF1 which is not universally supported
 by other systems with polymorphic types is explicit
 quantification over type variables.
 For example, Coq and Boogie accept quantifiers over types%
@@ -371,9 +371,9 @@ On the other side, the systems based on HOL as well as Why3 and
 Alt-Ergo treat all type variables as implicitly universally
 quantified at the top of a formula, which is similar to
 the treatment of variables in clauses.
-A simple and practical solution to translate TFF problems
+A simple and practical solution to translate TFF1 problems
 for the systems of the second kind is type skolemization.
-Unfortunately, not every TFF problem can be treated this way.
+Unfortunately, not every TFF1 problem can be treated this way.
 
 We introduce two transformations $\SKO^-$ and $\SKO^+$ to
 perform type skolemization in premises and in goals, respectively
@@ -385,7 +385,7 @@ of a quantifier over an ordinary variable%
 the proof of Theorem~\ref{thm:sko} wouldn't be so sweet.
 Types-under-values are nasty anyway.}.
 The transformations $\SKO^-$ and $\SKO^+$ apply to
-non-dependently typed TFF formulas according to the
+non-dependently typed TFF1 formulas according to the
 following equations:
 \begin{align*}
 \SKO^-(p(\bar{S},\bar{t})) &\eqdef p(\bar{S},\bar{t}) &
@@ -422,9 +422,9 @@ permutation of their arguments. Theorems~\ref{thm:mon_sound} and
 
 For dependently typed problems, type skolemization would require
 Skolem type constructors to take ordinary variables as arguments,
-which is beyond the current scope of TFF. In order to submit such
+which is beyond the current scope of TFF1. In order to submit such
 problems to systems that do not accept quantifiers over types,
 one can resort to $\MON$ or some other translation into monomorphic
 logic (cf.~Section~\ref{ssec:tff0}). At present, we are not aware
-on any less intrusive way to handle dependently typed TFF formulas.
+on any less intrusive way to handle dependently typed TFF1 formulas.
 

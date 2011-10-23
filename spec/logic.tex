@@ -2,82 +2,92 @@
 % ^^^ sounds a bit too general -- could be the title of the entire paper almost
 \section{Syntax and Semantics} \label{sec_logic}
 
-\paragraph{Type expressions.}
+\ourparagraph{Type expressions.}
 We distinguish {\em first-order types}, assigned
-to individual values, and {\em higher-order types} which
-specify the type signature of function and predicate symbols%
-\footnote{We could also call them ``value-level types'' and
-``function-level types''.}.
+to individual values, and {\em higher-order types\/},
+which specify the type signature of function and predicate symbols.
+%\footnote{We could also call these two kinds of type ``value-level types'' and
+%``function-level types,'' respectively.}%
+%%% ANDREI: I'm fine with either terminology, but it seems hardly anybody uses
+%%% the terminology from the footnote (try Google).
 %
 First-order types are built from {\em type variables\/}
-and {\em type constructors\/} of fixed arity. A type constructor
-of arity 0 is called {\em type constant}. We follow the usual
-notation conventions of TPTP: type variables start with an
+and {\em type constructors\/} of fixed arity. Type constructors
+of arity 0 are called {\em type constants}. We follow the usual
+notation conventions of TPTP: Type variables start with an
 uppercase letter and type constructors with a lowercase letter.
-There are several predefined type constants:
-\verb+$iType+ (also written \verb+$i+),
-\verb+$int+, \verb+$rat+, and \verb+$real+. In this paper,
-we do not consider the arithmetic extensions of TPTP, and,
-therefore, the types \verb+$int+, \verb+$rat+, and \verb+$real+
-have no prescribed semantics%
-\footnote{Should we at least guarantee infinite domains for those?}.
-Here are some examples of well-formed first-order types:
-\verb+A+, \verb+list(A)+, \verb+list($i)+, \verb+map($int,list(A))+.
+There are several predefined type constants, inherited from TFF0:
+\verb+$i+ (also called \verb+$iType+),
+\verb+$int+, \verb+$rat+, and \verb+$real+. We refer to the TFF0
+specification \cite{TFF0} for the semantics of
+\verb+$int+, \verb+$rat+, and \verb+$real+ and the predefined operations on
+these types. %, and focus here on the nonarithmetic fragment of TFF1.
+Here are a few examples of well-formed first-order types:
+\verb+A+, \verb+list(A)+, \verb+list($i)+, \verb+map($int,+~\verb+list(A))+.
 
-Higher-order types have several possible forms:
-\begin{itemize}
-\item a first-order type --- these types are attached to
-monomorphic constants;
-\item the Boolean type \verb+$oType+ (also written \verb+$o+)
---- these types are attached to propositional variables and
-the predefined constants \verb+$true+ and \verb+$false+;
-\item {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$T$},
-where $T_1,\dots,T_n,T$ are first-order types ---
-these types are attached to monomorphic functions;
-\item {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;\$oType},
-where $T_1,\dots,T_n$ are first-order types --- these types
-are attached to monomorphic predicates;
-\item {\tt !>\;[$A_1$:\$tType,${\dots}$,%
-$A_n$:\$tType]\,:\;$T$}, where $A_1,\dots,A_n$ are distinct
-type variables and $T$ has one of the previous four forms ---
-these types are given to polymorphic functions and predicates.
-Symbol {\tt !>} denotes the type-level universal quantifier.
-We require every type variable occurring in $T$ to appear
-among $A_1,\dots,A_n$.
-%The opposite is not true: some $A_i$ may not occur in $T$.
-\end{itemize}
+Higher-order types may take the following forms:
+%
+\begin{enumerate}
+\item[(a)] a first-order type;
+\item[(b)] the Boolean type \verb+$o+ (also called \verb+$oType+);
+\item[(c)] {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$T$},
+where $T_1,\dots,T_n$ and $T$ are first-order types;
+\item[(d)] {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;\$o},
+where $T_1,\dots,T_n$ are first-order types;
+\item[(e)] {\tt !>\ [$A_1$\;:\;\$tType,} {\tt ${\dots}$,} {\tt
+$A_n$\;:\;\$tType]:\;$T$}, where $A_1,\dots,A_n$ are distinct type variables, $T$
+has one of the previous four forms, and every type variable occurring in $T$
+appears among $A_1,\dots,A_n$.
+%The converse is not true: Some $A_i$ may not occur in $T$.
+\end{enumerate}
+%
+We omit the parentheses in forms (c) and (d) if $n = 1$. The binder {\tt !>} in
+form (e) denotes type-level universal quantifier.
+%
+A type that contains type variables (whether bound or free), or a term of such a
+type, is {\em polymorphic}; terms and types that are not polymorphic are {\em
+monomorphic}.
+
+Form (a) is used for variables and monomorphic constants; form (b), for
+propositional constants, including the predefined symbols \verb+$true+ and
+\verb+$false+; form (c), for monomorphic functions; form (d), for monomorphic
+predicates; and form (e), for polymorphic functions and predicates.
 
 %A type with a quantifier prefix is called {\em polytype},
 %otherwise we call it {\em monotype}.
-A type that does not contain type variables is called
-{\em monomorphic}.
 %A first-order monomorphic type is called {\em sort}.
 %Notice that a monotype can be a polymorphic type,
 %i.e.~contain type variables.
-In what follows, the term ``type'' means
-first-order type unless stated otherwise.
 
-\paragraph{Type declarations.} Type constructors, as well as
-function and predicate symbols, can be declared prior to use.
+%In the sequel, the term ``type'' means
+%first-order type unless stated otherwise.
+%%% ANDREI: This convention is often violated. E.g. in "Function and
+%%% predicate application below", many of the "types" are higher-order, e.g.
+%%% "type instance" of a symbol...
+
+\ourparagraph{Type declarations.} Type constructors,
+like function and predicate symbols,
+may optionally be declared prior to use.
 For example, the following declarations introduce a type
 constant {\tt bird}, a unary type constructor {\tt list},
 and a binary type constructor {\tt map}:
 \begin{quote}
 \verb+tff(bird_t, type, bird: $tType).+
-\par\medskip
+\par\smallskip
 \verb+tff(list_t, type, list: $tType > $tType).+
-\par\medskip
+\par\smallskip
 \verb+tff(map_t, type, map: ($tType * $tType) > $tType).+
 \end{quote}
-Declaration of type constructors is not required. In TFF1,
-type constructors must be fully applied, and therefore
-their arity can be unambiguously determined at the first
-occurrence. However, one should keep in mind that a type
-expression can occur in a position of a term (see below
-the examples of {\tt cons} and other polymorphic symbols).
-A TFF parser should refer to the type signatures of function
-and predicate symbols in order to know whether it parses
-a term or a type.
+Type constructors must be fully applied, and therefore
+their arity can be %unambiguously
+determined at the first occurrence.
+%%% ANDREI: Too early for this. TODO: move where it belongs (and edit)
+%However, one should keep in mind that a type
+%expression can occur in a position of a term (see below
+%the examples of {\tt cons} and other polymorphic symbols).
+%A TFF parser should refer to the type signatures of function
+%and predicate symbols in order to know whether it parses
+%a term or a type.
 
 A declaration of a function or predicate symbol gives it
 a higher-order type, which we call this symbol's
@@ -87,16 +97,14 @@ a polymorphic predicate {\tt isEmpty}, and polymorphic
 functions {\tt cons} and {\tt get}:
 \begin{quote}
 \verb+tff(pi_t, type, pi: $real).+
-\par\medskip
-\verb+tff(isEmpty_t, type, isEmpty: !> [A:$tType]: list(A) > $o).+
-\par\medskip
+\par\smallskip
+\verb+tff(isEmpty_t, type, isEmpty : !> [A : $tType]: list(A) > $o).+
+\par\smallskip
 \verb+tff(cons_t, type,+\\
-\mbox{}\hfill
-\verb+cons: !> [A:$tType]: (A * list(A)) > list(A)).+
-\par\medskip
+\verb+    cons : !> [A : $tType]: (A * list(A)) > list(A)).+
+\par\smallskip
 \verb+tff(get_t, type,+\\
-\mbox{}\hfill
-\verb+get: !> [A:$tType,B:$tType]: (map(A,B) * A) > B).+
+\verb+    get : !> [A : $tType, B : $tType]: (map(A, B) * A) > B).+
 \end{quote}
 If a function or predicate symbol is used without declaration,
 then default type signatures are assumed:
@@ -113,7 +121,7 @@ example, a type constructor cannot have the same name as a function symbol%
 \footnote{Is this restriction present in TPTP FOF and TFF0? If not, we can
 lift it for TFF1.}.
 
-\paragraph{Function and predicate application.} In order to keep
+\ourparagraph{Function and predicate application.} In order to keep
 the required type inference to the minimum, every use of a polymorphic
 symbol must explicitly specify the corresponding type instance.
 A function symbol with a type signature
@@ -126,7 +134,7 @@ must be applied to $n$ type arguments and $m$ term arguments
 terms and atomic formulas of TFF1:
 \begin{quote}
 \verb+isEmpty($i, cons($i, V, nil($i)))+
-\par\medskip
+\par\smallskip
 \verb+get($int, list(A), M, 2)+
 \end{quote}
 In the first example, {\tt V} is a variable of type {\tt \$i}
@@ -139,26 +147,26 @@ In particular, neither \verb+$o+ nor \verb+$tType+ can occur
 in type arguments of polymorphic symbols.
 
 For systems that implement type inference, the following extension
-of TFF might be useful. When a particular type argument of
+of TFF1 might be useful. When a particular type argument of
 a polymorphic symbol can be inferred automatically, it may be
 replaced with the underscore: \verb+isEmpty(_,cons(_,V,nil(_)))+%
 \footnote{Should this be part of {\tt SyntaxBNF}?}.
 Notice that the type argument of {\tt nil} cannot be inferred
 ``locally'', from the types of other arguments (for there are none),
 but it can be inferred using Hindley-Milner type inference.
-The producer of a TFF problem must be aware of the type
+The producer of a TFF1 problem must be aware of the type
 inference algorithm implemented in the consumer, to omit
 only the redundant type arguments.
 
-\paragraph{Type variables and individual variables.}
-Every variable in a TFF formula can be given a first-order type
+\ourparagraph{Type variables and individual variables.}
+Every variable in a TFF1 formula can be given a first-order type
 at binding time:
 \begin{verbatim}
     tff(list_not_empty, axiom,
       ! [B:bird, Bs:list(bird)]: ~ isEmpty(bird,cons(bird,B,Bs))).
 \end{verbatim}
 An untyped variable gets the type \verb+$i+.
-Furthermore, every type variable occurring in a TFF formula
+Furthermore, every type variable occurring in a TFF1 formula
 (in a type argument or in a type of a bound variable)
 must be also bound:
 \begin{verbatim}
@@ -177,7 +185,7 @@ into the formula to know which it is.}.
 Type variables can be bound both by universal and existential
 quantifiers.
 We allow such bindings to occur under quantifiers over ordinary
-variables as well as under equivalence, negation, et cetera ---
+variables as well as under equivalence, negation, et cetera---%
 basically, wherever an ordinary variable can be bound%
 \footnote{Allowing quantifiers over type variables in the scope
 of the quantifiers over ordinary variables is problematic.
@@ -188,7 +196,7 @@ the offending type quantifiers out, short of encoding all
 types as terms.}.
 
 Another way to introduce a variable is by a let-statement.
-The initial revision of the TFF format allowed to bind a variable
+The initial revision of the TFF1 format allowed to bind a variable
 to a term as well as to a formula (a variable thus bound has
 ``type'' \verb+$o+ and can only appear in a position of a formula)%
 \footnote{Should we elaborate on the syntax of let?
@@ -206,7 +214,7 @@ orthogonal to polymorphism and types?}.
 In TFF1, we additionally admit binding a type variable
 to a first-order type%
 %using the syntax {\it variable}~{\tt :>}~{\it type}%
-\footnote{Since any first-order type is a well-formed TFF term,
+\footnote{Since any first-order type is a well-formed TFF1 term,
 we could reuse the existing syntax for these bindings.
 But then suppose that {\tt foo} is undeclared and
 we bind {\tt A} to it: {\tt A} {\tt :-} {\tt foo}.
@@ -226,12 +234,12 @@ to the variables introduced by preceding ones%
 \footnote{Is this true in TFF0? I didn't find any written
 specification of multi-variable let.}.
 
-The let-bindings can be eliminated from TFF formulas by simple
+The let-bindings can be eliminated from TFF1 formulas by simple
 substitution (with renaming of bound variables where necessary
 to avoid capture). For the sake of brevity, we do not consider
 them in the following sections.
 
-\paragraph{Notation.} From now on, we use standard
+\ourparagraph{Notation.} From now on, we use standard
 mathematical notation to write types, terms, and formulas.
 We denote type variables with small Greek letters
 $\alpha$, $\beta$, $\gamma$, type constructors
@@ -280,7 +288,7 @@ The symbol $\circ$ denotes the composition
 of two (type) substitutions:
 $x(\sigma \circ \delta) \eqdef x\sigma\delta$.
 
-\paragraph{Type checking.}
+\ourparagraph{Type checking.}
 Let $\gamma$ be a {\em type context}, a function that maps
 every variable symbol to a type.
 A type judgement $\gamma \,\vdash t \ty T$ means that term $t$
@@ -294,7 +302,7 @@ T_1 \times \dots \times T_m \to \omicron$ to specify
 type signatures of function and predicate symbols;
 notice that $n$ and $m$ can both be zero.
 
-The typing rules of TFF are given in Figure~\ref{fig:typing}.
+The typing rules of TFF1 are given in Figure~\ref{fig:typing}.
 We write $\gamma[v \mapsto T]$ to denote a type context that maps
 variable $v$ to type $T$ and every other variable $u$ to $\gamma(u)$.
 In the last rule, $\alpha'$ is an arbitrary type variable that
@@ -354,11 +362,11 @@ $\displaystyle
 \gamma\, \,\vdash\, \forall \alpha \,.\, F \,\ty\, \omicron}$}
 \end{tabular}
 \end{center}
-\caption{Typing rules of TFF}
+\caption{Typing rules of TFF1}
 \label{fig:typing}
 \end{figure}
 
-A closed TFF formula $H$ is {\em well-typed\/} if and only if
+A closed TFF1 formula $H$ is {\em well-typed\/} if and only if
 the judgement $\gamma\, \vdash H \ty \omicron$ is derivable
 for any $\gamma$.
 Obviously, if a closed formula is
@@ -367,7 +375,7 @@ in what follows, we omit $\gamma$ and simply write
 ${} \vdash H \ty \omicron$.
 Closed well-typed formulas are called {\em sentences}.
 
-\paragraph{Interpretation.}
+\ourparagraph{Interpretation.}
 An interpretation $\cI$ for a given set of type constructors,
 function symbols, and predicate symbols is constructed as follows.
 We start with a non-empty collection $\sorts$ of non-empty sets,
@@ -407,7 +415,7 @@ $\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$.
 %to $\{ \alpha_1,\dots,\alpha_n \}$.
 
 Let $\xi$ be a {\em variable valuation}, a function that assigns
-to every variable an element of $\univ$. We evaluate TFF terms
+to every variable an element of $\univ$. We evaluate TFF1 terms
 and formulas according to the following equations:
 \begin{align*}
 \eval{u} &\eqdef \xi(u) &
@@ -441,6 +449,6 @@ and denote it by $\cI \models F$ if and only if $\evalG{F}$ is true.
 The interpretation $\cI$ is called then a {\em model\/} of $F$.
 A sentence that has a model is called {\em satisfiable}.
 A sentence that is true in every interpretation is called {\em valid}.
-These notions are extended to sets and sequents of TFF sentences in
+These notions are extended to sets and sequents of TFF1 sentences in
 a usual way.
 
