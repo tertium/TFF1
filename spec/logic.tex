@@ -182,18 +182,47 @@ the latter must appear before the former%
 too, but should we? If an untyped variable can turn to be
 a type variable or an {\tt\$i}-variable, then we must look
 into the formula to know which it is.}.
+
 Type variables can be bound both by universal and existential
 quantifiers.
-We allow such bindings to occur under quantifiers over ordinary
-variables as well as under equivalence, negation, et cetera---%
-basically, wherever an ordinary variable can be bound%
-\footnote{Allowing quantifiers over type variables in the scope
-of the quantifiers over ordinary variables is problematic.
-Type skolemization becomes impossible, as it requires type
-constructors to accept value arguments (that is, brings in
-dependent types). There seems to be no easy way to translate
-the offending type quantifiers out, short of encoding all
-types as terms.}.
+We allow such bindings to occur under equivalence, negation,
+and other propositional connectives (though one might need
+to eliminate upper equivalences to establish the polarity
+of a quantifier) as well as under other quantifiers over
+type variables.
+However, a quantifier over a type variable cannot appear in
+the scope of a quantifier over an ordinary variable in TFF1.
+Let us briefly discuss our reasons for this restriction.
+
+A statement like ``for every integer $N$ there exists a type
+$A$ such that...'' essentially makes $A$ a dependent type.
+On such statements, type skolemization (Section~\ref{ssec:skol})
+is impossible, so that they cannot be easily translated to languages
+that support type polymorphism but not explicit quantifiers over
+types, the most important example being HOL and its derivatives.
+Moreover, we believe that type handling in an automated prover
+would be more difficult were such constructions allowed,
+as that would require paramodulation into types.
+
+That said, all our definitions in this paper, except for
+Section~\ref{ssec:skol}, do not depend on this restriction.
+The rules of type checking and the notion of interpretation
+are directly applicable to non-restricted formulas, where
+type variables can be bound in the scope of ordinary quantifiers.
+The encoding into a monomorphic logic (Section~\ref{ssec:tff0})
+is sound and complete on non-restricted formulas, and the proofs of
+Theorems~\ref{thm:mon_sound} and \ref{thm:mon_compl} never assume
+this restriction.
+Our intent is, in particular, to prepare ground for future revisions
+of the TFF format, where this restriction will be lifted and more
+elaborate forms of dependent types are expected to appear.
+At present, any implementation of TFF1 is free to accept
+non-restricted problems and treat them according to the semantics
+given in this paper.
+Let us note that the Boogie
+system~\cite{Barnett06boogie} handles explicit quantifiers over types,
+and the encoding methods studied in \cite{leino10tacas} are devised
+for a non-restricted setting.
 
 Another way to introduce a variable is by a let-statement.
 The initial revision of the TFF1 format allowed to bind a variable
