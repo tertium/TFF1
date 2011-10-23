@@ -241,8 +241,10 @@ locally. For example, the formulas
 \end{center}
 expand to {\tt p(g(a,\;a))} and {\tt q(a,\;a)}, respectively
 \cite{geoff-tptptp-notes}.
-TFF1 also admits binding a type constructor~$K$ to a first-order type~$T$ using
-the syntax $K$~{\tt :>}~$T$.
+Similarly, TFF1 admits binding a first-order type~$T$ to $K(\alpha_1, \ldots,
+\alpha_n)$, where $\alpha_1, \ldots, \alpha_n$ are distinct type variables bound
+in $T$, using the syntax $K(\alpha_1, \ldots, \alpha_n)$~{\tt :>}~$T$ inside
+the ``let'' binder.
 %
 %bind a variable
 %to a term as well as to a formula (a variable thus bound has
@@ -268,14 +270,13 @@ the syntax $K$~{\tt :>}~$T$.
 %we bind {\tt A} to it: {\tt A} {\tt :-} {\tt foo}.
 %Until {\tt A} is used
 %(as a type or as a value), we cannot know what it is.}.
-For example,
-the axiom \verb+bird_list_not_empty+ above could also be written as
+For example, the axiom \verb+bird_list_not_empty+ above could also be as
 follows:
 \begin{quote}
 \begin{verbatim}
 tff(bird_list_not_empty, axiom,
-    := [b :> bird]:
-        ![B : b, Bs : list(b)]: ~ is_empty(b, cons(b, B, Bs))).
+    := [b :> bird, A : $tType, c(A) :> list(A)]:
+        ![B : b, Bs : c(b)]: ~ is_empty(b, cons(b, B, Bs))).
 \end{verbatim}
 \end{quote}
 %One can put a mixed list of bindings in a let-statement;
@@ -283,11 +284,10 @@ tff(bird_list_not_empty, axiom,
 %to the variables introduced by preceding ones%
 %\footnote{Is this true in TFF0? I didn't find any written
 %specification of multi-variable let.}.
-
-The let-bindings can be eliminated from TFF1 formulas by simple
-substitution (with renaming of bound variables where necessary
-to avoid capture). For the sake of brevity, we do not consider
-them in the following sections.
+%
+The ``let'' bindings can be eliminated from TFF1 formulas using capture-avoiding
+substitution. Hence we do not need to consider them in the rest of this
+specification.
 
 \ourparagraph{Notation.} In the sequel, we use standard
 mathematical notation to write types, terms, and formulas. Our conventions
