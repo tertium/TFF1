@@ -8,10 +8,12 @@ to individual values, and the {\em type signatures\/} of function and predicate 
 Types are built from {\em type variables\/}
 and {\em type constructors\/} of fixed arity. Type constructors
 of arity 0 are called {\em type constants}. We follow the usual
-notation conventions of TPTP: Type variables start with an
+notation conventions of TPTP\@: Type variables start with an
 uppercase letter and type constructors with a lowercase letter.
 The types \verb+A+, \verb+list(A)+, \verb+list($i)+, and
 \verb+map($int,+~\verb+list(B))+ are all examples of well-formed types.
+A type is {\em polymorphic} if it contains type variables; otherwise, it is
+{\em monomorphic}.
 
 TFF1 includes several predefined type constants, inherited from TFF0.
 The type \verb+$i+ (also called \verb+$iType+) of individuals is predefined
@@ -38,12 +40,9 @@ appears among the $A_i$'s.
 \end{enumerate}
 %
 We omit the parentheses in forms (c) and (d) if $n = 1$. The binder {\tt !>} in
-form (e) denotes type-level universal quantifier. A type that binds type
-variables, or a term declared with {\tt !>}-bound variables, is {\em
-polymorphic}; terms and types that are not polymorphic are {\em monomorphic}.
-Notice in particular that {\tt !>\;[$A$\;:\;\$tType]:\;list(A)} is polymorphic
-but {\tt list(A)} is monomorphic.
+form (e) denotes type-level universal quantifier.
 
+%%% TODO: define monomorphic and polymorphic symbols?
 Form (a) is used for variables and monomorphic constants; form (b), for
 propositional constants, including the predefined symbols \verb+$true+ and
 \verb+$false+; form (c), for monomorphic functions; form (d), for monomorphic
