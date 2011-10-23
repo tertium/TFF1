@@ -33,9 +33,9 @@ Higher-order types may take the following forms:
 \begin{enumerate}
 \item[(a)] a first-order type;
 \item[(b)] the Boolean type \verb+$o+ (also called \verb+$oType+);
-\item[(c)] {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$T$} for $n > 0$,
+\item[(c)] {\tt ($T_1$\;*\;${\cdots}$\;*\;$T_n$)\;>\;$T$} for $n > 0$,
 where $T_1,\dots,T_n$ and $T$ are first-order types;
-\item[(d)] {\tt ($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;\$o} for $n > 0$,
+\item[(d)] {\tt ($T_1$\;*\;${\cdots}$\;*\;$T_n$)\;>\;\$o} for $n > 0$,
 where $T_1,\dots,T_n$ are first-order types;
 \item[(e)] {\tt !>\ [$A_1$\;:\;\$tType,} {\tt ${\dots}$,} {\tt
 $A_n$\;:\;\$tType]:\ $T$}, where $A_1,\dots,A_n$ are distinct type variables, $T$
@@ -59,7 +59,7 @@ It is sometimes convenient to regard all the forms above as a special case of
 the general syntax
 \begin{center}
 {\tt !>} {\tt [$A_1$\;:\;\$tType,\;${\dots}$,\;$A_m$\;:\;\$tType]:} {\tt
-($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$\widehat T$}
+($T_1$\;*\;${\cdots}$\;*\;$T_n$)\;>\;$\widehat T$}
 \end{center}
 where $m$ and $n$ may be 0 and $\widehat T$ may be any first-order type or
 {\tt \$o}.
@@ -107,7 +107,7 @@ declarations introduce a monomorphic constant {\tt pi}, a polymorphic predicate
 \begin{quote}
 \verb+tff(pi_t, type, pi: $real).+
 \par\smallskip
-\verb+tff(is_empty_t, type, is_empty : !> [A : $tType]: list(A) > $o).+
+\verb+tff(is_empty_t, type, is_empty : !> [A : $tType]: list(A) > $o).+\kern-10mm
 \par\smallskip
 \verb+tff(cons_t, type,+\\
 \verb+    cons : !> [A : $tType]: (A * list(A)) > list(A)).+
@@ -116,8 +116,8 @@ declarations introduce a monomorphic constant {\tt pi}, a polymorphic predicate
 \verb+    lookup : !> [A : $tType, B : $tType]: (map(A, B) * A) > B).+
 \end{quote}
 If a function or predicate symbol is used before being declared, a
-default type signature is assumed:\ {\tt (\$i\;*\;${\dots}$\;*\;\$i)\;>\;\$i}
-for functions and {\tt (\$i\;*\;${\dots}$\;*\;\$i)\;>\;\$o} for predicates.
+default type signature is assumed:\ {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$i}
+for functions and {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$o} for predicates.
 
 Each type constructor, function symbol, and predicate symbol may be declared at
 most once. If a symbol is declared after its first use, the declared signature
@@ -139,15 +139,15 @@ predicate symbol.
 inference to a minimum, every use of a polymorphic symbol must explicitly
 specify the type instance. A function or predicate symbol with a type signature
 \[\hbox{{\tt !>} {\tt [$A_1$\;:\;\$tType,\;${\dots}$,\;$A_m$\;:\;\$tType]:\;%
-($T_1$\;*\;${\dots}$\;*\;$T_n$)\;>\;$\widehat T$}}\]
+($T_1$\;*\;${\cdots}$\;*\;$T_n$)\;>\;$\widehat T$}}\]
 must be applied to $m$ type arguments and $n$ term arguments. Given the above
 signatures for {\tt is\_empty}, {\tt cons}, and {\tt lookup}, the term
-\[\hbox{\tt is\_empty(\$i,\;\,cons(\$i,\;V,\;nil(\$i)))}\]
-and the atomic formula
 \[\hbox{\tt lookup(\$int,\;\,list(A),\;\,M,\;\,2)}\]
-are well-formed, assuming {\tt V} has type {\tt \$i}, {\tt A} has type {\tt
-\$tType} (i.e., it is a type variable), and {\tt M} has type {\tt
-map(\$int,\;list(A))}.
+and the atomic formula
+\[\hbox{\tt is\_empty(\$i,\;\,cons(\$i,\;V,\;nil(\$i)))}\]
+are well-formed, assuming {\tt A} has type {\tt
+\$tType} (i.e., it is a type variable), {\tt M} has type {\tt
+map(\$int,\;list(A))}, and {\tt V} has type {\tt \$i}, 
 Exceptionally, the infix equality predicate {\tt =}, of type
 {\tt |>\;[A\;:\;\$tType]:\;(A\;*\;A)\;>\;\$o}, is applied without type argument.
 
@@ -219,16 +219,15 @@ such as HOL \cite{gordon-melham-1993}. Moreover, type handling in an automatic
 prover would be more difficult were such constructions allowed, since they
 require paramodulation into types.
 
-On the other hand, only type skolemization requires the restriction that type
-variables cannot be bound in the scope of term quantifiers. The rules of type
-checking and the notion of interpretation are directly applicable to
-unrestricted formulas. The encoding into a monomorphic logic
-(Section~\ref{ssec:tff0}) is sound and complete on unrestricted formulas, and
-the proofs of Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} still
-apply. This prepares the ground for TFF2, which is expected to lift the
+On the other hand, only type skolemization requires this restriction on type
+variables. The rules of type checking and the notion of interpretation are
+directly applicable to unrestricted formulas. The encoding into a monomorphic
+logic (Section~\ref{ssec:tff0}) is sound and complete on unrestricted formulas,
+and the proofs of Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl}
+require no adjustments. This prepares the ground for TFF2, which is expected to lift the
 restriction and support more elaborate forms of dependent types. Implementations
-of TFF1 are encouraged to accept unrestricted formulas and treat them according
-to the semantics given here if practicable.
+of TFF1 are encouraged to support unrestricted formulas, treating them according
+to the semantics given here, if practicable.
 
 Another way to introduce a variable is via the ``let'' construct.
 A recent extension of the TFF0 format, discussed at the 7th TPTP Tea Party in
@@ -279,31 +278,36 @@ tff(bird_list_not_empty, axiom,
         ![B : b, Bs : list(b)]: ~ is_empty(b, cons(b, B, Bs))).
 \end{verbatim}
 \end{quote}
-One can put a mixed list of bindings in a let-statement;
-in such lists each subsequent binding can refer
-to the variables introduced by preceding ones%
-\footnote{Is this true in TFF0? I didn't find any written
-specification of multi-variable let.}.
+%One can put a mixed list of bindings in a let-statement;
+%in such lists each subsequent binding can refer
+%to the variables introduced by preceding ones%
+%\footnote{Is this true in TFF0? I didn't find any written
+%specification of multi-variable let.}.
 
 The let-bindings can be eliminated from TFF1 formulas by simple
 substitution (with renaming of bound variables where necessary
 to avoid capture). For the sake of brevity, we do not consider
 them in the following sections.
 
-\ourparagraph{Notation.} From now on, we use standard
-mathematical notation to write types, terms, and formulas.
-We denote type variables with small Greek letters
-$\alpha$, $\beta$, $\gamma$, type constructors
-with letters $I$, $K$, $L$, and first-order
-types with letters $T$ and $S$. Ordinary variables
-are denoted $u$, $v$, $w$, $x$, $y$, $z$; function
-symbols are denoted $f$, $g$, $h$; predicate symbols
-are denoted $p$ and $q$. The letters $t$ and $s$ denote
-terms and the letters $F$, $G$, $H$ denote formulas.
-Sometimes, we write the names of type constructors,
-function and predicate symbols using a fixed-width
-font: {\tt list}, {\tt map}, {\tt cons}, {\tt set},
-etc.
+\ourparagraph{Notation.} In the sequel, we use standard
+mathematical notation to write types, terms, and formulas. Our conventions
+for metavariables are summarized below.
+%
+\begin{center}
+\begin{tabular}{l@{\enskip}l@{\qquad}l@{\enskip}l}
+Type variables: & $\alpha,$ $\beta,$ $\gamma$ &
+  Function symbols: & $f,$ $g,$ $h$ \\
+Type constructors: & $I,$ $K,$ $L$ &
+  Predicate symbols: & $p,$ $q$ \\
+First-order types: & $T,$ $S$ &
+  Terms: & $t,$ $s$ \\
+Term variables: & $u,$ $v,$ $w,$ $x,$ $y,$ $z$ &
+  Formulas: & $F,$ $G,$ $H$
+\end{tabular}
+\end{center}
+%
+Sometimes, we write the names of type constructors, function and predicate
+symbols using a fixed-width font:\ {\tt list}, {\tt map}, {\tt cons}, {\tt set}.
 
 We use symbols ${\times}$, ${\to}$, and ${\ALL}$
 %\footnote{We can also use ${\prod}$, but should we,
