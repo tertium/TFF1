@@ -38,7 +38,7 @@ where $T_1,\dots,T_n$ are first-order types;
 $A_n$\;:\;\$tType]:\;$T$}, where $A_1,\dots,A_n$ are distinct type variables, $T$
 has one of the previous four forms, and every type variable occurring in $T$
 appears among $A_1,\dots,A_n$.
-%The converse is not true: Some $A_i$ may not occur in $T$.
+%The converse is not true: Some $A_i$ cannot occur in $T$.
 \end{enumerate}
 %
 We omit the parentheses in forms (c) and (d) if $n = 1$. The binder {\tt !>} in
@@ -118,7 +118,7 @@ for functions and {\tt (\$i\;*\;${\dots}$\;*\;\$i)\;>\;\$o} for predicates.
 Each type constructor, function symbol, and predicate symbol may be declared at
 most once. If a symbol is declared after its first use, the declared signature
 must agree with the default signature. All symbols share the same namespace; in
-particular, a type constructor may not have the same name as a function or
+particular, a type constructor cannot have the same name as a function or
 predicate symbol.
 
 %\footnote{Is this restriction present in TPTP FOF and TFF0? If not, we can
@@ -144,10 +144,12 @@ and the atomic formula
 are well-formed, assuming {\tt V} has type {\tt \$i}, {\tt A} has type {\tt
 \$tType} (i.e., it is a type variable), and {\tt M} has type {\tt
 map(\$int,\;list(A))}.
+Exceptionally, the infix equality predicate {\tt =}, of type
+{\tt |>\;[A\;:\;\$tType]:\;(A\;*\;A)\;>\;\$o}, is applied without type argument.
 
 In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
 instantiated with first-order types. In particular, \verb+$o+ and \verb+$tType+
-may not occur in type arguments of polymorphic symbols.
+cannot occur in type arguments of polymorphic symbols.
 
 For systems that implement type inference, the following extension
 of TFF1 might be useful. When a type argument of
@@ -163,70 +165,72 @@ The producer of a TFF1 problem must be aware of the type inference algorithm
 implemented in the consumer to omit only the redundant type arguments.
 
 \ourparagraph{Type variables and individual variables.}
-Every variable in a TFF1 formula can be given a first-order type
-at binding time:
+Every variable in a TFF1 formula must be bound. It can be given a first-order
+type at binding time:
+\begin{quote}
 \begin{verbatim}
-    tff(list_not_empty, axiom,
-      ! [B:bird, Bs:list(bird)]: ~ isEmpty(bird,cons(bird,B,Bs))).
+tff(bird_list_not_empty, axiom,
+   ![B : bird, Bs : list(bird)]:
+       ~ isEmpty(bird, cons(bird, B, Bs))).
 \end{verbatim}
-An untyped variable gets the type \verb+$i+.
-Furthermore, every type variable occurring in a TFF1 formula
-(in a type argument or in a type of a bound variable)
-must be also bound:
+\end{quote}
+If the type and the preceding colon ({\tt :}) are omitted, the variable is given
+the type~\verb+$i+. Every type variable occurring in a TFF1 formula
+(whether in a type argument or in the type of a bound variable)
+must also be bound:
+\begin{quote}
 \begin{verbatim}
-    tff(lookup_set, axiom,
-      ! [A:$tType, B:$tType, M:map(A,B), I:A, V:B]:
-          lookup(A,B,set(A,B,M,I,V),I) = V).
+tff(lookup_set, axiom,
+    ![A : $tType, B : $tType, M : map(A, B), I : A, V : B]:
+        lookup(A, B, set(A, B, M, I, V), I) = V).
 \end{verbatim}
-Notice that one can put type variables and ordinary variables
-under the same quantifier. The order of variables is important:
-if the type of an ordinary variable contains a type variable,
-the latter must appear before the former%
-\footnote{We can permit omitting the {\tt\$tType} annotations,
-too, but should we? If an untyped variable can turn to be
-a type variable or an {\tt\$i}-variable, then we must look
-into the formula to know which it is.}.
+\end{quote}
+A single quantifier cluster can bind both type variables and term variables. If
+the type of a term variable contains a type variable, the latter must be bound
+before the former.
+%\footnote{We can permit omitting the {\tt\$tType} annotations,
+%too, but should we? If an untyped variable can turn to be
+%a type variable or an {\tt\$i}-variable, then we must look
+%into the formula to know which it is.}.
+%%% @ANDREI: We shouldn't allow that. Chances are that some implementations
+%%% would get that wrong.
 
-Type variables can be bound both by universal and existential
-quantifiers.
-We allow such bindings to occur under equivalence, negation,
-and other propositional connectives (though one might need
-to eliminate upper equivalences to establish the polarity
-of a quantifier) as well as under other quantifiers over
-type variables.
-However, a quantifier over a type variable cannot appear in
-the scope of a quantifier over an ordinary variable in TFF1.
-Let us briefly discuss our reasons for this restriction.
 
-A statement like ``for every integer $N$ there exists a type
-$A$ such that...'' essentially makes $A$ a dependent type.
-On such statements, type skolemization (Section~\ref{ssec:skol})
-is impossible, so that they cannot be easily translated to languages
-that support type polymorphism but not explicit quantifiers over
-types, the most important example being HOL and its derivatives.
-Moreover, we believe that type handling in an automated prover
-would be more difficult were such constructions allowed,
-as that would require paramodulation into types.
+% (one might need
+% to eliminate upper equivalences to establish the polarity
+% of a quantifier)
+%%% @ANDREI: What is an _upper_ equivalence? An outer one? I'd rather postpone
+%%% the discussion on polarity until the part that treats skolemization. It is
+%%% enough here to say "including equivalence", to hint at the issue, IMO.
 
-That said, all our definitions in this paper, except for
-Section~\ref{ssec:skol}, do not depend on this restriction.
+Universal and existential quantifiers over type variables are allowed under the
+propositional connectives, including equivalence, as well as under other
+quantifiers over type variables.
+%
+On the other hand, a quantifier over a type variable cannot appear in the scope
+of a quantifier over a term variable.
+Rationale: A statement of the form ``for every integer $N$, there exists a type
+$A$ such that $\ldots$'' effectively makes $A$ a dependent type.
+On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
+and hence there is no easy translation to ML-style polymorphic formalisms,
+notably HOL \cite{gordon-melham-1993}. Moreover, type handling in an automatic
+theorem prover would be more difficult were such constructions allowed, since
+they would require paramodulation into types.
+
+This having been said, only type skolemization requires this restriction.
 The rules of type checking and the notion of interpretation
-are directly applicable to non-restricted formulas, where
+are directly applicable to unrestricted formulas, where
 type variables can be bound in the scope of ordinary quantifiers.
 The encoding into a monomorphic logic (Section~\ref{ssec:tff0})
-is sound and complete on non-restricted formulas, and the proofs of
-Theorems~\ref{thm:mon_sound} and \ref{thm:mon_compl} never assume
+is sound and complete on unrestricted formulas, and the proofs of
+Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} do not assume
 this restriction.
-Our intent is, in particular, to prepare ground for future revisions
-of the TFF format, where this restriction will be lifted and more
-elaborate forms of dependent types are expected to appear.
-At present, any implementation of TFF1 is free to accept
-non-restricted problems and treat them according to the semantics
-given in this paper.
-Let us note that the Boogie
-system~\cite{Barnett06boogie} handles explicit quantifiers over types,
-and the encoding methods studied in \cite{leino10tacas} are devised
-for a non-restricted setting.
+Our intent is to prepare the ground for TFF2, which is expected to lift this
+restriction and support more elaborate forms of dependent types.
+
+ At present, any
+implementation of TFF1 is free to accept unrestricted formulas and treat them
+according to the semantics given in this paper.
 
 Another way to introduce a variable is by a let-statement.
 The initial revision of the TFF1 format allowed to bind a variable
