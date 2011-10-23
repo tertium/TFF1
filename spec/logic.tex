@@ -350,7 +350,7 @@ The typing rules of TFF1 are given in Figure~\ref{fig:typing}.
 We write $\GAM[u \mapsto T]$ to denote a type context that maps
 variable $u$ to type $T$ and every other variable $v$ to $\GAM(v)$.
 In the last rule, $\alpha'$ is an arbitrary type variable that
-occurs neither in $F$ nor in the values of $\GAM$.
+occurs neither in $F$ nor in the values of~$\GAM$.
 The renaming is necessary to reject formulas such as
 $\forall\alpha.\:\forall u\ty\alpha.\:\forall\alpha.\:\forall v\ty\alpha.\;
 u \eq v$, where the types of $u$ and $v$ are actually different.
@@ -360,50 +360,49 @@ we call this the {\em no-clash assumption}.
 %Consequently, nested quantifiers on the same type
 %variable are not allowed, either.
 Then we can do without explicit renaming of type variables,
-and the last typing rule is simply
-$\frac{\GAM\, \,\vdash\, F \ty \omicron}{
-\GAM\, \,\vdash\, \forall \alpha .\; F \ty \omicron}$.
+and the last typing rule's antecedent  is simply
+$\GAM \,\vdash\, F \ty \omicron$.
 
 \begin{figure}
 \begin{center}
 \begin{tabular}{c@{\qquad\qquad}c}
 \multicolumn{2}{c}{$\displaystyle
-\frac{}{\GAM\, \:\vdash\: v \ty \GAM\,(v)}$} \\[4ex]
+\ourfrac{}{\GAM \,\vdash\, v \ty \GAM(v)}$} \\[4ex]
 \multicolumn{2}{c}{$\displaystyle
-\frac{f \ty \forall \alpha_1\dots\alpha_n .\;
-    T_1 \times \dots \times T_m \to T
+\ourfrac{f \ty \forall \alpha_1\dots\alpha_m .\;
+    T_1 \times \dots \times T_n \to T
 \qquad
-\GAM\, \,\vdash\, t_1 \ty T_1\tau
+\GAM \,\vdash\, t_1 \ty T_1\,\rho
 \quad\cdots\quad
-\GAM\, \,\vdash\, t_m \ty T_m\tau
-}{\GAM\, \:\vdash\:
-f(\alpha_1\tau,\dots,\alpha_n\tau,t_1,\dots,t_m) \ty T\tau}
+\GAM \,\vdash\, t_n \ty T_n\,\rho
+}{\GAM \,\vdash\,
+f(\alpha_1\,\rho,\>\dots,\>\alpha_m\,\rho,\>t_1,\>\dots,\>t_n) \ty T\rho}
 $} \\[4ex]
 \multicolumn{2}{c}{$\displaystyle
-\frac{p \ty \forall \alpha_1\dots\alpha_n .\;
-    T_1 \times \dots \times T_m \to \omicron
+\ourfrac{p \ty \forall \alpha_1\dots\alpha_m .\;
+    T_1 \times \dots \times T_n \to \omicron
 \qquad
-\GAM\, \,\vdash\, t_1 \ty T_1\tau
+\GAM \,\vdash\, t_1 \ty T_1\,\rho
 \quad\cdots\quad
-\GAM\, \,\vdash\, t_m \ty T_m\tau
-}{\GAM\, \:\vdash\:
-p(\alpha_1\tau,\dots,\alpha_n\tau,t_1,\dots,t_m) \ty \omicron}
+\GAM \,\vdash\, t_n \ty T_n\,\rho
+}{\GAM \,\vdash\,
+p(\alpha_1\,\rho,\>\dots,\>\alpha_m\,\>\rho,\>t_1,\>\dots,\>t_n) \ty \omicron}
 $} \\[4ex]
 $\qquad\displaystyle
-\frac{\GAM\, \,\vdash\, t_1 \ty T \qquad \GAM\, \,\vdash\, t_2 \ty T}{
-\GAM\, \:\vdash\: t_1 \eq t_2 \ty \omicron}$ &
+\ourfrac{\GAM \,\vdash\, t_1 \ty T \qquad \GAM \,\vdash\, t_2 \ty T}{
+\GAM \,\vdash\, t_1 \eq t_2 \ty \omicron}$ &
 $\displaystyle
-\frac{\GAM\, \,\vdash\, F \ty \omicron \qquad
-\GAM\, \,\vdash\, G \ty \omicron}{
-\GAM\, \,\vdash\, F \land G \ty \omicron}\qquad$ \\[4ex]
+\ourfrac{\GAM \,\vdash\, F \ty \omicron \qquad
+\GAM \,\vdash\, G \ty \omicron}{
+\GAM \,\vdash\, F \land G \ty \omicron}\qquad$ \\[4ex]
 \multicolumn{2}{c}{
 $\displaystyle
-\frac{\GAM\, \,\vdash\, F \ty \omicron}{
-\GAM\, \,\vdash\, \lnot F \ty \omicron}\qquad\qquad
-\frac{\GAM[v \mapsto T] \,\vdash\, F \ty \omicron}{
-\GAM\, \,\vdash\, \forall v \ty T .\, F \ty \omicron}\qquad\qquad
-\frac{\GAM\, \,\vdash\, F[\alpha'/\alpha] \ty \omicron}{
-\GAM\, \,\vdash\, \forall \alpha .\; F \ty \omicron}$}
+\ourfrac{\GAM \,\vdash\, F \ty \omicron}{
+\GAM \,\vdash\, \lnot\, F \ty \omicron}\qquad\qquad
+\ourfrac{\GAM[v \mapsto T] \,\vdash\, F \ty \omicron}{
+\GAM \,\vdash\, \forall v \ty T .\; F \ty \omicron}\qquad\qquad
+\ourfrac{\GAM \,\vdash\, F[\alpha'\!/\alpha] \ty \omicron}{
+\GAM \,\vdash\, \forall \alpha .\; F \ty \omicron}$}
 \end{tabular}
 \end{center}
 \caption{Typing rules of TFF1}
@@ -411,7 +410,7 @@ $\displaystyle
 \end{figure}
 
 A closed TFF1 formula $H$ is {\em well-typed\/} if and only if
-the judgment $\GAM\, \vdash H \ty \omicron$ is derivable
+the judgment $\GAM \vdash H \ty \omicron$ is derivable
 for any $\GAM$.
 Obviously, if a closed formula is
 well-typed in one type context, it is well-typed in any other one;
@@ -423,8 +422,8 @@ Closed well-typed formulas are called {\em sentences}.
 An interpretation $\cI$ for a given set of type constructors,
 function symbols, and predicate symbols is constructed as follows.
 We start with a non-empty collection $\sorts$ of non-empty sets,
-which we call {\em domains}. The union, not necessarily disjoint,
-of all domains is called {\em universe\/} and denoted $\univ$.
+which we call {\em domains}. The union of all (not necessarily disjoint) domains
+is called {\em universe\/} and denoted by $\univ$.
 
 A type constructor $K$ of arity $n$ is interpreted as a function
 $K^{\cI} : \sorts^n \to \sorts$.
@@ -466,13 +465,13 @@ and formulas according to the following equations:
 \eval{f(\bar{S},\bar{t})} &\eqdef f^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\
 \eval{t_1 \eq t_2} &\eqdef (\eval{t_1} = \eval{t_2}) &
 \eval{p(\bar{S},\bar{t})} &\eqdef p^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\
-\eval{\lnot F} &\eqdef \lnot\, \eval{F} &
+\eval{\lnot\, F} &\eqdef \lnot\, \eval{F} &
 \eval{F \land G} &\eqdef \eval{F} \land\, \eval{G} \\
-\eval{\forall u \ty T .\, F} &\eqdef \forall {a \in \evalT{T}} .\;
+\eval{\forall u \ty T .\; F} &\eqdef \forall {a \in \evalT{T}} .\;
 \evalG{F}_{\theta,\xi[u\,\mapsto\,a]} &
 \eval{\forall \alpha .\; F} &\eqdef \forall {D \in \sorts} .\;
 \evalG{F}_{\theta[\alpha\,\mapsto\,D],\xi} % \\
-%\eval{\forall u \ty T .\, F} &\eqdef \!\!\!\!
+%\eval{\forall u \ty T .\; F} &\eqdef \!\!\!\!
 %\bigwedge_{a \in \evalT{T}} \!
 %\evalG{F}_{\theta,\xi[u\,\mapsto\,a]} &
 %\eval{\forall \alpha .\; F} &\eqdef
