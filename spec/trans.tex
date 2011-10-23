@@ -42,7 +42,7 @@ sequences of types and terms, respectively):
 \MON(K(\bar{S})) &\eqdef \hat{K}(\MON(\bar{S})) \\
 \MON(u) &\eqdef \hat{u} &
 \MON(f(\bar{S},\bar{t})) &\eqdef \hat{f}(\MON(\bar{S}),\MON(\bar{t})) \\
-\MON(t_1 \approx t_2) &\eqdef \MON(t_1) \approx \MON(t_2) &
+\MON(t_1 \eq t_2) &\eqdef \MON(t_1) \eq \MON(t_2) &
 \MON(p(\bar{S},\bar{t})) &\eqdef \hat{p}(\MON(\bar{S}),\MON(\bar{t})) \\
 \MON(\lnot F) &\eqdef \lnot\, \MON(F) &
 \MON(F \land G) &\eqdef \MON(F) \land\, \MON(G) \\
@@ -212,7 +212,7 @@ The proof goes by induction on the structure of types, terms, and formulas.
 We have three non-trivial cases: equality, quantification over an ordinary
 variable, and quantification over a type variable.
 
-Let $F$ be an equality $t_1 \approx t_2$.
+Let $F$ be an equality $t_1 \eq t_2$.
 Let $\la a_1, d_1 \ra$ be $\eval{t_1}$ and $\la a_2, d_2 \ra$ be $\eval{t_2}$.
 By induction hypothesis, $\llb \MON(t_1) \rrb^\cM_{\nu} = a_1$ and
 $\llb \MON(t_2) \rrb^\cM_{\nu} = a_2$. Let us show that $d_1 = d_2$.
@@ -274,13 +274,13 @@ Then $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$ by induction hypothesis.
 The explicit type arguments of polymorphic symbols
 in TFF1 let us introduce operations and relations directly on types.
 Thus, one could declare and axiomatize a polymorphic propositional
-constant $\mathtt{isOrdered}$ of type signature $\forall\alpha\,.\,\omicron$.
+constant $\sym{is\_ordered}$ of type signature $\forall\alpha\,.\,\omicron$.
 Such predicate symbols can be used to encode type classes:
 for example, the axioms of order for a polymorphic predicate
-$\mathtt{lessEq} \,\ty\, \forall\alpha\,.\,\alpha\times\alpha\to\omicron$
-can be restricted to types that satisfy $\mathtt{isOrdered}$.
+$\sym{less\_eq} \,\ty\, \forall\alpha\,.\,\alpha\times\alpha\to\omicron$
+can be restricted to types that satisfy $\sym{is\_ordered}$.
 
-However, type signatures such as that of $\mathtt{isOrdered}$ are not
+However, type signatures such as that of $\sym{is\_ordered}$ are not
 allowed in languages where function and predicate symbols do not take
 explicit type arguments, and the concrete instance of the symbol's type
 signature is determined by the types of its term arguments and the type
@@ -327,7 +327,7 @@ formulas according to the following equations:
 \begin{align*}
 \ELI(u) \eqdef u
 \quad\quad & \qquad\qquad\qquad\quad
-\ELI(t_1 \approx t_2) \eqdef \ELI(t_1) \approx \ELI(t_2) \\
+\ELI(t_1 \eq t_2) \eqdef \ELI(t_1) \eq \ELI(t_2) \\
 \ELI(f(S_1,\dots,S_n,t_1,\dots,t_m)) &\eqdef
 \hat{f}(S_1,\dots,S_n,\wit(S_{i_1}),\dots,\wit(S_{i_r}),
 \ELI(t_1),\dots,\ELI(t_m)) \\
@@ -390,8 +390,8 @@ following equations:
 \begin{align*}
 \SKO^-(p(\bar{S},\bar{t})) &\eqdef p(\bar{S},\bar{t}) &
 \SKO^+(p(\bar{S},\bar{t})) &\eqdef p(\bar{S},\bar{t}) \\
-\SKO^-(t_1 \approx t_2) &\eqdef t_1 \approx t_2 &
-\SKO^+(t_1 \approx t_2) &\eqdef t_1 \approx t_2 \\
+\SKO^-(t_1 \eq t_2) &\eqdef t_1 \eq t_2 &
+\SKO^+(t_1 \eq t_2) &\eqdef t_1 \eq t_2 \\
 \SKO^-(\forall u \ty T .\, F) &\eqdef \forall u \ty T .\, F &
 \SKO^+(\forall u \ty T .\, F) &\eqdef \forall u \ty T .\, F \\
 \SKO^-(F \land G) &\eqdef \SKO^-(F) \land \SKO^-(G) &

@@ -306,42 +306,42 @@ Term variables: & $u,$ $v,$ $w,$ $x,$ $y,$ $z$ &
 \end{tabular}
 \end{center}
 %
-Sometimes, we write the names of type constructors, function and predicate
-symbols using a fixed-width font:\ {\tt list}, {\tt map}, {\tt cons}, {\tt set}.
+%We write the names of type constructors, function, and predicate symbols using a
+%fixed-width font:\ {\tt list}, {\tt map}, {\tt cons}, {\tt set}.
+%% @ANDREI: There were very few examples of this in the rest of the document (lessEq and isOrdered) and
+%% it was obvious from the context what they were. Also, I'm trying italics for those, to mix
+%% better with the maths; but I'm using the macro \sym, so it's easy to change.
 
-We use symbols ${\times}$, ${\to}$, and ${\ALL}$
+We use the symbols ${\times}$, ${\to}$, and ${\ALL}$
 %\footnote{We can also use ${\prod}$, but should we,
 %given that there are no dependent types in TFF1?}
-to write higher-order types. The Greek letter $\omicron$ denotes
-the Boolean type {\tt \$o}. We treat equality ($\approx$),
-negation ($\lnot$), conjunction ($\land$), and the universal
-quantifier ($\forall$) as logical symbols and we treat
-disjunction ($\lor$), implication ($\limp$), equivalence
-($\lequ$), disequality ($\not\approx$), and the existential
-quantifier ($\exists$) as abbreviations.
+to write higher-order types, and write $\omicron$ (lowercase omicron) for the
+Boolean type {\tt \$o}. For ease of presentation, it is convenient to treat
+equality ($\eq$), negation ($\lnot$), conjunction ($\land$), and the universal
+quantifier ($\forall$) as logical symbols and regard disjunction ($\lor$),
+implication ($\limp$), equivalence ($\lequ$), disequality ($\not\eq$), and the
+existential quantifier ($\exists$) as abbreviations.
 %The symbols $\top$ and $\bot$ stand for ``true'' and ``false'',
 %respectively.
 
-The set of type variables freely occurring in a formula $F$
+The set of type variables occurring freely in a formula $F$
 (in the type arguments of polymorphic symbols or
-in the types of bound variables) is denoted $\FVT(F)$.
+in the types of bound variables) is denoted by $\FVT(F)$.
 The set of free ordinary variables of $F$
-is denoted $\FV(F)$. We call $F$ {\em closed\/}
-whenever both $\FVT(F)$ and $\FV(F)$ are empty.
+is denoted by $\FV(F)$. The formula $F$ is {\em closed\/}
+if both $\FVT(F)$ and $\FV(F)$ are empty.
 
 A {\em type substitution\/} is a mapping of type variables
 to first-order types. A {\em monomorphic\/} type substitution
 maps every type variable either to itself or to a monomorphic type.
 %
-A type $T$ is said to {\em match\/} another type $T'$ whenever
-there is a type substitution that instantiates $T$ to $T'$.
-We use Greek letters $\tau$ and $\rho$ for type substitutions.
+A type $T$ is said to {\em match\/} another type $T'$ whenever there exists a
+type substitution~$\rho$ such that $T\rho = T'$. We reserve $\rho$ for type
+substitutions and $\sigma$ for term substitutions.
 %
-Ordinary substitutions that map variables to terms
-are denoted with letters $\sigma$ and $\delta$.
 The symbol $\circ$ denotes the composition
-of two (type) substitutions:
-$x(\sigma \circ \delta) \eqdef x\sigma\delta$.
+of two substitutions:\ 
+$x(\sigma \circ \sigma') \eqdef (x\sigma)\sigma' = x\sigma\sigma'$.
 
 \ourparagraph{Type checking.}
 Let $\gamma$ be a {\em type context}, a function that maps
@@ -364,7 +364,7 @@ In the last rule, $\alpha'$ is an arbitrary type variable that
 occurs neither in $F$ nor in the values of $\gamma$.
 The renaming is necessary to reject formulas like
 $\forall\alpha\forall u\ty\alpha\forall\alpha\forall v\ty\alpha \,.\,
-u \approx v$, where the types of $u$ and $v$ are actually different.
+u \eq v$, where the types of $u$ and $v$ are actually different.
 In order to simplify our subsequent definitions, we assume from now on
 that no type variable can be both free and bound in the same formula;
 we call this the {\em no-clash assumption}.
@@ -402,7 +402,7 @@ p(\alpha_1\tau,\dots,\alpha_n\tau,t_1,\dots,t_m) \,\ty\, \omicron}
 $} \\[4ex]
 $\qquad\displaystyle
 \frac{\gamma\, \,\vdash\, t_1 \ty T \qquad \gamma\, \,\vdash\, t_2 \ty T}{
-\gamma\, \:\vdash\: t_1 \approx t_2 \,\ty\, \omicron}$ &
+\gamma\, \:\vdash\: t_1 \eq t_2 \,\ty\, \omicron}$ &
 $\displaystyle
 \frac{\gamma\, \,\vdash\, F \ty \omicron \qquad
 \gamma\, \,\vdash\, G \ty \omicron}{
@@ -475,7 +475,7 @@ and formulas according to the following equations:
 \begin{align*}
 \eval{u} &\eqdef \xi(u) &
 \eval{f(\bar{S},\bar{t})} &\eqdef f^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\
-\eval{t_1 \approx t_2} &\eqdef (\eval{t_1} = \eval{t_2}) &
+\eval{t_1 \eq t_2} &\eqdef (\eval{t_1} = \eval{t_2}) &
 \eval{p(\bar{S},\bar{t})} &\eqdef p^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\
 \eval{\lnot F} &\eqdef \lnot\, \eval{F} &
 \eval{F \land G} &\eqdef \eval{F} \land\, \eval{G} \\

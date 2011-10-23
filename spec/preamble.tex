@@ -31,16 +31,28 @@
 %\newcommand{\rinfer}[2]{\infer{#2}{#1}}
 %\newcommand{\rdeduce}[2]{\deduce{#2}{#1}}
 
-\newcommand{\limp}{\supset} \newcommand{\lequ}{\equiv}
+%% @ANDREI: I'm not religious here but I have a fairly strong preference for
+%% --> and <--> for implication and equivalence. This leaves \equiv free for
+%% syntactic equality (where it sometimes comes in handy) and \supset for
+%% supersets. For equality, I find \simeq slightly less disturbing than \approx
+%% but I find both acceptable (= is often too confusing, on the other hand).
+%\newcommand{\limp}{\supset}
+%\newcommand{\lequ}{\equiv}
+\newcommand{\limp}{\longrightarrow}
+\newcommand{\lequ}{\longleftrightarrow}
 \newcommand{\llb}{\llbracket} \newcommand{\rrb}{\rrbracket}
 \newcommand{\la}{\langle} \newcommand{\ra}{\rangle}
 \newcommand{\eqdef}{\:\triangleq\:}
+\newcommand\eq{\approx}
 
-\newcommand{\FOLT}{\ensuremath{\mathbf{FOL}_\mathrm{T}}}
-%\newcommand{\LKT}{\ensuremath{\mathbf{LK}_\mathrm{T}}}
+%\newcommand\typvers{_\mathrm{T}}
+\newcommand\typvers{_\mathsf{T}} %% easier to read at low resolutions
 
-\newcommand{\VT}{\mathbb{V}_\mathrm{T}}
-\newcommand{\FT}{\mathbb{F}_\mathrm{T}}
+\newcommand{\FOLT}{\ensuremath{\mathbf{FOL}\typvers}}
+%\newcommand{\LKT}{\ensuremath{\mathbf{LK}\typvers}}
+
+\newcommand{\VT}{\mathbb{V}\typvers}
+\newcommand{\FT}{\mathbb{F}\typvers}
 \newcommand{\VI}{\mathbb{V}}
 \newcommand{\FI}{\mathbb{F}}
 \newcommand{\PI}{\mathbb{P}}
@@ -52,7 +64,7 @@
 %\newcommand{\MI}{\mathrm{MI}}
 %\newcommand{\SD}{\mathrm{SD}}
 \newcommand{\FV}{\mathrm{FV}}
-\newcommand{\FVT}{\mathrm{FV}_\mathrm{T}}
+\newcommand{\FVT}{\mathrm{FV}\typvers}
 
 %\newcommand{\TWU}{\text{\sc Tw}}
 %\newcommand{\DIS}{\text{\sc Dis}}
@@ -76,7 +88,7 @@
 \newcommand{\evalG}[1]{\llb#1\rrb^\cI}
 \newcommand{\evalM}[1]{\llb#1\rrb^\cM}
 
-%\newcommand{\LKTU}{\ensuremath{\mathbf{LK}^U_\mathrm{T}}}
+%\newcommand{\LKTU}{\ensuremath{\mathbf{LK}^U\typvers}}
 
 %\newcommand{\types}{\mathcal{T}(\FT,\VT)}
 %\newcommand{\sorts}{\mathcal{T}(\FT)}
@@ -152,3 +164,6 @@
 \hyphenation{mono-mor-phic poly-mor-phic prop-o-si-tion-al}
 
 \newcommand\ourparagraph[1]{\paragraph{\upshape\bfseries#1}}
+
+%\newcommand\sym[1]{\mathtt{#1}}
+\newcommand\sym[1]{\mathit{#1}}
