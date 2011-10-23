@@ -170,8 +170,8 @@ type at binding time:
 \begin{quote}
 \begin{verbatim}
 tff(bird_list_not_empty, axiom,
-   ![B : bird, Bs : list(bird)]:
-       ~ isEmpty(bird, cons(bird, B, Bs))).
+    ![B : bird, Bs : list(bird)]:
+        ~ isEmpty(bird, cons(bird, B, Bs))).
 \end{verbatim}
 \end{quote}
 If the type and the preceding colon ({\tt :}) are omitted, the variable is given
@@ -226,15 +226,31 @@ restriction and support more elaborate forms of dependent types. Implementations
 of TFF1 are encouraged to accept unrestricted formulas and treat them according
 to the semantics given here if practicable.
 
-Another way to introduce a variable is via the {\tt let} construct.
-The TFF0 format allows to bind a variable
-to a term as well as to a formula (a variable thus bound has
-``type'' \verb+$o+ and can only appear in a position of a formula)%
-\footnote{Should we elaborate on the syntax of let?
-It was already in TFF0, but it was not described in
-the article on TFF0. The same about if/ite: should
-we talk about them, though they are completely
-orthogonal to polymorphism and types?}.
+Another way to introduce a variable is via the ``let'' construct.
+A recent extension of the TFF0 format, discussed at the 7th TPTP Tea Party in
+Wrocław and not yet implemented, allows to introduce a function or predicate
+locally. For example, the formulas
+\begin{center}
+\begin{tabular}{l}
+{\tt :=\;[X\;:\;\$int,\;f(X)\;=\;g(X,\;X)]:\;p(f(a))} \\[\smallskipamount]
+{\tt :=\;[X\;:\;\$int,\;p(X)\;<=>\;q(X,\;X)]:\;p(a)}
+\end{tabular}
+\end{center}
+expand to {\tt p(g(a,\;a))} and {\tt q(a,\;a)}, respectively
+\cite{geoff-tptptp-notes}.
+TFF1 also admits binding a type constructor~$K$ to a first-order type~$T$ using
+the syntax $K$~{\tt :>}~$T$.
+%
+%bind a variable
+%to a term as well as to a formula (a variable thus bound has
+%``type'' \verb+$o+ and can only appear in a position of a formula)
+%%% @ANDREI: The proposed syntax is actually more general.
+%
+%\footnote{Should we elaborate on the syntax of let?
+%It was already in TFF0, but it was not described in
+%the article on TFF0. The same about if/ite: should
+%we talk about them, though they are completely
+%orthogonal to polymorphism and types?}.
 %In the former case,
 %the syntax of binding is {\it variable}~{\tt :-}~{\it term\/} and
 %the type of the variable is the type of the term. In the latter case,
@@ -242,23 +258,23 @@ orthogonal to polymorphism and types?}.
 %a variable thus bound has the ``type'' \verb+$o+ and
 %can only appear in a position of a formula (notice that
 %one cannot quantify over a variable of type \verb+$o+).
-In TFF1, we additionally admit binding a type variable
-to a first-order type%
-%using the syntax {\it variable}~{\tt :>}~{\it type}%
-\footnote{Since any first-order type is a well-formed TFF1 term,
-we could reuse the existing syntax for these bindings.
-But then suppose that {\tt foo} is undeclared and
-we bind {\tt A} to it: {\tt A} {\tt :-} {\tt foo}.
-Until {\tt A} is used
-(as a type or as a value), we cannot know what it is.}.
+%
+%\footnote{Since any first-order type is a well-formed TFF1 term,
+%we could reuse the existing syntax for these bindings.
+%But then suppose that {\tt foo} is undeclared and
+%we bind {\tt A} to it: {\tt A} {\tt :-} {\tt foo}.
+%Until {\tt A} is used
+%(as a type or as a value), we cannot know what it is.}.
 For example,
-the axiom \verb+list_not_empty+ above could be written as
+the axiom \verb+bird_list_not_empty+ above could also be written as
 follows:
+\begin{quote}
 \begin{verbatim}
-    tff(list_not_empty, axiom,
-      := [T :> bird]:
-          ! [B:T, Bs:list(T)]: ~ isEmpty(T,cons(T,B,Bs))).
+tff(bird_list_not_empty, axiom,
+    := [b :> bird]:
+        ![B : b, Bs : list(b)]: ~ isEmpty(b, cons(b, B, Bs))).
 \end{verbatim}
+\end{quote}
 One can put a mixed list of bindings in a let-statement;
 in such lists each subsequent binding can refer
 to the variables introduced by preceding ones%
