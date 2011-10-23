@@ -187,18 +187,18 @@ $\typeof^\cM(f^\cM(D_1,\dots,D_n,a_1,\dots,a_m), D)$,
 and therefore, the result of $f^\cI$ belongs indeed to $D$.
 This concludes the definition of $\cI$.
 
-Given a type context $\gamma$, a type valuation $\theta$,
+Given a type context $\GAM$, a type valuation $\theta$,
 and a variable valuation $\xi$, we say that they are admissible
 for a TFF1 formula $F$, when the following conditions are satisfied:
 \begin{itemize}
-\item $F$ is well-typed in context $\gamma$;
+\item $F$ is well-typed in context $\GAM$;
 \item for every variable $v$ free in $F$, no type variable
-occurring in $\gamma(v)$ is bound in $F$;
-\item for every variable $v$ free in $F$, $\xi(v) \in \evalT{\gamma(v)}$.
+occurring in $\GAM(v)$ is bound in $F$;
+\item for every variable $v$ free in $F$, $\xi(v) \in \evalT{\GAM(v)}$.
 \end{itemize}
 Obviously, every triple is admissible for a sentence.
 Let us show that for every type $S$, term $t$, and formula $F$,
-and for all $\gamma$, $\theta$, $\xi$ admissible for $F$, we have
+and for all $\GAM$, $\theta$, $\xi$ admissible for $F$, we have
 \begin{align*}
 \evalT{S} &= \llb \MON(S) \rrb^\cM_{\nu} &
 \pi_1(\eval{t}) &= \llb \MON(t) \rrb^\cM_{\nu} &
@@ -216,11 +216,11 @@ Let $F$ be an equality $t_1 \eq t_2$.
 Let $\la a_1, d_1 \ra$ be $\eval{t_1}$ and $\la a_2, d_2 \ra$ be $\eval{t_2}$.
 By induction hypothesis, $\llb \MON(t_1) \rrb^\cM_{\nu} = a_1$ and
 $\llb \MON(t_2) \rrb^\cM_{\nu} = a_2$. Let us show that $d_1 = d_2$.
-By assumption, $F$ is well-typed in context $\gamma$.
-Thus, $\gamma\,\vdash t_1 \ty S$ and $\gamma\,\vdash t_2 \ty S$
+By assumption, $F$ is well-typed in context $\GAM$.
+Thus, $\GAM\,\vdash t_1 \ty S$ and $\GAM\,\vdash t_2 \ty S$
 for some type $S$.
 If $t_1$ is a variable $v$, then
-$\eval{t_1} = \xi(v) \in \eval{\gamma(v)} = \evalT{S}$.
+$\eval{t_1} = \xi(v) \in \eval{\GAM(v)} = \evalT{S}$.
 Let $t_1$ be a function application $f(S_1,\dots,S_n,s_1,\dots,s_m)$,
 where $f \ty
 \forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$.
@@ -248,11 +248,11 @@ $\typeof^\cM(a, \llb T \rrb^\cI_\theta)$
 holds if and only if there is some $d'$ such that
 $\la a,d' \ra \in \llb T \rrb^\cI_\theta$.
 %
-Now, notice that the triple $\gamma[u \mapsto T],
+Now, notice that the triple $\GAM[u \mapsto T],
 \theta,\xi[u \mapsto \la a,d \ra]$ is admissible for $G$.
-Indeed, $G$ is well-typed in $\gamma[u \mapsto T]$,
+Indeed, $G$ is well-typed in $\GAM[u \mapsto T]$,
 and for every $v \in \FV(G)$, we have
-$\xi[u \mapsto \la a,d \ra](v) \in \evalT{\gamma[u \mapsto T](v)}$.
+$\xi[u \mapsto \la a,d \ra](v) \in \evalT{\GAM[u \mapsto T](v)}$.
 Also, if $T$ contains a type variable $\beta$ bound in $G$,
 then $\beta$ is both free and bound in $F$, which violates
 the no-clash assumption we have made.
@@ -263,9 +263,9 @@ is exactly $\llb \forall \hat{u} \,.\, \typeof(\hat{u},\MON(T))
 
 Let $F$ be a quantified formula $\forall \alpha \,.\, G$.
 Let $D$ be an element of $\sorts$. Under the no-clash assumption,
-formula $G$ is well-typed in context $\gamma$, and for all
+formula $G$ is well-typed in context $\GAM$, and for all
 $v \in \FV(G) = \FV(F)$, we have
-$\evalG{\gamma(v)}_{\theta[\alpha\,\mapsto\,D]} = \evalT{\gamma(v)}$.
+$\evalG{\GAM(v)}_{\theta[\alpha\,\mapsto\,D]} = \evalT{\GAM(v)}$.
 Then $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$ by induction hypothesis.
 \qed
 \end{proof}
