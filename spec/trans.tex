@@ -1,79 +1,77 @@
 \section{Translations} \label{sec:trans}
 
+We describe three translations from TFF1 to different fragments of TFF1 that
+preserve both satisfiability and unsatisfiability. The first translation targets
+a traditional many-sorted first-order logic, TFF0. It is included here for
+illustrative purposes; more sophisticated encoding schemes are discussed in
+Section~\ref{sec_related_work}. The second and third translations eliminate
+ghost type arguments and type quantifiers, two features that are not directly
+supported by ML-style formalisms, which otherwise are a good match for TFF1.
+
 \subsection{Encoding into a Many-Sorted Logic} \label{ssec:tff0}
 
-We describe here a simple translation from TFF1 to a traditional
-many-sorted first-order logic. More sophisticated encodings which
-preserve selected types by translating them into separate sorts,
-or do not change the propositional structure of encoded formulas
-are described in \cite{leino10tacas,bobot11frocos}.
-Notice that both papers assume preliminary elimination
-of ghost type arguments (cf.~Section~\ref{ssec:ghost});
-the latter also assumes preliminary type skolemization
-(cf.~Section~\ref{ssec:skol}).
+Our strategy for translating polymorphic types is to encode them as terms and
+use a special binary predicate to encode type information. To avoid mixing
+types and terms in the encoded problem, we introduce two sorts, $\typ$ and
+$\und$, giving the symbols we generate for type arguments the type $\typ$ while
+keeping $\und$ for every other term.
 
-Let $\Delta$ be a set of TFF1 sentences, that is, closed and well-typed
-formulas. We construct an equisatisfiable set of monomorphic two-sorted
-formulas $\MON(\Delta)$ as follows.
+Let $\DEL$ be a set of TFF1 sentences.
+%, that is, closed and well-typed formulas.
+We construct an equisatisfiable set of monomorphic two-sorted
+formulas $\MON(\DEL)$ as follows.
 %
-We introduce two sorts, $\typ$ and $\und$.
-To every type variable $\alpha$ in $\Delta$ we assign
-a fresh variable $\hat{\alpha}$ of sort $\typ$.
-To every ordinary variable $u$ we assign
+To every type variable $\alpha$ in $\DEL$ or in the type signature of a function
+symbol, we assign a fresh variable $\hat{\alpha}$ of sort $\typ$.
+To every term variable $u$, we assign
 a fresh variable $\hat{u}$ of sort $\und$.
-To every type constructor $K$ of arity $n$ we assign
-a function symbol $\hat{K}$ of sort signature $\typ^n \to \typ$.
-To every function symbol $f$ of type signature
-$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$
-we assign a function symbol $\hat{f}$ of sort signature
-$\typ^n \times \und^m \to \und$.
-To every predicate symbol $p$ of type signature
-$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to \omicron$
-we assign a predicate symbol $\hat{p}$ of sort signature
-$\typ^n \times \und^m \to \omicron$.
-Finally, we add a new predicate symbol $\typeof$ of sort signature
-$\und \times \typ$.
+To every type constructor $\kappa$ of arity $n$, we assign
+a function symbol $\hat{\kappa} : \typ^n \to \typ$.
+To every function symbol $f : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \tau$,
+we assign a function symbol $\hat{f} : \typ^m \times \und^n \to \und$.
+To every predicate symbol $p : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \omicron$
+we assign a predicate symbol $\hat{p} : \typ^m \times \und^n \to \omicron$.
+Finally, we introduce the predicate symbol $\typeof : \und \times \typ$.
 
 The $\MON$ transformation translates TFF1 types, terms, and formulas
-according to the following equations ($\bar{S}$ and $\bar{t}$ denote
-sequences of types and terms, respectively):
+according to the following equations:
 \begin{align*}
 \MON(\alpha) &\eqdef \hat{\alpha} &
-\MON(K(\bar{S})) &\eqdef \hat{K}(\MON(\bar{S})) \\
+\MON(\kappa(\bar{\tau})) &\eqdef \hat{\kappa}(\MON(\bar{\tau})) \\
 \MON(u) &\eqdef \hat{u} &
-\MON(f(\bar{S},\bar{t})) &\eqdef \hat{f}(\MON(\bar{S}),\MON(\bar{t})) \\
+\MON(f(\bar{\tau},\,\bar{t}\,)) &\eqdef \hat{f}(\MON(\bar{\tau}),\,\MON(\bar{t}\,)) \\
 \MON(t_1 \eq t_2) &\eqdef \MON(t_1) \eq \MON(t_2) &
-\MON(p(\bar{S},\bar{t})) &\eqdef \hat{p}(\MON(\bar{S}),\MON(\bar{t})) \\
-\MON(\lnot F) &\eqdef \lnot\, \MON(F) &
-\MON(F \land G) &\eqdef \MON(F) \land\, \MON(G) \\
-\MON(\forall u \ty T .\, F) &\eqdef
-\forall \hat{u} \,.\, \typeof(\hat{u}, \MON(T)) \limp \MON(F) &
-\MON(\forall \alpha \,.\, F) &\eqdef
-\forall \hat{\alpha} \,.\, \MON(F)
+\MON(p(\bar{\tau},\,\bar{t}\,)) &\eqdef \hat{p}(\MON(\bar{\tau}),\,\MON(\bar{t}\,)) \\
+\MON(\lnot\, \varphi) &\eqdef \lnot\, \MON(\varphi) &
+\MON(\varphi \rand \psi) &\eqdef \MON(\varphi) \rand \MON(\psi) \\
+\MON(\forall u \ty \tau .\; \varphi) &\eqdef
+\forall \hat{u} .\; \typeof(\hat{u},\, \MON(\tau)) \limp \MON(\varphi) &
+\MON(\forall \alpha .\; \varphi) &\eqdef
+\forall \hat{\alpha} .\; \MON(\varphi)
 \end{align*}
 
-\newcommand{\AxD}{\text{\sc Ax}_{\Delta}}
+\newcommand{\AxD}{\text{\sc Ax}_{\DEL}}
 \newcommand{\Inh}{\text{\sc Inh}}
 \newcommand{\Dom}{\mathrm{Dom}}
 
 Consider a function symbol $f$ with type signature
-$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$.
+$\forall \alpha_1\dots\alpha_n .\; \tau_1 \times \dots \times \tau_m \to \tau$.
 The {\em typing axiom\/} for $f$ is a formula
 $$
-\forall \hat{\alpha}_1\dots\hat{\alpha}_n \,.\,
-\forall \hat{v}_1\dots\hat{v}_m \,.\,
+\forall \hat{\alpha}_1\dots\hat{\alpha}_n .\;
+\forall \hat{v}_1\dots\hat{v}_m .\;
 \typeof(\hat{f}(\hat{\alpha}_1,\dots,\hat{\alpha}_n,
-\hat{v}_1,\dots,\hat{v}_m), \MON(T)).
+\hat{v}_1,\dots,\hat{v}_m), \MON(\tau)).
 $$
 We denote with $\AxD$ the set of typing axioms
-for all function symbols occurring in $\Delta$.
+for all function symbols occurring in $\DEL$.
 The {\em inhabitance axiom}, denoted $\Inh$,
 is a formula
-$\forall \hat{\alpha} \exists \hat{u} \,.\,
+$\forall \hat{\alpha} \exists \hat{u} .\;
 \typeof(\hat{u},\hat{\alpha}).$
 Then we define
 $$
-\MON(\Delta) \eqdef \{ \MON(F) \vb F \in \Delta \} \cup
+\MON(\DEL) \eqdef \{ \MON(\varphi) \vb \varphi \in \DEL \} \cup
 \AxD \cup \{ \Inh \}.
 $$
 
@@ -81,32 +79,32 @@ It is easy to see that $\MON$ converts TFF1 types into well-formed
 terms of sort $\typ$, TFF1 terms into well-formed terms of sort $\und$,
 and TFF1 formulas (not necessarily well-typed) into well-formed formulas.
 
-\begin{theorem}[Soundness of $\MON$] \label{thm:mon_sound}
-If a set of sentences $\Delta$ is satisfiable in TFF1,
-then $\MON(\Delta)$ is satisfiable in classical
+\begin{theorem}[Soundness of $\BOLDMON$] \label{thm:mon_sound}
+If a set of sentences $\DEL$ is satisfiable in TFF1,
+then $\MON(\DEL)$ is satisfiable in classical
 many-sorted first-order logic with equality.
 \end{theorem}
 \begin{proof}
-Let $\cM$ be a model of $\Delta$.
-We construct an interpretation $\cI$ of $\MON(\Delta)$ as follows.
+Let $\cM$ be a model of $\DEL$.
+We construct an interpretation $\cI$ of $\MON(\DEL)$ as follows.
 Let us denote with $\sorts$ and $\univ$, respectively,
 the set of domains and the universe in $\cM$.
 In $\cI$, we define the domain of sort $\typ$ to be $\sorts$
 and the domain of sort $\und$ to be $\univ$.
-Every function symbol $\hat{K}$ (function symbol $\hat{f}$,
+Every function symbol $\hat{\kappa}$ (function symbol $\hat{f}$,
 predicate symbol $\hat{p}$) is interpreted in $\cI$
-exactly as the type constructor $K$ (function symbol $f$,
+exactly as the type constructor $\kappa$ (function symbol $f$,
 predicate symbol $p$) in $\cM$.
 The predicate symbol $\typeof$ is interpreted as the membership relation.
 %This concludes the definition of interpretation $\cI$.
 
-We are going to show that for every type $S$, term $t$,
-and formula $F$ occurring in $\Delta$,
+We are going to show that for every type $\sigma$, term $t$,
+and formula $\varphi$ occurring in $\DEL$,
 for every variable valuation $\nu$ in $\cI$, we have
 \begin{align*}
-\llb \MON(S) \rrb^\cI_{\nu} &= \llb S \rrb^\cM_{\theta} &
+\llb \MON(\sigma) \rrb^\cI_{\nu} &= \llb \sigma \rrb^\cM_{\theta} &
 \llb \MON(t) \rrb^\cI_{\nu} &= \llb t \rrb^\cM_{\theta,\xi} &
-\llb \MON(F) \rrb^\cI_{\nu} &= \llb F \rrb^\cM_{\theta,\xi}
+\llb \MON(\varphi) \rrb^\cI_{\nu} &= \llb \varphi \rrb^\cM_{\theta,\xi}
 \end{align*}
 where $\theta(\alpha) \eqdef \nu(\hat{\alpha})$ and
 $\xi(u) \eqdef \nu(\hat{u})$ for every
@@ -114,20 +112,20 @@ type variable $\alpha$ and every variable $u$.
 %
 We prove these equalities by induction on the structure
 of types, terms, and formulas. The only non-trivial case is
-that of a quantified formula, $\forall u \ty T .\, F$.
+that of a quantified formula, $\forall u \ty \tau .\; \varphi$.
 It is easy to see that any $a \in \univ$ belongs
-to $\llb T \rrb^\cM_\theta$ if and only if
-$\llb \typeof(\hat{u},\MON(T)) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$
+to $\llb \tau \rrb^\cM_\theta$ if and only if
+$\llb \typeof(\hat{u},\MON(\tau)) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$
 holds. Indeed, the latter is equivalent to
-$a \in \llb \MON(T) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$.
+$a \in \llb \MON(\tau) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]}$.
 Since $\nu$ and $\nu[\hat{u} \mapsto a]$ produce the same
 $\theta$ in $\cM$,
-$\llb \MON(T) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]} =
-\llb T \rrb^\cM_\theta$.
+$\llb \MON(\tau) \rrb^\cI_{\nu[\hat{u}\,\mapsto\,a]} =
+\llb \tau \rrb^\cM_\theta$.
 Then
-$\llb \forall \hat{u} \,.\, \typeof(\hat{u},\MON(T))
-\limp \MON(F) \rrb^\cI_{\nu}$ is exactly
-$\llb \forall u \ty T .\, F \rrb^\cM_{\theta,\xi}$
+$\llb \forall \hat{u} .\; \typeof(\hat{u},\MON(\tau))
+\limp \MON(\varphi) \rrb^\cI_{\nu}$ is exactly
+$\llb \forall u \ty \tau .\; \varphi \rrb^\cM_{\theta,\xi}$
 by induction hypothesis.
 
 Now we only have to check that the typing axioms
@@ -137,18 +135,18 @@ interpretation in TFF1 and the first equality above.
 \qed
 \end{proof}
 
-\begin{theorem}[Completeness of $\MON$] \label{thm:mon_compl}
-Given a set of sentences $\Delta$, if $\MON(\Delta)$
+\begin{theorem}[Completeness of $\BOLDMON$] \label{thm:mon_compl}
+Given a set of sentences $\DEL$, if $\MON(\DEL)$
 is satisfiable in classical many-sorted first-order logic
-with equality, then $\Delta$ is satisfiable in TFF1.
+with equality, then $\DEL$ is satisfiable in TFF1.
 \end{theorem}
 \begin{proof}
-Let $\cM$ be a model of $\MON(\Delta)$. Let us replace every element $d$ in
+Let $\cM$ be a model of $\MON(\DEL)$. Let us replace every element $d$ in
 the domain of $\typ$ by the set $D = \{\la a,d \ra \,|\, \typeof^\cM(a,d)\}$
 and update correspondingly the interpretations of type constructors
 and function and predicate symbols in $\cM$.
 We can safely perform this substitution, because the inhabitance
-axiom $\Inh$ holds in $\cM$, and therefore every such set is non-empty
+axiom $\Inh$ holds in $\cM$, and therefore every such set is nonempty
 and there is one-to-one correspondence with the initial domain of $\typ$.
 In the model $\cM$ thus modified, $\typeof^\cM(a,D)$ holds if and only if
 $D$ contains a pair $\la a,d \ra$.
@@ -156,32 +154,32 @@ $D$ contains a pair $\la a,d \ra$.
 Below, $\pi_1$ and $\pi_2$ stand for the first and the second projection
 of a pair, respectively.
 
-We construct an interpretation $\cI$ of $\Delta$ as follows.
+We construct an interpretation $\cI$ of $\DEL$ as follows.
 We define the set of domains $\sorts$ to be the new domain
 of $\typ$ in $\cM$. As usual, $\univ$ denotes the union
 of all domains in $\sorts$. Notice that some elements of
 the domain of $\und$ may not appear in any pair in $\univ$.
 
-The symbols of $\Delta$ are interpreted in $\cI$
+The symbols of $\DEL$ are interpreted in $\cI$
 according to the following equations:
 \begin{align*}
-K^\cI(D_1,\dots,D_n) &\eqdef \hat{K}^\cM(D_1,\dots,D_n) \\
+\kappa^\cI(D_1,\dots,D_n) &\eqdef \hat{\kappa}^\cM(D_1,\dots,D_n) \\
 f^\cI(D_1,\dots,D_n,\la a_1,d_1 \ra,\dots,\la a_m,d_m \ra) &\eqdef
 \la \hat{f}^\cM(D_1,\dots,D_n,a_1,\dots,a_m), d \ra \\
 p^\cI(D_1,\dots,D_n,\la a_1,d_1 \ra,\dots,\la a_m,d_m \ra) &\eqdef
 \hat{p}^\cM(D_1,\dots,D_n,a_1,\dots,a_m)
 \end{align*}
 where
-$K$ is of arity $n$,
+$\kappa$ is of arity $n$,
 the signature of $p$ is
-$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to
+$\forall \alpha_1\dots\alpha_n .\; \tau_1 \times \dots \times \tau_m \to
 \omicron$,
 the signature of $f$ is
-$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$,
+$\forall \alpha_1\dots\alpha_n .\; \tau_1 \times \dots \times \tau_m \to \tau$,
 and $d$ is the fixed second coordinate of pairs in the domain
-$D = \llb \MON(T) \rrb^\cM_{[\hat{\alpha}_1\,\mapsto\,D_1,\dots,
+$D = \llb \MON(\tau) \rrb^\cM_{[\hat{\alpha}_1\,\mapsto\,D_1,\dots,
 \hat{\alpha_n}\,\mapsto\,D_n]} =
-\llb T \rrb^\cI_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$.
+\llb \tau \rrb^\cI_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$.
 Since the typing axioms $\AxD$ hold in $\cM$, we have
 $\typeof^\cM(f^\cM(D_1,\dots,D_n,a_1,\dots,a_m), D)$,
 and therefore, the result of $f^\cI$ belongs indeed to $D$.
@@ -189,84 +187,84 @@ This concludes the definition of $\cI$.
 
 Given a type context $\GAM$, a type valuation $\theta$,
 and a variable valuation $\xi$, we say that they are admissible
-for a TFF1 formula $F$, when the following conditions are satisfied:
+for a TFF1 formula $\varphi$, when the following conditions are satisfied:
 \begin{itemize}
-\item $F$ is well-typed in context $\GAM$;
-\item for every variable $v$ free in $F$, no type variable
-occurring in $\GAM(v)$ is bound in $F$;
-\item for every variable $v$ free in $F$, $\xi(v) \in \evalT{\GAM(v)}$.
+\item $\varphi$ is well-typed in context $\GAM$;
+\item for every variable $v$ free in $\varphi$, no type variable
+occurring in $\GAM(v)$ is bound in $\varphi$;
+\item for every variable $v$ free in $\varphi$, $\xi(v) \in \evalT{\GAM(v)}$.
 \end{itemize}
 Obviously, every triple is admissible for a sentence.
-Let us show that for every type $S$, term $t$, and formula $F$,
-and for all $\GAM$, $\theta$, $\xi$ admissible for $F$, we have
+Let us show that for every type $\sigma$, term $t$, and formula $\varphi$,
+and for all $\GAM$, $\theta$, $\xi$ admissible for $\varphi$, we have
 \begin{align*}
-\evalT{S} &= \llb \MON(S) \rrb^\cM_{\nu} &
+\evalT{\sigma} &= \llb \MON(\sigma) \rrb^\cM_{\nu} &
 \pi_1(\eval{t}) &= \llb \MON(t) \rrb^\cM_{\nu} &
-\eval{F} &= \llb \MON(F) \rrb^\cM_{\nu}
+\eval{\varphi} &= \llb \MON(\varphi) \rrb^\cM_{\nu}
 \end{align*}
 where $\nu(\hat{\alpha}) \eqdef \theta(\alpha)$ and
 $\nu(\hat{u}) \eqdef \pi_1(\xi(u))$
 for every type variable $\alpha$ and variable $u$.
 
 The proof goes by induction on the structure of types, terms, and formulas.
-We have three non-trivial cases: equality, quantification over an ordinary
+We have three non-trivial cases: equality, quantification over a term
 variable, and quantification over a type variable.
 
-Let $F$ be an equality $t_1 \eq t_2$.
+Let $\varphi$ be an equality $t_1 \eq t_2$.
 Let $\la a_1, d_1 \ra$ be $\eval{t_1}$ and $\la a_2, d_2 \ra$ be $\eval{t_2}$.
 By induction hypothesis, $\llb \MON(t_1) \rrb^\cM_{\nu} = a_1$ and
 $\llb \MON(t_2) \rrb^\cM_{\nu} = a_2$. Let us show that $d_1 = d_2$.
-By assumption, $F$ is well-typed in context $\GAM$.
-Thus, $\GAM\,\vdash t_1 \ty S$ and $\GAM\,\vdash t_2 \ty S$
-for some type $S$.
+By assumption, $\varphi$ is well-typed in context $\GAM$.
+Thus, $\GAM\,\vdash t_1 \ty \sigma$ and $\GAM\,\vdash t_2 \ty \sigma$
+for some type $\sigma$.
 If $t_1$ is a variable $v$, then
-$\eval{t_1} = \xi(v) \in \eval{\GAM(v)} = \evalT{S}$.
-Let $t_1$ be a function application $f(S_1,\dots,S_n,s_1,\dots,s_m)$,
+$\eval{t_1} = \xi(v) \in \eval{\GAM(v)} = \evalT{\sigma}$.
+Let $t_1$ be a function application $f(\sigma_1,\dots,\sigma_n,s_1,\dots,s_m)$,
 where $f \ty
-\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$.
-Let $D_i = \evalT{S_i}$ for every $i \in [1,n]$.
-Then $S = T[S_1/\alpha_1,\dots,S_n/\alpha_n]$ and
-$\evalT{S} = \llb T \rrb^\cI_{[\alpha_1 \,\mapsto\, D_1,\dots,
+\forall \alpha_1\dots\alpha_n .\; \tau_1 \times \dots \times \tau_m \to \tau$.
+Let $D_i = \evalT{\sigma_i}$ for every $i \in [1,n]$.
+Then $\sigma = \tau[\sigma_1/\alpha_1,\dots,\sigma_n/\alpha_n]$ and
+$\evalT{\sigma} = \llb \tau \rrb^\cI_{[\alpha_1 \,\mapsto\, D_1,\dots,
 \alpha_n \,\mapsto\, D_n]}$.
-By construction of $\cI$, $\eval{t_1} \in \evalT{S}$.
-By the same argument, $\eval{t_2} \in \evalT{S}$.
-Hence, $d_1 = d_2$ and $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$.
+By construction of $\cI$, $\eval{t_1} \in \evalT{\sigma}$.
+By the same argument, $\eval{t_2} \in \evalT{\sigma}$.
+Hence, $d_1 = d_2$ and $\eval{\varphi} = \llb \MON(\varphi) \rrb^\cM_{\nu}$.
 
-Let $F$ be a quantified formula $\forall u \ty T .\, G$.
-We must show that for every pair $\la a,d \ra$ in $\evalT{T}$, we have
-$\typeof^\cM(a, \llb \MON(T) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]})$,
+Let $\varphi$ be a quantified formula $\forall u \ty \tau .\; \psi$.
+We must show that for every pair $\la a,d \ra$ in $\evalT{\tau}$, we have
+$\typeof^\cM(a, \llb \MON(\tau) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]})$,
 and vice versa, for every $a$ in the domain of $\und$, if
-$\typeof^\cM(a, \llb \MON(T) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]})$
+$\typeof^\cM(a, \llb \MON(\tau) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]})$
 holds, then there exists some $d$ such that $\la a,d \ra \in
-\evalT{T}$.
+\evalT{\tau}$.
 %
-Since ordinary variables do not occur in types,
-$\llb \MON(T) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]} =
-\llb T \rrb^\cI_\theta$.
+Since term variables do not occur in types,
+$\llb \MON(\tau) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]} =
+\llb \tau \rrb^\cI_\theta$.
 By construction of $\cM$,
-$\typeof^\cM(a, \llb T \rrb^\cI_\theta)$
+$\typeof^\cM(a, \llb \tau \rrb^\cI_\theta)$
 holds if and only if there is some $d'$ such that
-$\la a,d' \ra \in \llb T \rrb^\cI_\theta$.
+$\la a,d' \ra \in \llb \tau \rrb^\cI_\theta$.
 %
-Now, notice that the triple $\GAM[u \mapsto T],
-\theta,\xi[u \mapsto \la a,d \ra]$ is admissible for $G$.
-Indeed, $G$ is well-typed in $\GAM[u \mapsto T]$,
-and for every $v \in \FV(G)$, we have
-$\xi[u \mapsto \la a,d \ra](v) \in \evalT{\GAM[u \mapsto T](v)}$.
-Also, if $T$ contains a type variable $\beta$ bound in $G$,
-then $\beta$ is both free and bound in $F$, which violates
+Now, notice that the triple $\GAM[u \mapsto \tau],
+\theta,\xi[u \mapsto \la a,d \ra]$ is admissible for $\psi$.
+Indeed, $\psi$ is well-typed in $\GAM[u \mapsto \tau]$,
+and for every $v \in \FV(\psi)$, we have
+$\xi[u \mapsto \la a,d \ra](v) \in \evalT{\GAM[u \mapsto \tau](v)}$.
+Also, if $\tau$ contains a type variable $\beta$ bound in $\psi$,
+then $\beta$ is both free and bound in $\varphi$, which violates
 the no-clash assumption we have made.
 %
-Then, by induction hypothesis, $\eval{\forall u \ty T .\, G}$
-is exactly $\llb \forall \hat{u} \,.\, \typeof(\hat{u},\MON(T))
-\limp \MON(G) \rrb^\cM_{\nu}$.
+Then, by induction hypothesis, $\eval{\forall u \ty \tau .\; \psi}$
+is exactly $\llb \forall \hat{u} .\; \typeof(\hat{u},\MON(\tau))
+\limp \MON(\psi) \rrb^\cM_{\nu}$.
 
-Let $F$ be a quantified formula $\forall \alpha \,.\, G$.
+Let $\varphi$ be a quantified formula $\forall \alpha .\; \psi$.
 Let $D$ be an element of $\sorts$. Under the no-clash assumption,
-formula $G$ is well-typed in context $\GAM$, and for all
-$v \in \FV(G) = \FV(F)$, we have
+formula $\psi$ is well-typed in context $\GAM$, and for all
+$v \in \FV(\psi) = \FV(\varphi)$, we have
 $\evalG{\GAM(v)}_{\theta[\alpha\,\mapsto\,D]} = \evalT{\GAM(v)}$.
-Then $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$ by induction hypothesis.
+Then $\eval{\varphi} = \llb \MON(\varphi) \rrb^\cM_{\nu}$ by induction hypothesis.
 \qed
 \end{proof}
 
@@ -274,10 +272,10 @@ Then $\eval{F} = \llb \MON(F) \rrb^\cM_{\nu}$ by induction hypothesis.
 The explicit type arguments of polymorphic symbols
 in TFF1 let us introduce operations and relations directly on types.
 Thus, one could declare and axiomatize a polymorphic propositional
-constant $\sym{is\_ordered}$ of type signature $\forall\alpha\,.\,\omicron$.
+constant $\sym{is\_ordered}$ of type signature $\forall\alpha.\;\omicron$.
 Such predicate symbols can be used to encode type classes:
 for example, the axioms of order for a polymorphic predicate
-$\sym{less\_eq} \,\ty\, \forall\alpha\,.\,\alpha\times\alpha\to\omicron$
+$\sym{less\_eq} \,\ty\, \forall\alpha.\;\alpha\times\alpha\to\omicron$
 can be restricted to types that satisfy $\sym{is\_ordered}$.
 
 However, type signatures such as that of $\sym{is\_ordered}$ are not
@@ -298,61 +296,61 @@ that is, the type variables in the symbol's type signature that
 do not appear in the quantifier-free matrix.
 This can be done in an easy and lightweight manner.
 
-Let $\Delta$ be a set of sentences.
-We construct an equisatisfiable set $\ELI(\Delta)$ as follows.
+Let $\DEL$ be a set of sentences.
+We construct an equisatisfiable set $\ELI(\DEL)$ as follows.
 %
 We introduce a new unary type constructor $\ghost$.
 We replace every function symbol $f$ of type signature
-$\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to T$
+$\forall \alpha_1\dots\alpha_n .\; \tau_1 \times \dots \times \tau_m \to \tau$
 with a new function symbol $\hat{f}$ of type signature
-$\forall \alpha_1\dots\alpha_n \,.\,
+$\forall \alpha_1\dots\alpha_n .\;
 \ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
-T_1 \times \dots \times T_m \to T$,
+\tau_1 \times \dots \times \tau_m \to \tau$,
 where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
 variables from the quantifier prefix that do not occur in
-$T_1,\dots,T_m,T$.
+$\tau_1,\dots,\tau_m,\tau$.
 Likewise, every predicate symbol $p \,\ty\,
-\forall \alpha_1\dots\alpha_n \,.\, T_1 \times \dots \times T_m \to \omicron$
+\forall \alpha_1\dots\alpha_n .\; \tau_1 \times \dots \times \tau_m \to \omicron$
 is replaced with a new predicate symbol $\hat{p} \,\ty\,
-\forall \alpha_1\dots\alpha_n \,.\,
+\forall \alpha_1\dots\alpha_n .\;
 \ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
-T_1 \times \dots \times T_m \to \omicron$,
+\tau_1 \times \dots \times \tau_m \to \omicron$,
 where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
 variables from the quantifier prefix that do not occur in
-$T_1,\dots,T_m$.
+$\tau_1,\dots,\tau_m$.
 Finally, we add a ``witness'' constant $\wit$
-of type signature $\forall \alpha\,.\,\ghost(\alpha)$.
+of type signature $\forall \alpha.\;\ghost(\alpha)$.
 The $\ELI$ transformation translates terms and atomic
 formulas according to the following equations:
 \begin{align*}
 \ELI(u) \eqdef u
 \quad\quad & \qquad\qquad\qquad\quad
 \ELI(t_1 \eq t_2) \eqdef \ELI(t_1) \eq \ELI(t_2) \\
-\ELI(f(S_1,\dots,S_n,t_1,\dots,t_m)) &\eqdef
-\hat{f}(S_1,\dots,S_n,\wit(S_{i_1}),\dots,\wit(S_{i_r}),
+\ELI(f(\sigma_1,\dots,\sigma_n,t_1,\dots,t_m)) &\eqdef
+\hat{f}(\sigma_1,\dots,\sigma_n,\wit(\sigma_{i_1}),\dots,\wit(\sigma_{i_r}),
 \ELI(t_1),\dots,\ELI(t_m)) \\
-\ELI(p(S_1,\dots,S_n,t_1,\dots,t_m)) &\eqdef
-\hat{p}(S_1,\dots,S_n,\wit(S_{i_1}),\dots,\wit(S_{i_r}),
+\ELI(p(\sigma_1,\dots,\sigma_n,t_1,\dots,t_m)) &\eqdef
+\hat{p}(\sigma_1,\dots,\sigma_n,\wit(\sigma_{i_1}),\dots,\wit(\sigma_{i_r}),
 \ELI(t_1),\dots,\ELI(t_m))
 \end{align*}
-Given a formula $F$ or a set of sentences $\Delta$,
-$\ELI(F)$ and $\ELI(\Delta)$ denote the result of
-applying $\ELI$ to every atomic formula in $F$ and
-$\Delta$, respectively.
+Given a formula $\varphi$ or a set of sentences $\DEL$,
+$\ELI(\varphi)$ and $\ELI(\DEL)$ denote the result of
+applying $\ELI$ to every atomic formula in $\varphi$ and
+$\DEL$, respectively.
 
 \begin{theorem} \label{thm:eli}
-Any $\Delta$ is equisatisfiable to $\ELI(\Delta)$.
+Any $\DEL$ is equisatisfiable to $\ELI(\DEL)$.
 \end{theorem}
 \begin{proof}
-A model of $\Delta$ can be converted to a model of $\ELI(\Delta)$
+A model of $\DEL$ can be converted to a model of $\ELI(\DEL)$
 as follows. We choose an arbitrary value $e$ and set the singleton
 $\{ e \}$ as the domain of $\ghost(D)$ for any domain $D$.
 Accordingly, $\wit$ evaluates to $e$ on any argument.
 Interpretations of other function and predicate symbols are
 adjusted in an obvious way.
 
-To convert a model of $\ELI(\Delta)$
-to a model of $\Delta$, we evaluate any functional symbol
+To convert a model of $\ELI(\DEL)$
+to a model of $\DEL$, we evaluate any functional symbol
 $f$ on $D_1,\dots,D_n,a_1,\dots,a_m$ exactly as
 $\hat{f}$ on $D_1,\dots,D_n,e_1,\dots,e_r,a_1,\dots,a_m$,
 where each $e_j$ is the evaluation of $\wit$ on $D_{i_j}$;
@@ -378,9 +376,9 @@ Unfortunately, not every TFF1 problem can be treated this way.
 We introduce two transformations $\SKO^-$ and $\SKO^+$ to
 perform type skolemization in premises and in goals, respectively
 (the latter should be rather called ``type herbrandization'').
-Let us call a formula $F$ {\em dependently typed} whenever
+Let us call a formula $\varphi$ {\em dependently typed} whenever
 it contains a quantifier over a type variable in the scope
-of a quantifier over an ordinary variable%
+of a quantifier over a term variable%
 \footnote{We might take polarities into account, but then
 the proof of Theorem~\ref{thm:sko} wouldn't be so sweet.
 Types-under-values are nasty anyway.}.
@@ -388,43 +386,42 @@ The transformations $\SKO^-$ and $\SKO^+$ apply to
 non-dependently typed TFF1 formulas according to the
 following equations:
 \begin{align*}
-\SKO^-(p(\bar{S},\bar{t})) &\eqdef p(\bar{S},\bar{t}) &
-\SKO^+(p(\bar{S},\bar{t})) &\eqdef p(\bar{S},\bar{t}) \\
+\SKO^-(p(\bar{\sigma},\bar{t})) &\eqdef p(\bar{\sigma},\bar{t}) &
+\SKO^+(p(\bar{\sigma},\bar{t})) &\eqdef p(\bar{\sigma},\bar{t}) \\
 \SKO^-(t_1 \eq t_2) &\eqdef t_1 \eq t_2 &
 \SKO^+(t_1 \eq t_2) &\eqdef t_1 \eq t_2 \\
-\SKO^-(\forall u \ty T .\, F) &\eqdef \forall u \ty T .\, F &
-\SKO^+(\forall u \ty T .\, F) &\eqdef \forall u \ty T .\, F \\
-\SKO^-(F \land G) &\eqdef \SKO^-(F) \land \SKO^-(G) &
-\SKO^+(F \land G) &\eqdef \SKO^+(F) \land \SKO^+(G) \\
-\SKO^-(\lnot F) &\eqdef \lnot \SKO^+(F) &
-\SKO^+(\lnot F) &\eqdef \lnot \SKO^-(F) \\
-\SKO^-(\forall \alpha \,.\, F) &\eqdef \forall \alpha \,.\, \SKO^-(F) &
-\SKO^+(\forall \alpha \,.\, F) &\eqdef
-\SKO^+(F[K(\beta_1,\dots,\beta_n)/\alpha])
+\SKO^-(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi &
+\SKO^+(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi \\
+\SKO^-(\varphi \rand \psi) &\eqdef \SKO^-(\varphi) \rand \SKO^-(\psi) &
+\SKO^+(\varphi \rand \psi) &\eqdef \SKO^+(\varphi) \rand \SKO^+(\psi) \\
+\SKO^-(\lnot\, \varphi) &\eqdef \lnot\, \SKO^+(\varphi) &
+\SKO^+(\lnot\, \varphi) &\eqdef \lnot\, \SKO^-(\varphi) \\
+\SKO^-(\forall \alpha .\; \varphi) &\eqdef \forall \alpha .\; \SKO^-(\varphi) &
+\SKO^+(\forall \alpha .\; \varphi) &\eqdef
+\SKO^+(\varphi[\kappa(\beta_1,\dots,\beta_n)/\alpha])
 \end{align*}
-where $K$ is a fresh type constructor and $\beta_1,\dots,\beta_n$ are
-the free type variables of $\forall \alpha \,.\, F$.
-Given a set $\Delta$ of non-dependently typed sentences,
-$\SKO^-(\Delta)$ and $\SKO^+(\Delta)$ denote the result of applying
-the corresponding transformations to every formula in $\Delta$.
+where $\kappa$ is a fresh type constructor and $\beta_1,\dots,\beta_n$ are
+the free type variables of $\forall \alpha .\; \varphi$.
+Given a set $\DEL$ of non-dependently typed sentences,
+$\SKO^-(\DEL)$ and $\SKO^+(\DEL)$ denote the result of applying
+the corresponding transformations to every formula in $\DEL$.
 
 \begin{theorem} \label{thm:sko}
-Any non-dependently typed $\Delta$ is equisatisfiable to $\SKO^-(\Delta)$.
+Any non-dependently typed $\DEL$ is equisatisfiable to $\SKO^-(\DEL)$.
 \end{theorem}
 \begin{proof}
 It is easy to see that
-skolemizing the $\typ$-sorted variables in $\MON(\Delta)$ gives
-exactly $\MON(\SKO^-(\Delta))$ modulo renaming of Skolem symbols and
+skolemizing the $\typ$-sorted variables in $\MON(\DEL)$ gives
+exactly $\MON(\SKO^-(\DEL))$ modulo renaming of Skolem symbols and
 permutation of their arguments. Theorems~\ref{thm:mon_sound} and
 \ref{thm:mon_compl} conclude the proof.
 \qed
 \end{proof}
 
 For dependently typed problems, type skolemization would require
-Skolem type constructors to take ordinary variables as arguments,
+Skolem type constructors to take term variables as arguments,
 which is beyond the current scope of TFF1. In order to submit such
 problems to systems that do not accept quantifiers over types,
 one can resort to $\MON$ or some other translation into monomorphic
 logic (cf.~Section~\ref{ssec:tff0}). At present, we are not aware
 on any less intrusive way to handle dependently typed TFF1 formulas.
-

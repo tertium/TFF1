@@ -8,3 +8,22 @@ types, and the encoding methods presented in Leino and R\"ummer
 PVS...
 
 Mizar...
+
+More sophisticated encodings that preserve selected types by translating them
+into separate sorts, do not change the propositional structure of the encoded
+formulas, or are particularly efficient with automatic provers are described
+elsewhere
+\cite{blanchette-et-al-2012-mono}
+\cite{leino10tacas}.
+\cite{bobot11frocos}
+
+Both \cite{leino10tacas} and \cite{bobot11frocos} assume preliminary elimination
+of ghost type arguments (cf.~Section~\ref{ssec:ghost}); the latter also assumes
+preliminary type skolemization (cf.~Section~\ref{ssec:skol}).
+
+An easy approach to pass TFF1 problems can be passed to TFF0
+reasoning tools is to monomorphize the problem first---that is, to heuristically
+instantiate all type variables with appropriate
+ground types. Monomorphization is incomplete and often overlooked
+or derided in the literature \cite[p.\ 3]{couchot-lescuyer-2007}, but it was
+applied with much success in Sledgehammer \cite[\S6]{blanchette-et-al-2011-smt}.

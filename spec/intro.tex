@@ -36,3 +36,18 @@ and subsume private experiments such as Josef Urban's extensions for MPTP 0.2. A
 polymorphic TFF syntax, just like Alt-Ergo, could be a major sensitization tool,
 and as ATP authors are poised to add types and arithmetic support to their
 little babies, they might just as well do it right and deal with polymorphism.
+
+Structure of spec:
+
+  * description of types, terms, and formulas; syntax, including type checking,
+    and semantics;
+  * focus on the differences with TFF0
+
+Many desired reasoning tools we would like to support TFF1 lack some support for
+something. We show how to translate away some of the features of TFF1. First, we
+show how to translate away polymorphism, allowing to use TFF0-based reasoners on
+TFF1 problems. Second, we show how to translate away two features,
+ghost type arguments and explicit type quantifiers, that are not directly
+supported by ML-style formalisms, such as those provided by HOL systems
+\cite{gordon-melham-1993,harrison-1996,nipkow-et-al-2002} and Alt-Ergo
+\cite{conchon08smt}.

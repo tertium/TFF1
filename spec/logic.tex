@@ -2,58 +2,74 @@
 % ^^^ sounds a bit too general -- could be the title of the entire paper almost
 \section{Syntax and Semantics} \label{sec_logic}
 
-\ourparagraph{Type expressions.}
-We distinguish {\em types}, assigned
-to individual values, and the {\em type signatures\/} of function and predicate symbols.
-Types are built from {\em type variables\/}
-and {\em type constructors\/} of fixed arity. Type constructors
-of arity 0 are called {\em type constants}. We follow the usual
-notation conventions of TPTP\@: Type variables start with an
-uppercase letter and type constructors with a lowercase letter.
-The types \verb+A+, \verb+list(A)+, \verb+list($i)+, and
-\verb+map($int,+~\verb+list(B))+ are all examples of well-formed types.
-A type is {\em polymorphic} if it contains type variables; otherwise, it is
-{\em monomorphic}.
+Briefly, the types, terms, and formulas of TFF1 are analogous to those of TFF0,
+except that function and predicate symbols can be declared to be polymorphic,
+types can contain type variables, and $n$-ary type constructors are allowed.
+Type variables in types and formulas are explicitly bound. Instances of
+polymorphic constants are specified by explicit type arguments, rather than
+inferred. The semantics of a polymorphic formula coincides with that of its
+monomorphic instances.
+
+\subsection{Types, Terms, and Formulas}
+
+\ourparagraph{Types.} The {\em types\/} of TFF1 are built from {\em type
+variables\/} and {\em type constructors\/} of fixed arity. Nullary type
+constructors are called {\em type constants}. We follow the usual notation
+conventions of TPTP\@: Type variables start with an uppercase letter and type
+constructors with a lowercase letter. The types \verb+A+, \verb+list(A)+,
+\verb+list(bird)+, and \verb+map(nat,+ \verb+list(B))+ are all examples of
+well-formed types. A type is {\em polymorphic} if it contains type variables;
+otherwise, it is {\em monomorphic}.
+
+%%% @ANDREI: $iType and $oType don't appear in the TFF0 spec. I'm not a big fan
+%%% of aliases.
 
 TFF1 includes several predefined type constants, inherited from TFF0.
-The type \verb+$i+ (also called \verb+$iType+) of individuals is predefined
-but has no peculiar semantics, whereas the arithmetic types
-\verb+$int+, \verb+$rat+, and \verb+$real+ only have infinite models. We refer
+The type {\tt \$i} %(also called \verb+$iType+)
+of individuals is predefined but has no peculiar semantics, whereas the
+arithmetic types
+{\tt \$int}, {\tt \$rat}, and {\tt \$real} are modeled by $\mathbb{Z}$,
+$\mathbb{Q}$, and $\mathbb{R}$, respectively. We refer
 to the TFF0 specification \cite{TFF0} for the semantics of
-\verb+$int+, \verb+$rat+, and \verb+$real+ and the predefined operations on
+the arithmetic types and the predefined operations on
 these types. %, and focus here on the nonarithmetic fragment of TFF1.
 
-Type signatures may take the following forms:
+\ourparagraph{Type Signatures.}
+Each function and predicate symbol occurring in a formula must be associated
+with a {\em type signature\/} that specifies the types of the arguments and, for
+functions, the return type. Type signatures may take the following forms:
 %
 \begin{enumerate}
 \item[(a)] a type;
-\item[(b)] the Boolean type \verb+$o+ (also called \verb+$oType+);
-\item[(c)] {\tt ($T_1$\;*\;${\cdots}$\;*\;$T_n$)\;>\;$T$} for $n > 0$,
-where $T_1,\dots,T_n$ and $T$ are types;
-\item[(d)] {\tt ($T_1$\;*\;${\cdots}$\;*\;$T_n$)\;>\;\$o} for $n > 0$,
-where $T_1,\dots,T_n$ are types;
-\item[(e)] {\tt !>\ [$A_1$\;:\;\$tType,} {\tt ${\dots}$,} {\tt
-$A_n$\;:\;\$tType]:\ $T$}, where $A_1,\dots,A_n$ are distinct type variables, $T$
-has one of the previous four forms, and every type variable occurring in $T$
-appears among the $A_i$'s.
-%The converse is not true: Some $A_i$ cannot occur in $T$.
+\item[(b)] the Boolean ``type'' {\tt \$o}; % (also called {\tt \$oType});
+\item[(c)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tau$} for $n > 0$,
+where $\tau_1,\dots,\tau_n$ and $\tau$ are types;
+\item[(d)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;\$o} for $n > 0$,
+where $\tau_1,\dots,\tau_n$ are types;
+\item[(e)] {\tt !>\;[$\alpha_1$\::\:\$tType,}\;{\tt ${\dots}$,}\;{\tt
+$\alpha_n$\::\:\$tType]:\;$\tau$}, where $\alpha_1,\dots,\alpha_n$ are distinct
+type variables, $\tau$ has one of the previous four forms, and every type
+variable occurring in $\tau$ appears among the $\alpha_i$'s.
+%The converse is not true: Some $\alpha_i$ cannot occur in $\tau$.
 \end{enumerate}
 %
 We omit the parentheses in forms (c) and (d) if $n = 1$. The binder {\tt !>} in
-form (e) denotes type-level universal quantifier.
+form (e) denotes %type-level  (it's really type-signature-level)
+universal quantification. Type variables that are bound by {\tt !>} without
+occurring in the signature's body are called \emph{ghost type variables}.
 
 %%% TODO: define monomorphic and polymorphic symbols?
 Form (a) is used for variables and monomorphic constants; form (b), for
-propositional constants, including the predefined symbols \verb+$true+ and
-\verb+$false+; form (c), for monomorphic functions; form (d), for monomorphic
+propositional constants, including the predefined symbols {\tt \$true} and
+{\tt \$false}; form (c), for monomorphic functions; form (d), for monomorphic
 predicates; and form (e), for polymorphic functions and predicates.
 It is sometimes convenient to regard all the forms above as a special case of
 the general syntax
 \begin{center}
-{\tt !>} {\tt [$A_1$\;:\;\$tType,\;${\dots}$,\;$A_m$\;:\;\$tType]:} {\tt
-($T_1$\;*\;${\cdots}$\;*\;$T_n$)\;>\;$\widehat T$}
+{\tt !>} {\tt [$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:} {\tt
+($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\widehat \tau$}
 \end{center}
-where $m$ and $n$ may be 0 and $\widehat T$ may be any type or {\tt \$o}.
+where $m$ and $n$ may be 0 and $\widehat \tau$ may be any type or {\tt \$o}.
 
 %A type with a quantifier prefix is called {\em polytype},
 %otherwise we call it {\em monotype}.
@@ -61,7 +77,7 @@ where $m$ and $n$ may be 0 and $\widehat T$ may be any type or {\tt \$o}.
 %Notice that a monotype can be a polymorphic type,
 %i.e.~contain type variables.
 
-\ourparagraph{Type declarations.} Type constructors,
+\ourparagraph{Type Declarations.} Type constructors,
 like function and predicate symbols,
 may optionally be declared prior to use.
 For example, the following declarations introduce a type
@@ -120,23 +136,23 @@ predicate symbol.
 %%% Since TFFx is supposed to be about interoperability, in matters like these
 %%% I tend not to put too heavy a burden on implementors.
 
-\ourparagraph{Function and predicate application.} To keep the required type
+\ourparagraph{Function and Predicate Application.} To keep the required type
 inference to a minimum, every use of a polymorphic symbol must explicitly
 specify the type instance. A function or predicate symbol with a type signature
-\[\hbox{{\tt !>} {\tt [$A_1$\;:\;\$tType,\;${\dots}$,\;$A_m$\;:\;\$tType]:\;%
-($T_1$\;*\;${\cdots}$\;*\;$T_n$)\;>\;$\widehat T$}}\]
+\[\hbox{{\tt !>} {\tt [$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:\;%
+($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\widehat \tau$}}\]
 must be applied to $m$ type arguments and $n$ term arguments. Given the above
 signatures for {\tt is\_empty}, {\tt cons}, and {\tt lookup}, the term
 \[\hbox{\tt lookup(\$int,\;\,list(A),\;\,M,\;\,2)}\]
 and the atomic formula
 \[\hbox{\tt is\_empty(\$i,\;\,cons(\$i,\;V,\;nil(\$i)))}\]
-are well-formed, assuming {\tt A} has type {\tt
+are well-formed, assuming that {\tt A} ranges over {\tt
 \$tType} (i.e., it is a type variable), {\tt M} has type {\tt
-map(\$int,\;list(A))}, and {\tt V} has type {\tt \$i}.
+map(\$int,} {\tt list(A))}, and {\tt V} has type {\tt \$i}.
 
 In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
-instantiated with actual types. In particular, \verb+$o+ and \verb+$tType+
-cannot occur in type arguments of polymorphic symbols.
+instantiated with actual types. In particular, \verb+$o+, \verb+$tType+,
+and {\tt |>} binders cannot occur in type arguments of polymorphic symbols.
 
 For systems that implement type inference, the following extension
 of TFF1 might be useful. When a type argument of
@@ -151,7 +167,7 @@ the term arguments, it can be deduced using the Hindley--Milner type inference.
 The producer of a TFF1 problem must be aware of the type inference algorithm
 implemented in the consumer to omit only the redundant type arguments.
 
-\ourparagraph{Type variables and individual variables.}
+\ourparagraph{Type and Term Variables.}
 Every variable in a TFF1 formula must be bound. It can be given a type at
 binding time:
 \begin{quote}
@@ -194,16 +210,16 @@ Universal and existential quantifiers over type variables are allowed under the
 propositional connectives, including equivalence, as well as under other
 quantifiers over type variables, but not in the scope of a quantifier over a
 term variable.
-Rationale: A statement of the form ``for every integer $N$, there exists a type
-$A$ such that $\ldots$'' effectively makes $A$ a dependent type.
+Rationale: A statement of the form ``for every integer $k$, there exists a type
+$\alpha$ such that $\ldots$'' effectively makes $\alpha$ a dependent type.
 On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
-and there is no easy translation to ML-style polymorphic formalisms,
-such as HOL \cite{gordon-melham-1993}. Moreover, type handling in an automatic
-prover would be more difficult were such constructions allowed, since they
-require paramodulation into types.
+and there is no easy translation to ML-style polymorphic formalisms. Moreover,
+type handling in an automatic prover would be more difficult were such
+constructions allowed, since they require paramodulation into types.
 
-On the other hand, only type skolemization requires this restriction on type
-variables. The rules of type checking and the notion of interpretation are
+On the other hand, all the definitions in this \paper, except for
+type skolemization, are independent of this restriction.
+The rules of type checking and the notion of interpretation are
 directly applicable to unrestricted formulas. The encoding into a monomorphic
 logic (Section~\ref{ssec:tff0}) is sound and complete on unrestricted formulas,
 and the proofs of Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl}
@@ -224,9 +240,9 @@ locally. For example, the formulas
 \end{center}
 expand to {\tt p(g(a,\;a))} and {\tt q(a,\;a)}, respectively
 \cite{geoff-tptptp-notes}.
-Similarly, TFF1 admits binding a type~$T$ to $K(\alpha_1, \ldots,
+Similarly, TFF1 admits binding a type~$\tau$ to $\kappa(\alpha_1, \ldots,
 \alpha_n)$, where $\alpha_1, \ldots, \alpha_n$ are distinct type variables bound
-in $T$, using the syntax $K(\alpha_1, \ldots, \alpha_n)$~{\tt :>}~$T$ inside
+in $\tau$, using the syntax $\kappa(\alpha_1, \ldots, \alpha_n)$~{\tt :>}~$\tau$ inside
 the ``let'' binder.
 %
 %bind a variable
@@ -272,6 +288,10 @@ The ``let'' bindings can be eliminated from TFF1 formulas using capture-avoiding
 substitution. Hence we do not need to consider them in the rest of this
 specification.
 
+\ourparagraph{Terms and Formulas.} Apart from the differences described above,
+the terms and formulas of TFF1 are identical to those of TFF0. We refer to the
+TFF0 specification \cite{TFF0} for further information.
+
 \ourparagraph{Notation.} In the sequel, we use standard
 mathematical notation to write types, terms, and formulas. Our conventions
 for metavariables are summarized below.
@@ -279,13 +299,13 @@ for metavariables are summarized below.
 \begin{center}
 \begin{tabular}{l@{\enskip}l@{\qquad}l@{\enskip}l}
 Type variables: & $\alpha,$ $\beta$ &
-  Function symbols: & $f,$ $g,$ $h$ \\
-Type constructors: & $I,$ $K,$ $L$ &
+  Function symbols: & $f,$ $g$ \\
+Type constructors: & $\kappa$ &
   Predicate symbols: & $p,$ $q$ \\
-Types: & $T,$ $S$ &
-  Terms: & $t,$ $s$ \\
-Term variables: & $u,$ $v,$ $w,$ $x,$ $y,$ $z$ &
-  Formulas: & $F,$ $G,$ $H$
+Types: & $\sigma$, $\tau$ &
+  Terms: & $s$, $t$ \\
+Term variables: & $u,$ $v$ &
+  Formulas: & $\varphi,$ $\psi$
 \end{tabular}
 \end{center}
 %
@@ -294,62 +314,123 @@ Term variables: & $u,$ $v,$ $w,$ $x,$ $y,$ $z$ &
 %% @ANDREI: There were very few examples of this in the rest of the document (lessEq and isOrdered) and
 %% it was obvious from the context what they were. Also, I'm trying italics for those, to mix
 %% better with the maths; but I'm using the macro \sym, so it's easy to change.
+Possibly empty lists of types and terms are denoted by $\bar{\tau}$ and
+$\bar{t}$, respectively.
 
 We use the symbols ${\times}$, ${\to}$, and ${\ALL}$
 %\footnote{We can also use ${\prod}$, but should we,
 %given that there are no dependent types in TFF1?}
 to write type signatures, and write $\omicron$ (lowercase omicron) for the
-Boolean type {\tt \$o}. For ease of presentation, it is convenient to treat
-equality ($\eq$), negation ($\lnot$), conjunction ($\land$), and the universal
-quantifier ($\forall$) as logical symbols and regard disjunction ($\lor$),
-implication ($\limp$), equivalence ($\lequ$), disequality ($\not\eq$), and the
-existential quantifier ($\exists$) as abbreviations.
+Boolean type {\tt \$o}. It is convenient to treat
+equality ($\eq$), negation ($\lnot$), conjunction ($\rand$), and universal
+quantification ($\forall$) as logical symbols and regard disequality
+($\not\eq$), disjunction ($\lor$), implication ($\limp$), reverse implication
+($\revlimp$), equivalence ($\lequ$), inequivalence ($\inlequ$), and existential
+quantification ($\exists$) as abbreviations.
 %The symbols $\top$ and $\bot$ stand for ``true'' and ``false'',
 %respectively.
 
 Equality can be seen as a polymorphic predicate with the signature
 $\forall\alpha.\; \alpha\times\alpha\to\omicron$, but the type instance is
 implicitly specified by the type of the arguments, instead of explicitly via a
-type argument.
+type argument. Hence, it is preferable to consider it a logical
+symbol.
 
-The set of type variables occurring freely in a formula $F$
+The set of type variables occurring freely in a formula $\varphi$
 (in the type arguments of polymorphic symbols or
-in the types of bound variables) is denoted by $\FVT(F)$.
-The set of free ordinary variables of $F$
-is denoted by $\FV(F)$. The formula $F$ is {\em closed\/}
-if both $\FVT(F)$ and $\FV(F)$ are empty.
+in the types of bound variables) is denoted by $\FVT(\varphi)$.
+The set of free ordinary variables of $\varphi$
+is denoted by $\FV(\varphi)$. The formula $\varphi$ is {\em closed\/}
+if both $\FVT(\varphi)$ and $\FV(\varphi)$ are empty.
 
-A {\em type substitution\/} is a mapping of type variables
+A {\em type substitution\/} $\rho$ is a mapping of type variables
 to types. A {\em monomorphic\/} type substitution
 maps every type variable either to itself or to a monomorphic type.
 %
-A type $T$ is said to {\em match\/} another type $T'$ whenever there exists a
-type substitution~$\rho$ such that $T\rho = T'$. We reserve $\rho$ for type
-substitutions and $\sigma$ for term substitutions.
+%A type $\tau$ is said to {\em match\/} another type $\tau'$ whenever there exists a
+%type substitution~$\rho$ such that $\tau\rho = \tau'$.
+%We reserve $\rho$ for type substitutions.
 %
-The symbol $\circ$ denotes the composition
-of two substitutions:\ 
-$x(\sigma \circ \sigma') \eqdef (x\sigma)\sigma' = x\sigma\sigma'$.
+%The operator $\circ$ composes two substitutions:\
+%$\tau(\rho \circ \rho') \eqdef (\tau\rho)\rho' = \tau\rho\rho'$.
 
-\ourparagraph{Type checking.}
+\subsection{Type Checking}
+
 Let $\GAM$ be a {\em type context}, a function that maps
 every variable symbol to a type.
-A type judgment $\GAM \,\vdash t \ty T$ expresses that that term $t$
-is {\em well-typed\/} and has type $T$ in context $\GAM$.
-A type judgment $\GAM \,\vdash F \ty \omicron$ expresses that formula $F$
-is {\em well-typed\/} in $\GAM$.
+A type judgment $\GAM \,\vdash t \ty \tau$ expresses that that the term $t$
+is {\em well-typed\/} and has type $\tau$ in context~$\GAM$.
+A type judgment $\GAM \,\vdash \varphi \ty \omicron$ expresses that the formula
+$\varphi$ is {\em well-typed\/} in~$\GAM$.
 We write $f \ty \forall \alpha_1\dots\alpha_m .\;
-T_1 \times \dots \times T_n \to T$ and
+\tau_1 \times \dots \times \tau_n \to \tau$ and
 $p \ty \forall \alpha_1\dots\alpha_m .\;
-T_1 \times \dots \times T_n \to \omicron$ to specify
+\tau_1 \times \dots \times \tau_n \to \omicron$ to specify
 type signatures of function and predicate symbols,
 where both $m$ and $n$ can be 0.
 
-The typing rules of TFF1 are given in Figure~\ref{fig:typing}.
-We write $\GAM[u \mapsto T]$ to denote a type context that maps
-variable $u$ to type $T$ and every other variable $v$ to $\GAM(v)$.
+The typing rules of TFF1 are given below:
+%in Figure~\ref{fig:typing}.
+
+\vskip\abovedisplayskip
+
+\centerline{$\displaystyle \ourfrac{}{\GAM \,\vdash\, v \ty \GAM(v)}$}
+
+\vskip3\smallskipamount
+
+\centerline{$\displaystyle
+\ourfrac{f \ty \forall \alpha_1\dots\alpha_m .\;
+    \tau_1 \times \dots \times \tau_n \to \tau
+\qquad
+\GAM \,\vdash\, t_1 \ty \tau_1\,\rho
+\quad\cdots\quad
+\GAM \,\vdash\, t_n \ty \tau_n\,\rho
+}{\GAM \,\vdash\,
+f(\alpha_1\,\rho,\>\dots,\>\alpha_m\,\rho,\>t_1,\>\dots,\>t_n) \ty \tau\rho}
+$}
+
+\vskip3\smallskipamount
+
+\centerline{$\displaystyle
+\ourfrac{p \ty \forall \alpha_1\dots\alpha_m .\;
+    \tau_1 \times \dots \times \tau_n \to \omicron
+\qquad
+\GAM \,\vdash\, t_1 \ty \tau_1\,\rho
+\quad\cdots\quad
+\GAM \,\vdash\, t_n \ty \tau_n\,\rho
+}{\GAM \,\vdash\,
+p(\alpha_1\,\rho,\>\dots,\>\alpha_m\,\>\rho,\>t_1,\>\dots,\>t_n) \ty \omicron}
+$}
+
+\vskip3\smallskipamount
+
+\centerline{$\displaystyle
+\ourfrac{\GAM \,\vdash\, t_1 \ty \tau \qquad \GAM \,\vdash\, t_2 \ty \tau}{
+\GAM \,\vdash\, t_1 \eq t_2 \ty \omicron}$\qquad$\displaystyle
+\ourfrac{\GAM \,\vdash\, \varphi \ty \omicron \qquad
+\GAM \,\vdash\, \psi \ty \omicron}{
+\GAM \,\vdash\, \varphi \rand \psi \ty \omicron}$}
+
+\vskip3\smallskipamount
+
+\centerline{$\displaystyle
+\ourfrac{\GAM \,\vdash\, \varphi \ty \omicron}{
+\GAM \,\vdash\, \lnot\, \varphi \ty \omicron}\qquad\qquad
+\ourfrac{\GAM[v \mapsto \tau] \,\vdash\, \varphi \ty \omicron}{
+\GAM \,\vdash\, \forall v \mathbin{\ty} \tau .\; \varphi \ty \omicron}\qquad\qquad
+\ourfrac{\GAM \,\vdash\, \varphi[\alpha'\!/\alpha] \ty \omicron}{
+\GAM \,\vdash\, \forall \alpha .\; \varphi \ty \omicron}$}
+
+\vskip\belowdisplayskip
+
+%\caption{Typing rules of TFF1}
+%\label{fig:typing}
+%\end{figure}
+
+We write $\GAM[u \mapsto \tau]$ to denote a type context that maps
+variable $u$ to type $\tau$ and every other variable $v$ to $\GAM(v)$.
 In the last rule, $\alpha'$ is an arbitrary type variable that
-occurs neither in $F$ nor in the values of~$\GAM$.
+occurs neither in $\varphi$ nor in the values of~$\GAM$.
 The renaming is necessary to reject formulas such as
 $\forall\alpha.\:\forall u\ty\alpha.\:\forall\alpha.\:\forall v\ty\alpha.\;
 u \eq v$, where the types of $u$ and $v$ are actually different.
@@ -360,137 +441,92 @@ we call this the {\em no-clash assumption}.
 %variable are not allowed, either.
 Then we can do without explicit renaming of type variables,
 and the last typing rule's antecedent  is simply
-$\GAM \,\vdash\, F \ty \omicron$.
+$\GAM \,\vdash\, \varphi \ty \omicron$.
 
-\begin{figure}
-\begin{center}
-\begin{tabular}{c@{\qquad\qquad}c}
-\multicolumn{2}{c}{$\displaystyle
-\ourfrac{}{\GAM \,\vdash\, v \ty \GAM(v)}$} \\[4ex]
-\multicolumn{2}{c}{$\displaystyle
-\ourfrac{f \ty \forall \alpha_1\dots\alpha_m .\;
-    T_1 \times \dots \times T_n \to T
-\qquad
-\GAM \,\vdash\, t_1 \ty T_1\,\rho
-\quad\cdots\quad
-\GAM \,\vdash\, t_n \ty T_n\,\rho
-}{\GAM \,\vdash\,
-f(\alpha_1\,\rho,\>\dots,\>\alpha_m\,\rho,\>t_1,\>\dots,\>t_n) \ty T\rho}
-$} \\[4ex]
-\multicolumn{2}{c}{$\displaystyle
-\ourfrac{p \ty \forall \alpha_1\dots\alpha_m .\;
-    T_1 \times \dots \times T_n \to \omicron
-\qquad
-\GAM \,\vdash\, t_1 \ty T_1\,\rho
-\quad\cdots\quad
-\GAM \,\vdash\, t_n \ty T_n\,\rho
-}{\GAM \,\vdash\,
-p(\alpha_1\,\rho,\>\dots,\>\alpha_m\,\>\rho,\>t_1,\>\dots,\>t_n) \ty \omicron}
-$} \\[4ex]
-$\qquad\displaystyle
-\ourfrac{\GAM \,\vdash\, t_1 \ty T \qquad \GAM \,\vdash\, t_2 \ty T}{
-\GAM \,\vdash\, t_1 \eq t_2 \ty \omicron}$ &
-$\displaystyle
-\ourfrac{\GAM \,\vdash\, F \ty \omicron \qquad
-\GAM \,\vdash\, G \ty \omicron}{
-\GAM \,\vdash\, F \land G \ty \omicron}\qquad$ \\[4ex]
-\multicolumn{2}{c}{
-$\displaystyle
-\ourfrac{\GAM \,\vdash\, F \ty \omicron}{
-\GAM \,\vdash\, \lnot\, F \ty \omicron}\qquad\qquad
-\ourfrac{\GAM[v \mapsto T] \,\vdash\, F \ty \omicron}{
-\GAM \,\vdash\, \forall v \ty T .\; F \ty \omicron}\qquad\qquad
-\ourfrac{\GAM \,\vdash\, F[\alpha'\!/\alpha] \ty \omicron}{
-\GAM \,\vdash\, \forall \alpha .\; F \ty \omicron}$}
-\end{tabular}
-\end{center}
-\caption{Typing rules of TFF1}
-\label{fig:typing}
-\end{figure}
-
-A closed TFF1 formula $H$ is {\em well-typed\/} if and only if
-the judgment $\GAM \vdash H \ty \omicron$ is derivable
+A closed TFF1 formula $\varphi$ is {\em well-typed\/} if and only if
+the judgment $\GAM \vdash \varphi \ty \omicron$ is derivable
 for any $\GAM$.
 Obviously, if a closed formula is
 well-typed in one type context, it is well-typed in any other one;
-in what follows, we omit $\GAM$ and simply write
-${} \vdash H \ty \omicron$.
+hence, we omit $\GAM$ and simply write
+${} \vdash \varphi \ty \omicron$.
 Closed well-typed formulas are called {\em sentences}.
 
-\ourparagraph{Interpretation.}
-An interpretation $\cI$ for a given set of type constructors,
-function symbols, and predicate symbols is constructed as follows.
-We start with a non-empty collection $\sorts$ of non-empty sets,
-which we call {\em domains}. The union of all (not necessarily disjoint) domains
-is called {\em universe\/} and denoted by $\univ$.
+\subsection{Semantics}
 
-A type constructor $K$ of arity $n$ is interpreted as a function
-$K^{\cI} : \sorts^n \to \sorts$.
+The semantics postulates a nonempty collection $\sorts$ of (not necessarily mutually disjoint)
+nonempty sets, the {\em domains}. The union of all domains is the {\em
+universe}, %denoted by
+$\univ$. An interpretation $\cI$ for a given set of type constructors,
+function symbols, and predicate symbols is constructed as follows.
+
+
+An $n$-ary type constructor $\kappa$ is interpreted as a function
+$\kappa^{\cI} : \sorts^n \to \sorts$.
 Let $\theta$ be a {\em type valuation}, a function that maps every
-type variable to a domain. We evaluate types according
-to the following equations:
+type variable to a domain. Types are evaluated according to the following
+equations:
 \begin{align*}
 \evalT{\alpha} &\eqdef \theta(\alpha) &
-\evalT{K(T_1,\dots,T_n)} &\eqdef K^{\cI}(\evalT{T_1},\dots,\evalT{T_n})
+\evalT{\kappa(\tau_1,\dots,\tau_n)} &\eqdef \kappa^{\cI}(\evalT{\tau_1},\,\dots,\,\evalT{\tau_n})
 \end{align*}
 Since type evaluation depends only on the values of $\theta$
-on the type variables occurring in a type, we write $\evalG{S}$
-to denote the domain of a monomorphic type $S$. We also write
-$\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$
-to evaluate a type whose free type variables
-belong to $\alpha_1,\dots,\alpha_n$.
+on the type variables occurring in a type, we write $\evalG{\tau}$
+to denote the domain of a monomorphic type $\tau$.
+%% NEEDED?:
+%We also write
+%$\evalG{\tau}_{[\alpha_1\,\mapsto\,D_1,\,\dots,\,\alpha_n\,\mapsto\,D_n]}$
+%to evaluate a type whose free type variables
+%are among $\alpha_1,\dots,\alpha_n$.
 
-A predicate symbol $p$ of signature
-$\forall \alpha_1\dots\alpha_n .\; T_1 \times \dots \times T_m
+A predicate symbol $p : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n
 \to \omicron$ is interpreted as a relation
-$p^{\cI} \subseteq \sorts^n \times \univ^m$.
-A function symbol $f$ of signature
-$\forall \alpha_1\dots\alpha_n .\; T_1 \times \dots \times T_m \to T$
+$\smash{p^{\cI}} \subseteq \sorts^m \times \univ^n$.
+A function symbol $f : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \tau$
 is interpreted as a function
-$f^{\cI}$ on $\sorts^n \times \univ^m$ that
-maps any $n$ domains $D_1,\dots,D_n$ and
-any $m$ elements of the universe
-to an element of
-$\evalG{T}_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_n\,\mapsto\,D_n]}$.
+$f^{\cI}$ on $\sorts^m \times \univ^n$ that
+maps any $m$ domains $D_1,\dots,D_m$ and
+any $n$ universe elements to an element of
+$\evalG{\tau}_\theta$,
+where $\theta$ maps each $\alpha_i$ to $D_i$.
 %Recall that every type variable occurring in a type signature
-%must be bound, and therefore every type variable in $T$ belongs
-%to $\{ \alpha_1,\dots,\alpha_n \}$.
+%must be bound, and therefore every type variable in $\tau$ belongs
+%to $\{ \alpha_1,\dots,\alpha_m \}$.
 
 Let $\xi$ be a {\em variable valuation}, a function that assigns
-to every variable an element of $\univ$. We evaluate TFF1 terms
-and formulas according to the following equations:
+to every variable an element of $\univ$. TFF1 terms
+and formulas are evaluated according to the following equations:
 \begin{align*}
 \eval{u} &\eqdef \xi(u) &
-\eval{f(\bar{S},\bar{t})} &\eqdef f^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\
+\eval{f(\bar{\tau},\,\bar{t}\,)} &\eqdef f^\cI(\evalT{\bar{\tau}},\eval{\bar{t}\,}) \\
 \eval{t_1 \eq t_2} &\eqdef (\eval{t_1} = \eval{t_2}) &
-\eval{p(\bar{S},\bar{t})} &\eqdef p^\cI(\evalT{\bar{S}},\eval{\bar{t}}) \\
-\eval{\lnot\, F} &\eqdef \lnot\, \eval{F} &
-\eval{F \land G} &\eqdef \eval{F} \land\, \eval{G} \\
-\eval{\forall u \ty T .\; F} &\eqdef \forall {a \in \evalT{T}} .\;
-\evalG{F}_{\theta,\xi[u\,\mapsto\,a]} &
-\eval{\forall \alpha .\; F} &\eqdef \forall {D \in \sorts} .\;
-\evalG{F}_{\theta[\alpha\,\mapsto\,D],\xi} % \\
-%\eval{\forall u \ty T .\; F} &\eqdef \!\!\!\!
-%\bigwedge_{a \in \evalT{T}} \!
-%\evalG{F}_{\theta,\xi[u\,\mapsto\,a]} &
-%\eval{\forall \alpha .\; F} &\eqdef
+\eval{p(\bar{\tau},\,\bar{t}\,)} &\eqdef p^\cI(\evalT{\bar{\tau}},\eval{\bar{t}\,}) \\
+\eval{\lnot\, \varphi} &\eqdef \lnot\, \eval{\varphi} &
+\eval{\varphi \rand \psi} &\eqdef \eval{\varphi} \rand \eval{\psi} \\
+\eval{\forall u \ty \tau .\; \varphi} &\eqdef \forall {a \mathbin\in \evalT{\tau}} .\;
+\evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]} &
+\eval{\forall \alpha .\; \varphi} &\eqdef \forall {D \in \sorts} .\;
+\evalG{\varphi}_{\theta[\alpha\,\mapsto\,D],\,\xi} % \\
+%\eval{\forall u \ty \tau .\; \varphi} &\eqdef \!\!\!\!
+%\bigwedge_{a \in \evalT{\tau}} \!
+%\evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]} &
+%\eval{\forall \alpha .\; \varphi} &\eqdef
 %\bigwedge_{D \in \sorts}\;
-%\evalG{F}_{\theta[\alpha\,\mapsto\,D],\xi}
+%\evalG{\varphi}_{\theta[\alpha\,\mapsto\,D],\,\xi}
 \end{align*}
-Here, $\bar{S}$ and $\bar{t}$ are sequences of types and terms, respectively.
-The expression $\xi[u \mapsto a]$ stands for the function that
-maps variable $u$ to $a$ and every other variable $v$ to $\xi(v)$.
-Likewise, $\theta[\alpha \mapsto D]$ is the function that maps
-type variable $\alpha$ to domain $D$ and every other type
-variable $\beta$ to $\theta(\beta)$. In what follows,
-we omit the irrelevant subscripts and write $\evalG{F}$
-to denote the evaluation of a closed formula.
+The expression $\xi[u \mapsto a]$ stands for the function
+that maps $u$ to $a$ and every other variable $v$ to $\xi(v)$, and likewise for
+$\theta[\alpha \mapsto D]$.
+%Likewise, $\theta[\alpha \mapsto D]$ is the function that maps
+%type variable $\alpha$ to domain $D$ and every other type
+%variable $\beta$ to $\theta(\beta)$.
+We omit irrelevant subscripts and write
+$\evalG{\varphi}$ to denote the evaluation of a closed formula.
 
-We say that a sentence $F$ is {\em true} in an interpretation $\cI$
-and denote it by $\cI \models F$ if and only if $\evalG{F}$ is true.
-The interpretation $\cI$ is called then a {\em model\/} of $F$.
-A sentence that has a model is called {\em satisfiable}.
-A sentence that is true in every interpretation is called {\em valid}.
+A sentence $\varphi$ is {\em true} in an interpretation $\cI$,
+written $\cI \models \varphi$, if and only if $\evalG{\varphi}$ is true.
+The interpretation $\cI$ is then a {\em model\/} of $\varphi$.
+A sentence that has a model is {\em satisfiable}.
+A sentence that is true in every interpretation is {\em valid}.
 These notions are extended to sets and sequents of TFF1 sentences in
-a usual way.
-
+the usual way.

@@ -19,6 +19,9 @@
 \DeclareSymbolFont{letters}{OML}{txmi}{m}{it} % Redefines Greek
 %letters and other symbols (e.g. \partial) to match the TXfonts
 
+%%% Not so crazy calligraphic font
+%\DeclareMathAlphabet{\mathcal}{OT1}{pzc}{m}{it}
+
 %% Pour la redaction %%%
 %\usepackage[notref,notcite]{showkeys}
 %\usepackage{todonotes} %\usepackage{fixme}
@@ -39,7 +42,9 @@
 %\newcommand{\limp}{\supset}
 %\newcommand{\lequ}{\equiv}
 \newcommand{\limp}{\longrightarrow}
+\newcommand{\revlimp}{\longleftarrow}
 \newcommand{\lequ}{\longleftrightarrow}
+\newcommand{\inlequ}{\mathrel{\kern1.1ex\not\kern-1.1ex\lequ}}
 \newcommand{\llb}{\llbracket} \newcommand{\rrb}{\rrbracket}
 \newcommand{\la}{\langle} \newcommand{\ra}{\rangle}
 \newcommand{\eqdef}{\:\triangleq\:}
@@ -79,6 +84,9 @@
 \newcommand{\MON}{\mathcal{M}}
 \newcommand{\ELI}{\mathcal{E}}
 \newcommand{\SKO}{\mathcal{S}}
+
+%\newcommand{\BOLDMON}{\mathcal{M}\hspace{-2.1875ex}\mathcal{M}\hspace{-2.1875ex}\mathcal{M}}
+\newcommand{\BOLDMON}{\mathcal{M\hspace{-2.65ex}M}}
 
 %\newcommand{\UF}{W}
 %\newcommand{\UT}{U}
@@ -163,11 +171,18 @@
 
 \hyphenation{mono-mor-phic poly-mor-phic prop-o-si-tion-al}
 
-\newcommand\ourparagraph[1]{\paragraph{\upshape\bfseries#1}}
+\let\ourparagraph=\paragraph
+%\newcommand\ourparagraph[1]{\paragraph{\upshape\bfseries#1}}
 
 %\newcommand\sym[1]{\mathtt{#1}}
 \newcommand\sym[1]{\mathit{#1}}
 
 %\newcommand\GAM{\gamma}
 \newcommand\GAM{\mathrm{\Gamma}}
+\newcommand\DEL{\mathrm{\Delta}}
+
 \newcommand\ourfrac[2]{\frac{\,#1\,}{\,#2\,}}
+\newcommand\rand{\mathrel{\land}}
+
+%\newcommand\paper{paper}
+\newcommand\paper{specification}
