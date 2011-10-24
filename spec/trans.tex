@@ -11,10 +11,10 @@ supported by ML-style formalisms, which otherwise are a good match for TFF1.
 \subsection{Encoding into a Many-Sorted Logic} \label{ssec:tff0}
 
 Our strategy for translating polymorphic types is to encode them as terms and
-use a special binary predicate to encode type information. To avoid mixing
-types and terms in the encoded problem, we introduce two sorts, $\typ$ and
-$\und$, giving the symbols we generate for type arguments the type $\typ$ while
-keeping $\und$ for every other term.
+use a special binary predicate to encode type information. To avoid mixing types
+and terms in the encoded problem, we introduce two sorts, $\typ$ and $\und$,
+corresponding to $\sorts$ and $\univ$, respectively. We give the symbols we
+generate for types the type $\typ$ while keeping $\und$ for every other term.
 
 Let $\DEL$ be a set of TFF1 sentences.
 %, that is, closed and well-typed formulas.
@@ -49,37 +49,39 @@ according to the following equations:
 \MON(\forall \alpha .\; \varphi) &\eqdef
 \forall \hat{\alpha} .\; \MON(\varphi)
 \end{align*}
-
-\newcommand{\AxD}{\text{\sc Ax}_{\DEL}}
-\newcommand{\Inh}{\text{\sc Inh}}
-\newcommand{\Dom}{\mathrm{Dom}}
-
-Consider a function symbol $f$ with type signature
-$\forall \alpha_1\dots\alpha_n .\; \tau_1 \times \dots \times \tau_m \to \tau$.
-The {\em typing axiom\/} for $f$ is a formula
+%
+\newcommand{\AxD}{\text{\sc Ax}_{\DEL}}%
+\newcommand{\Inh}{\text{\sc Inh}}%
+\newcommand{\Dom}{\mathrm{Dom}}%
+%
+The {\em inhabitance axiom}, $\Inh$, is the formula
+$\forall \hat{\alpha}.\, \exists \hat{u} .\;
+\typeof(\hat{u},\,\hat{\alpha}).$
+For each function symbol $f :
+\forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \tau$,
+the associated {\em typing axiom\/} is the formula
 $$
-\forall \hat{\alpha}_1\dots\hat{\alpha}_n .\;
-\forall \hat{v}_1\dots\hat{v}_m .\;
-\typeof(\hat{f}(\hat{\alpha}_1,\dots,\hat{\alpha}_n,
-\hat{v}_1,\dots,\hat{v}_m), \MON(\tau)).
+\forall \hat{\alpha}_1\dots\hat{\alpha}_m .\;
+\forall \hat{u}_1\dots\hat{u}_n .\;
+\typeof(\hat{f}(\hat{\alpha}_1,\dots,\hat{\alpha}_m,
+\hat{u}_1,\dots,\hat{u}_n), \MON(\tau))%.
 $$
-We denote with $\AxD$ the set of typing axioms
-for all function symbols occurring in $\DEL$.
-The {\em inhabitance axiom}, denoted $\Inh$,
-is a formula
-$\forall \hat{\alpha} \exists \hat{u} .\;
-\typeof(\hat{u},\hat{\alpha}).$
-Then we define
+We let $\AxD$ denote the set of typing axioms associated with all function
+symbols occurring in $\DEL$.
+%
+Finally, we define
 $$
-\MON(\DEL) \eqdef \{ \MON(\varphi) \vb \varphi \in \DEL \} \cup
-\AxD \cup \{ \Inh \}.
+\MON(\DEL) \eqdef \{ \MON(\varphi) \vb \varphi \in \DEL \} \mathrel\cup
+\AxD \mathrel\cup \{ \Inh \}%.
 $$
-
+%
 It is easy to see that $\MON$ converts TFF1 types into well-formed
 terms of sort $\typ$, TFF1 terms into well-formed terms of sort $\und$,
-and TFF1 formulas (not necessarily well-typed) into well-formed formulas.
+and (not necessarily well-typed) TFF1 formulas into well-formed formulas.
 
-\begin{theorem}[Soundness of $\BOLDMON$] \label{thm:mon_sound}
+\begin{theorem}[Soundness of $\BOLDMON$]%
+\label{thm:mon_sound}%
+\afterDot
 If a set of sentences $\DEL$ is satisfiable in TFF1,
 then $\MON(\DEL)$ is satisfiable in classical
 many-sorted first-order logic with equality.
@@ -87,18 +89,18 @@ many-sorted first-order logic with equality.
 \begin{proof}
 Let $\cM$ be a model of $\DEL$.
 We construct an interpretation $\cI$ of $\MON(\DEL)$ as follows.
-Let us denote with $\sorts$ and $\univ$, respectively,
-the set of domains and the universe in $\cM$.
+Let $\sorts$ and $\univ$ stand
+the set of domains and the universe in $\cM$, respectively.
 In $\cI$, we define the domain of sort $\typ$ to be $\sorts$
 and the domain of sort $\und$ to be $\univ$.
-Every function symbol $\hat{\kappa}$ (function symbol $\hat{f}$,
-predicate symbol $\hat{p}$) is interpreted in $\cI$
-exactly as the type constructor $\kappa$ (function symbol $f$,
-predicate symbol $p$) in $\cM$.
+Each function symbol~$\hat{\kappa}$, function symbol $\hat{f}$,
+or predicate symbol $\hat{p}$ is interpreted in $\cI$
+exactly as the type constructor $\kappa$, function symbol $f$,
+or predicate symbol $p$ in $\cM$.
 The predicate symbol $\typeof$ is interpreted as the membership relation.
 %This concludes the definition of interpretation $\cI$.
 
-We are going to show that for every type $\sigma$, term $t$,
+We show that for every type $\sigma$, term $t$,
 and formula $\varphi$ occurring in $\DEL$,
 for every variable valuation $\nu$ in $\cI$, we have
 \begin{align*}
@@ -111,7 +113,7 @@ $\xi(u) \eqdef \nu(\hat{u})$ for every
 type variable $\alpha$ and every variable $u$.
 %
 We prove these equalities by induction on the structure
-of types, terms, and formulas. The only non-trivial case is
+of types, terms, and formulas. The only nontrivial case is
 that of a quantified formula, $\forall u \ty \tau .\; \varphi$.
 It is easy to see that any $a \in \univ$ belongs
 to $\llb \tau \rrb^\cM_\theta$ if and only if
@@ -207,7 +209,7 @@ $\nu(\hat{u}) \eqdef \pi_1(\xi(u))$
 for every type variable $\alpha$ and variable $u$.
 
 The proof goes by induction on the structure of types, terms, and formulas.
-We have three non-trivial cases: equality, quantification over a term
+We have three nontrivial cases: equality, quantification over a term
 variable, and quantification over a type variable.
 
 Let $\varphi$ be an equality $t_1 \eq t_2$.
