@@ -1,0 +1,172 @@
+\section{Preprocessing}
+
+We describe two preprocessing steps that preserve both satisfiability and
+unsatisfiability of TFF1 problems. They eliminate ghost type arguments and type
+quantifiers, two features that are not directly supported by ML-style formalisms
+(which otherwise are a good match for TFF1).
+
+\subsection{Elimination of Ghost Type Arguments} \label{ssec:ghost}
+
+%\footnote{Other relevant citations, please? What about Mizar?}.
+% @ANDREI: I'd rather stick to "ML-style formalisms" here. Mizar is based on
+% set theory and has at most soft types; it would be better treated in the
+% Related Work section.
+
+ML-style formalisms, as implemented in Alt-Ergo~\cite{conchon08smt},
+Boogie~\cite{Barnett06boogie}, HOL \cite{gordon-melham-1993}, HOL
+Light~\cite{harrison-1996}, Isabelle\slash HOL~\cite{nipkow-et-al-2002},
+Why3~\cite{boogie11why3}, and other systems, forbid explicit $\forall$ binders
+in type signatures. Function and predicate symbols do not take explicit type
+arguments; instead, the concrete instance of the symbol's type signature is
+determined by the types of its term arguments, the type of the result, and
+optional type annotations.
+
+The natural translation from TFF1 to such a formalism would map $\forall
+\alpha\beta.\; \alpha\times\beta\to\omicron$ (and $\forall \beta\alpha.\;
+\alpha\times\beta\to\omicron$) to $\alpha\times\beta\to\omicron$, simply
+omitting any $\forall$ binders. To compensate for the missing type arguments,
+type annotations are sometimes needed to guide the Hindley--Milner type
+inference. This is slightly awkward but not difficult to implement.
+
+The difficulties arise in conjunction with ghost type variables: If
+$\forall\alpha.\;\omicron$ collapses to $\omicron$, the dependency on the type
+is lost.
+%
+To ease the adoption of TFF1 in such systems, we suggest a preprocessing step
+that eliminates ghost type arguments. This step is lightweight, as it requires
+only the introduction of one term argument per ghost type. In particular,
+it is the identity for formulas that do not rely on ghost type arguments.
+
+%that is, the type variables in the symbol's type signature that
+%do not appear in the quantifier-free matrix.
+
+Let $\DEL$ be a set of sentences.
+We construct an equisatisfiable set $\ELI(\DEL)$ as follows.
+%
+We introduce a new unary type constructor $\ghost$.
+We replace every function symbol $f : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \tau$
+with a new function symbol $\hat{f} : \forall \alpha_1\dots\alpha_m .\;
+\ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
+\tau_1 \times \dots \times \tau_n \to \tau$,
+where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
+variables from the quantifier prefix that do not occur in
+$\tau_1,\dots,\tau_n$ or $\tau$.
+Similarly, every predicate symbol $p \,\ty\,
+\forall \alpha_1\dots\alpha_m .\;\allowbreak \tau_1 \times \dots \times \tau_n \to \omicron$
+is replaced with a new predicate symbol $\hat{p} \,\ty\,
+\forall \alpha_1\dots\alpha_m .\;\allowbreak
+\ghost(\alpha_{i_1}) \times \dots \times \ghost(\alpha_{i_r}) \times
+\tau_1 \times \dots \times \tau_n \to \omicron$,
+where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
+variables from the quantifier prefix that do not occur in
+$\tau_1,\dots,\tau_n$.
+Finally, we add a ``witness'' constant $\wit : \forall \alpha.\;\ghost(\alpha)$.
+The $\ELI$ transformation translates terms and atomic
+formulas according to the following equations:
+\begin{align*}
+\ELI(u) \eqdef u
+\quad\quad & \qquad\qquad\qquad\quad
+\ELI(t_1 \eq t_2) \eqdef \ELI(t_1) \eq \ELI(t_2) \\
+\ELI(f(\sigma_1,\dots,\sigma_m,t_1,\dots,t_n)) &\eqdef
+\hat{f}(\sigma_1,\dots,\sigma_m,\wit(\sigma_{i_1}),\dots,\wit(\sigma_{i_r}),
+\ELI(t_1),\dots,\ELI(t_n)) \\
+\ELI(p(\sigma_1,\dots,\sigma_m,t_1,\dots,t_n)) &\eqdef
+\hat{p}(\sigma_1,\dots,\sigma_m,\wit(\sigma_{i_1}),\dots,\wit(\sigma_{i_r}),
+\ELI(t_1),\dots,\ELI(t_n))
+\end{align*}
+Given a formula $\varphi$ or a set of sentences $\DEL$,
+$\ELI(\varphi)$ and $\ELI(\DEL)$ denote the result of
+applying $\ELI$ to every atomic formula in $\varphi$ and
+$\DEL$, respectively.
+
+\begin{theorem} \label{thm:eli}
+Any $\DEL$ is equisatisfiable to $\ELI(\DEL)$.
+\end{theorem}
+\begin{proof}
+A model of $\DEL$ can be converted to a model of $\ELI(\DEL)$
+as follows. We choose an arbitrary value $e$ and choose the singleton
+$\{ e \}$ as the domain of $\ghost(D)$ for any domain $D$.
+Accordingly, $\wit$ evaluates to $e$ on any argument.
+Interpretations of other function and predicate symbols are
+adjusted in the obvious way.
+
+To convert a model of $\ELI(\DEL)$
+to a model of $\DEL$, we evaluate any functional symbol
+$f$ on $D_1,\dots,D_m,a_1,\dots,a_n$ exactly as
+$\hat{f}$ on $D_1,\dots,D_m,e_1,\dots,e_r,a_1,\dots,a_n$,
+where each $e_k$ is the evaluation of $\wit$ on $D_{i_k}$, and similarly
+for predicate symbols.
+\qed
+\end{proof}
+
+\subsection{Type Skolemization} \label{ssec:skol}
+
+Another feature of TFF1 which is not universally supported
+by other systems with polymorphic types is explicit
+quantification over type variables.
+For example, while Boogie and Coq \cite{xxx} allow quantifiers over types
+in their logic,
+%\footnote{Mizar? Anybody else?}.
+%
+HOL and other ML-style formalisms provide no such syntax.
+Instead, they consider all type variables
+implicitly universally quantified at the top of a formula, which is similar to
+the treatment of variables in TPTP CNF clauses.
+A simple and practical solution to translate TFF1 problems
+for the systems of the second kind is type skolemization. This is slightly
+involved because type quantifiers may appear under equivalence, where they are
+unpolarized.
+
+We introduce two transformations, $\SKO^-$ and $\SKO^+$, to perform type
+skolemization in premises and in goals, respectively. (The latter is more
+correctly called ``type herbrandization.'')
+%Let us call a formula $\varphi$ {\em dependently typed} whenever
+%it contains a quantifier over a type variable in the scope
+%of a quantifier over a term variable%
+%\footnote{We might take polarities into account, but then
+%the proof of Theorem~\ref{thm:sko} wouldn't be so sweet.
+%Types-under-values are nasty anyway.}.
+Their definitions follow:
+\begin{align*}
+\SKO^-(p(\bar{\sigma},\bar{t})) &\eqdef p(\bar{\sigma},\bar{t}) &
+\SKO^+(p(\bar{\sigma},\bar{t})) &\eqdef p(\bar{\sigma},\bar{t}) \\
+\SKO^-(t_1 \eq t_2) &\eqdef t_1 \eq t_2 &
+\SKO^+(t_1 \eq t_2) &\eqdef t_1 \eq t_2 \\
+\SKO^-(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi &
+\SKO^+(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi \\
+\SKO^-(\varphi \rand \psi) &\eqdef \SKO^-(\varphi) \rand \SKO^-(\psi) &
+\SKO^+(\varphi \rand \psi) &\eqdef \SKO^+(\varphi) \rand \SKO^+(\psi) \\
+\SKO^-(\lnot\, \varphi) &\eqdef \lnot\, \SKO^+(\varphi) &
+\SKO^+(\lnot\, \varphi) &\eqdef \lnot\, \SKO^-(\varphi) \\
+\SKO^-(\forall \alpha .\; \varphi) &\eqdef \forall \alpha .\; \SKO^-(\varphi) &
+\SKO^+(\forall \alpha .\; \varphi) &\eqdef
+\SKO^+(\varphi[\kappa(\bar\beta)/\alpha])
+\end{align*}
+where $\kappa$ is a fresh type constructor and $\bar\beta$ are
+the free type variables of $\forall \alpha .\; \varphi$.
+Recall that TFF1 forbids quantifiers over type variables in the scope
+of a quantifier over a term variable; otherwise, Skolem type constructors
+would have to take term variables as arguments. This explains why $\SKO^-$ and
+$\SKO^+$ simply stop at the outermost term quantifier.
+
+Given a set of TFF1 sentences $\DEL$,
+$\SKO^-(\DEL)$ and $\SKO^+(\DEL)$ denote the result of applying
+the corresponding transformations to every formula in $\DEL$.
+
+\begin{theorem} \label{thm:sko}
+Any $\DEL$ is equisatisfiable to $\SKO^-(\DEL)$.
+\end{theorem}
+\begin{proof}
+It is easy to see that
+skolemizing the $\typ$-sorted variables in $\MON(\DEL)$ gives
+exactly $\MON(\SKO^-(\DEL))$ modulo renaming of Skolem symbols and
+permutation of their arguments. Theorems~\ref{thm:mon_sound} and
+\ref{thm:mon_compl} conclude the proof.
+\qed
+\end{proof}
+
+%%% @ANDREI: Which restriction are you talking about? I'm not following you here:
+%
+%Given a TFF1 problem that does not satisfy the aforementioned restriction,
+%one can submit it to a system like Isabelle/HOL or Alt-Ergo by encoding it
+%with $\MON$ or any other sound translation into monomorphic logic.
