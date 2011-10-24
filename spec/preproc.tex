@@ -1,8 +1,9 @@
 \section{Preprocessing}
 
 We describe two preprocessing steps that preserve both satisfiability and
-unsatisfiability of TFF1 problems. They eliminate ghost type arguments and type
-quantifiers, two features that are not directly supported by ML-style formalisms
+unsatisfiability of TFF1 problems. They eliminate ghost type variables in type
+signatures and alternating $\forall$/$\exists$ type quantifier prefixes in
+formulas, two features that are not directly supported by ML-style formalisms
 (which otherwise are a good match for TFF1).
 
 \subsection{Elimination of Ghost Type Arguments} \label{ssec:ghost}
@@ -33,9 +34,9 @@ $\forall\alpha.\;\omicron$ collapses to $\omicron$, the dependency on the type
 is lost.
 %
 To ease the adoption of TFF1 in such systems, we suggest a preprocessing step
-that eliminates ghost type arguments. This step is lightweight, as it requires
+that eliminates ghost type variables. This step is lightweight, as it requires
 only the introduction of one term argument per ghost type. In particular,
-it is the identity for formulas that do not rely on ghost type arguments.
+it is the identity for formulas that do not rely on ghost type variables.
 
 %that is, the type variables in the symbol's type signature that
 %do not appear in the quantifier-free matrix.
