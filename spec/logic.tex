@@ -1,5 +1,3 @@
-%First-Order Logic with Polymorphic Types
-% ^^^ sounds a bit too general -- could be the title of the entire paper almost
 \section{Syntax and Semantics} \label{sec_logic}
 
 Briefly, the types, terms, and formulas of TFF1 are analogous to those of TFF0,
@@ -55,8 +53,7 @@ variable occurring in $\tau$ appears among the $\alpha_i$'s.
 %
 We omit the parentheses in forms (c) and (d) if $n = 1$. The binder {\tt !>} in
 form (e) denotes %type-level  (it's really type-signature-level)
-universal quantification. Type variables that are bound by {\tt !>} without
-occurring in the signature's body are called \emph{ghost type variables}.
+universal quantification.
 
 %%% TODO: define monomorphic and polymorphic symbols?
 Form (a) is used for variables and monomorphic constants; form (b), for
@@ -70,6 +67,17 @@ the general syntax
 ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\widehat \tau$}
 \end{center}
 where $m$ and $n$ may be 0 and $\widehat \tau$ may be any type or {\tt \$o}.
+
+Type variables that are bound by {\tt !>} without
+occurring in the type signature's body are called \emph{ghost type variables}.
+These make it possible to specify operations and relations directly on types,
+providing a convenient way to encode type classes.
+For example, we can declare a polymorphic propositional
+constant {\tt is\_linear} with the signature
+{\tt !>}~{\tt [A} {\tt :} {\tt \$tType]:} {\tt \$o} and use it as a guard to restrict the
+axioms specifying that a binary predicate {\tt less\_eq} with the signature
+{\tt |>}~{\tt [A} {\tt :} {\tt \$tType]:} {\tt (A} {\tt *} {\tt A)} {\tt >} {\tt \$o}
+is a linear order to those types that satisfy the {\tt is\_linear} predicate.
 
 %A type with a quantifier prefix is called {\em polytype},
 %otherwise we call it {\em monotype}.
@@ -213,39 +221,44 @@ term variable.
 Rationale: A statement of the form ``for every integer $k$, there exists a type
 $\alpha$ such that $\ldots$'' effectively makes $\alpha$ a dependent type.
 On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
-and we are aware of no easy translation to ML-style polymorphic formalisms.
+and there is no easy translation to ML-style polymorphic formalisms.
+%%% @ANDREI: We can be forceful here, because "easy" is ambiguous anyway.
+%%% Nobody has ever managed to encode dependent types in a nice way in HOL, and
+%%% this has been attempted for decades. Surely any new discovery there will not
+%%% be "easy".
 Moreover, type handling in an automatic prover would be more difficult were
 such constructions allowed, since they require paramodulation into types.
 
-On the other hand, all the notions and procedures in this \paper, except for
-type skolemization, are independent of this restriction.
+On the other hand, all the notions and procedures described in this \paper,
+except for type skolemization, are independent of this restriction.
 The rules of type checking and the notion of interpretation are
 directly applicable to unrestricted formulas. The encoding into a monomorphic
 logic (Section~\ref{ssec:tff0}) is sound and complete on unrestricted formulas,
-and the proofs of Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} require
+and the proofs require
+%% Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} require
+%% (I'm no fan of forward references)
 no adjustments. This prepares the ground for TFF2, which is expected to lift the
 restriction and support more elaborate forms of dependent types. Implementations
 of TFF1 are encouraged to support unrestricted formulas, treating them according
 to the semantics given here, if practicable.
 
-%%% @JASMIN: I suggest to comment out the whole "let" part, before we know
-%%% what to put here
-Another way to introduce a variable is via the ``let'' construct.
-A recent extension of the TFF0 format, discussed at the 7th TPTP Tea Party in
-Wrocław and not yet implemented, allows to introduce a function or predicate
-locally. For example, the formulas
-\begin{center}
-\begin{tabular}{l}
-{\tt :=\;[X\;:\;\$int,\;f(X)\;=\;g(X,\;X)]:\;p(f(a))} \\[\smallskipamount]
-{\tt :=\;[X\;:\;\$int,\;p(X)\;<=>\;q(X,\;X)]:\;p(a)}
-\end{tabular}
-\end{center}
-expand to {\tt p(g(a,\;a))} and {\tt q(a,\;a)}, respectively
-\cite{geoff-tptptp-notes}.
-Similarly, TFF1 admits binding a type~$\tau$ to $\kappa(\alpha_1, \ldots,
-\alpha_n)$, where $\alpha_1, \ldots, \alpha_n$ are distinct type variables bound
-in $\tau$, using the syntax $\kappa(\alpha_1, \ldots, \alpha_n)$~{\tt :>}~$\tau$ inside
-the ``let'' binder.
+%Another way to introduce a variable is via the ``let'' construct.
+%A recent extension of the TFF0 format, discussed at the 7th TPTP Tea Party in
+%Wrocław and not yet implemented, allows to introduce a function or predicate
+%locally. For example, the formulas
+%\begin{center}
+%\begin{tabular}{l}
+%{\tt :=\;[X\;:\;\$int,\;f(X)\;=\;g(X,\;X)]:\;p(f(a))} \\[\smallskipamount]
+%{\tt :=\;[X\;:\;\$int,\;p(X)\;<=>\;q(X,\;X)]:\;p(a)}
+%\end{tabular}
+%\end{center}
+%expand to {\tt p(g(a,\;a))} and {\tt q(a,\;a)}, respectively
+%\cite{geoff-tptptp-notes}.
+%Similarly, TFF1 admits binding a type~$\tau$ to $\kappa(\alpha_1, \ldots,
+%\alpha_n)$, where $\alpha_1, \ldots, \alpha_n$ are distinct type variables bound
+%in $\tau$, using the syntax $\kappa(\alpha_1, \ldots, \alpha_n)$~{\tt :>}~$\tau$ inside
+%the ``let'' binder.
+
 %
 %bind a variable
 %to a term as well as to a formula (a variable thus bound has
@@ -286,9 +299,9 @@ tff(bird_list_not_empty, axiom,
 %\footnote{Is this true in TFF0? I didn't find any written
 %specification of multi-variable let.}.
 %
-The ``let'' bindings can be eliminated from TFF1 formulas using capture-avoiding
-substitution. Hence we do not need to consider them in the rest of this
-specification.
+%The ``let'' bindings can be eliminated from TFF1 formulas using capture-avoiding
+%substitution. Hence we do not need to consider them in the rest of this
+%specification.
 
 \ourparagraph{Terms and Formulas.} Apart from the differences described above,
 the terms and formulas of TFF1 are identical to those of TFF0. We refer to the
