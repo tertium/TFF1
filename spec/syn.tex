@@ -281,15 +281,15 @@ to the semantics given here, if practicable.
 %we bind {\tt A} to it: {\tt A} {\tt :-} {\tt foo}.
 %Until {\tt A} is used
 %(as a type or as a value), we cannot know what it is.}.
-For example, the axiom \verb+bird_list_not_empty+ above could also be as
-follows:
-\begin{quote}
-\begin{verbatim}
-tff(bird_list_not_empty, axiom,
-    := [b :> bird, A : $tType, c(A) :> list(A)]:
-        ![B : b, Bs : c(b)]: ~ is_empty(b, cons(b, B, Bs))).
-\end{verbatim}
-\end{quote}
+%For example, the axiom \verb+bird_list_not_empty+ above could also be as
+%follows:
+%\begin{quote}
+%\begin{verbatim}
+%tff(bird_list_not_empty, axiom,
+%    := [b :> bird, A : $tType, c(A) :> list(A)]:
+%        ![B : b, Bs : c(b)]: ~ is_empty(b, cons(b, B, Bs))).
+%\end{verbatim}
+%\end{quote}
 %One can put a mixed list of bindings in a let-statement;
 %in such lists each subsequent binding can refer
 %to the variables introduced by preceding ones%
