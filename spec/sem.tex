@@ -1,0 +1,81 @@
+\section{Semantics}
+\label{sec_semantics}
+
+The semantics of a polymorphic formula coincides with that of its
+monomorphic instances.
+
+The semantics postulates a nonempty collection $\sorts$ of (not necessarily mutually disjoint)
+nonempty sets, the {\em domains}. The union of all domains is the {\em
+universe}, %denoted by
+$\univ$. An interpretation $\cI$ for a given set of type constructors,
+function symbols, and predicate symbols is constructed as follows.
+
+An $n$-ary type constructor $\kappa$ is interpreted as a function
+$\kappa^{\cI} : \sorts^n \to \sorts$.
+Let $\theta$ be a {\em type valuation}, a function that maps every
+type variable to a domain. Types are evaluated according to the following
+equations:
+\begin{align*}
+\evalT{\alpha} &\eqdef \theta(\alpha) &
+\evalT{\kappa(\tau_1,\dots,\tau_n)} &\eqdef \kappa^{\cI}(\evalT{\tau_1},\,\dots,\,\evalT{\tau_n})
+\end{align*}
+Since type evaluation depends only on the values of $\theta$
+on the type variables occurring in a type, we write $\evalG{\tau}$
+to denote the domain of a monomorphic type $\tau$.
+%% NEEDED?:
+%We also write
+%$\evalG{\tau}_{[\alpha_1\,\mapsto\,D_1,\,\dots,\,\alpha_n\,\mapsto\,D_n]}$
+%to evaluate a type whose free type variables
+%are among $\alpha_1,\dots,\alpha_n$.
+
+A predicate symbol $p : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n
+\to \omicron$ is interpreted as a relation
+$\smash{p^{\cI}} \subseteq \sorts^m \times \univ^n$.
+A function symbol $f : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \tau$
+is interpreted as a function
+$f^{\cI}$ on $\sorts^m \times \univ^n$ that
+maps any $m$ domains $D_1,\dots,D_m$ and
+any $n$ universe elements to an element of
+$\evalG{\tau}_\theta$,
+where $\theta$ maps each $\alpha_i$ to $D_i$.
+%Recall that every type variable occurring in a type signature
+%must be bound, and therefore every type variable in $\tau$ belongs
+%to $\{ \alpha_1,\dots,\alpha_m \}$.
+
+Let $\xi$ be a {\em variable valuation}, a function that assigns
+to every variable an element of $\univ$. TFF1 terms
+and formulas are evaluated according to the following equations:
+\begin{align*}
+\eval{u} &\eqdef \xi(u) &
+\eval{f(\bar{\tau},\,\bar{t}\,)} &\eqdef f^\cI(\evalT{\bar{\tau}},\eval{\bar{t}\,}) \\
+\eval{t_1 \eq t_2} &\eqdef (\eval{t_1} = \eval{t_2}) &
+\eval{p(\bar{\tau},\,\bar{t}\,)} &\eqdef p^\cI(\evalT{\bar{\tau}},\eval{\bar{t}\,}) \\
+\eval{\lnot\, \varphi} &\eqdef \lnot\, \eval{\varphi} &
+\eval{\varphi \rand \psi} &\eqdef \eval{\varphi} \rand \eval{\psi} \\
+\eval{\forall u \ty \tau .\; \varphi} &\eqdef \forall {a \mathbin\in \evalT{\tau}} .\;
+\evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]} &
+\eval{\forall \alpha .\; \varphi} &\eqdef \forall {D \in \sorts} .\;
+\evalG{\varphi}_{\theta[\alpha\,\mapsto\,D],\,\xi} % \\
+%\eval{\forall u \ty \tau .\; \varphi} &\eqdef \!\!\!\!
+%\bigwedge_{a \in \evalT{\tau}} \!
+%\evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]} &
+%\eval{\forall \alpha .\; \varphi} &\eqdef
+%\bigwedge_{D \in \sorts}\;
+%\evalG{\varphi}_{\theta[\alpha\,\mapsto\,D],\,\xi}
+\end{align*}
+The expression $\xi[u \mapsto a]$ stands for the function
+that maps $u$ to $a$ and every other variable $v$ to $\xi(v)$, and likewise for
+$\theta[\alpha \mapsto D]$.
+%Likewise, $\theta[\alpha \mapsto D]$ is the function that maps
+%type variable $\alpha$ to domain $D$ and every other type
+%variable $\beta$ to $\theta(\beta)$.
+We omit irrelevant subscripts and write
+$\evalG{\varphi}$ to denote the evaluation of a closed formula.
+
+A sentence $\varphi$ is {\em true} in an interpretation $\cI$,
+written $\cI \models \varphi$, if and only if $\evalG{\varphi}$ is true.
+The interpretation $\cI$ is then a {\em model\/} of $\varphi$.
+A sentence that has a model is {\em satisfiable}.
+A sentence that is true in every interpretation is {\em valid}.
+These notions are extended to sets and sequents of TFF1 sentences in
+the usual way.
