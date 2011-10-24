@@ -89,7 +89,7 @@ many-sorted first-order logic with equality.
 \begin{proof}
 Let $\cM$ be a model of $\DEL$.
 We construct an interpretation $\cI$ of $\MON(\DEL)$ as follows.
-Let $\sorts$ and $\univ$ stand
+Let $\sorts$ and $\univ$ stand for
 the set of domains and the universe in $\cM$, respectively.
 In $\cI$, we define the domain of sort $\typ$ to be $\sorts$
 and the domain of sort $\und$ to be $\univ$.
@@ -378,15 +378,14 @@ Unfortunately, not every TFF1 problem can be treated this way.
 We introduce two transformations $\SKO^-$ and $\SKO^+$ to
 perform type skolemization in premises and in goals, respectively
 (the latter should be rather called ``type herbrandization'').
-Let us call a formula $\varphi$ {\em dependently typed} whenever
-it contains a quantifier over a type variable in the scope
-of a quantifier over a term variable%
-\footnote{We might take polarities into account, but then
-the proof of Theorem~\ref{thm:sko} wouldn't be so sweet.
-Types-under-values are nasty anyway.}.
+%Let us call a formula $\varphi$ {\em dependently typed} whenever
+%it contains a quantifier over a type variable in the scope
+%of a quantifier over a term variable%
+%\footnote{We might take polarities into account, but then
+%the proof of Theorem~\ref{thm:sko} wouldn't be so sweet.
+%Types-under-values are nasty anyway.}.
 The transformations $\SKO^-$ and $\SKO^+$ apply to
-non-dependently typed TFF1 formulas according to the
-following equations:
+TFF1 formulas according to the following equations:
 \begin{align*}
 \SKO^-(p(\bar{\sigma},\bar{t})) &\eqdef p(\bar{\sigma},\bar{t}) &
 \SKO^+(p(\bar{\sigma},\bar{t})) &\eqdef p(\bar{\sigma},\bar{t}) \\
@@ -404,12 +403,17 @@ following equations:
 \end{align*}
 where $\kappa$ is a fresh type constructor and $\beta_1,\dots,\beta_n$ are
 the free type variables of $\forall \alpha .\; \varphi$.
-Given a set $\DEL$ of non-dependently typed sentences,
+Recall that TFF1 forbids quantifiers over type variables in the scope
+of a quantifier over a term variable; otherwise, Skolem type constructors
+would have to take term variables as arguments. This is why $\SKO^-$ and
+$\SKO^+$ stop at the outermost quantifier over a term variable.
+
+Given a set of TFF1 sentences $\DEL$,
 $\SKO^-(\DEL)$ and $\SKO^+(\DEL)$ denote the result of applying
 the corresponding transformations to every formula in $\DEL$.
 
 \begin{theorem} \label{thm:sko}
-Any non-dependently typed $\DEL$ is equisatisfiable to $\SKO^-(\DEL)$.
+Any $\DEL$ is equisatisfiable to $\SKO^-(\DEL)$.
 \end{theorem}
 \begin{proof}
 It is easy to see that
@@ -420,10 +424,7 @@ permutation of their arguments. Theorems~\ref{thm:mon_sound} and
 \qed
 \end{proof}
 
-For dependently typed problems, type skolemization would require
-Skolem type constructors to take term variables as arguments,
-which is beyond the current scope of TFF1. In order to submit such
-problems to systems that do not accept quantifiers over types,
-one can resort to $\MON$ or some other translation into monomorphic
-logic (cf.~Section~\ref{ssec:tff0}). At present, we are not aware
-on any less intrusive way to handle dependently typed TFF1 formulas.
+Given a TFF1 problem that does not satisfy the aforementioned restriction,
+one can submit it to a system like Isabelle/HOL or Alt-Ergo by encoding it
+with $\MON$ or any other sound translation into monomorphic logic.
+
