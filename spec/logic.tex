@@ -213,21 +213,23 @@ term variable.
 Rationale: A statement of the form ``for every integer $k$, there exists a type
 $\alpha$ such that $\ldots$'' effectively makes $\alpha$ a dependent type.
 On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
-and there is no easy translation to ML-style polymorphic formalisms. Moreover,
-type handling in an automatic prover would be more difficult were such
-constructions allowed, since they require paramodulation into types.
+and we are aware of no easy translation to ML-style polymorphic formalisms.
+Moreover, type handling in an automatic prover would be more difficult were
+such constructions allowed, since they require paramodulation into types.
 
-On the other hand, all the definitions in this \paper, except for
+On the other hand, all the notions and procedures in this \paper, except for
 type skolemization, are independent of this restriction.
 The rules of type checking and the notion of interpretation are
 directly applicable to unrestricted formulas. The encoding into a monomorphic
 logic (Section~\ref{ssec:tff0}) is sound and complete on unrestricted formulas,
-and the proofs of Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl}
-require no adjustments. This prepares the ground for TFF2, which is expected to lift the
+and the proofs of Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} require
+no adjustments. This prepares the ground for TFF2, which is expected to lift the
 restriction and support more elaborate forms of dependent types. Implementations
 of TFF1 are encouraged to support unrestricted formulas, treating them according
 to the semantics given here, if practicable.
 
+%%% @JASMIN: I suggest to comment out the whole "let" part, before we know
+%%% what to put here
 Another way to introduce a variable is via the ``let'' construct.
 A recent extension of the TFF0 format, discussed at the 7th TPTP Tea Party in
 Wrocław and not yet implemented, allows to introduce a function or predicate
@@ -339,7 +341,7 @@ symbol.
 The set of type variables occurring freely in a formula $\varphi$
 (in the type arguments of polymorphic symbols or
 in the types of bound variables) is denoted by $\FVT(\varphi)$.
-The set of free ordinary variables of $\varphi$
+The set of free term variables of $\varphi$
 is denoted by $\FV(\varphi)$. The formula $\varphi$ is {\em closed\/}
 if both $\FVT(\varphi)$ and $\FV(\varphi)$ are empty.
 
