@@ -3,12 +3,16 @@
 % Or: Translation to a Many-Sorted Logic
 % Or simply: Translation
 
-We describe a translation from TFF1 to the monomorphic many-sorted first-order
+We describe a translation from TFF1 to the monomorphic simply typed first-order
 logic TFF0. The translation is included here for illustrative purposes; more
-practical encoding schemes are discussed in Section~\ref{sec_related_work}.
+practical encoding schemes are discussed in Section~\ref{sec_related_work}. To
+lighten the presentation, we call the TFF0 types ``sorts,'' to distinguish them
+from TFF1 types.
 
 Our strategy for translating polymorphic types is to encode them as terms and
-use a special binary predicate to encode type information. To avoid mixing types
+use a special binary predicate to encode type information.
+%
+To avoid mixing types
 and terms in the encoded problem, we introduce two sorts, $\typ$ and $\und$,
 corresponding to the set of domains $\sorts$ and the universe $\univ$,
 respectively. We give the symbols we generate for types the sort $\typ$ while
