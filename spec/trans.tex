@@ -6,8 +6,8 @@
 We describe a translation from TFF1 to the monomorphic simply typed first-order
 logic TFF0. The translation is included here for illustrative purposes; more
 practical encoding schemes are discussed in Section~\ref{sec_related_work}. To
-lighten the presentation, we call the TFF0 types ``sorts,'' to distinguish them
-from TFF1 types.
+lighten the presentation, we call the TFF0 types ``sorts,'' keeping ``types''
+for TFF1.
 
 Our strategy for translating polymorphic types is to encode them as terms and
 use a special binary predicate to encode type information.
@@ -27,11 +27,11 @@ To every type variable $\alpha$ in $\DEL$ or in the type signature of a function
 symbol, we assign a fresh variable $\hat{\alpha}$ of sort $\typ$.
 To every term variable $u$, we assign
 a fresh variable $\hat{u}$ of sort $\und$.
-To every type constructor $\kappa$ of arity $n$, we assign
-a function symbol $\hat{\kappa} : \typ^n \to \typ$.
+To every type constructor $\kappa$ of arity $m$, we assign
+a function symbol $\hat{\kappa} : \typ^m \to \typ$.
 To every function symbol $f : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \tau$,
 we assign a function symbol $\hat{f} : \typ^m \times \und^n \to \und$.
-To every predicate symbol $p : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \omicron$
+To every predicate symbol $p : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \omicron$,
 we assign a predicate symbol $\hat{p} : \typ^m \times \und^n \to \omicron$.
 Finally, we introduce the predicate symbol $\typeof : \und \times \typ$.
 
