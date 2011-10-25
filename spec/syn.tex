@@ -230,7 +230,7 @@ On the other hand, all the notions and procedures described in this \paper,
 except for type skolemization, are independent of this restriction.
 The rules of type checking and the notion of interpretation are
 directly applicable to unrestricted formulas. The encoding into a monomorphic
-logic (Section~\ref{sec_trans}) is sound and complete on unrestricted formulas,
+logic (Section~\ref{sec:trans}) is sound and complete on unrestricted formulas,
 and the proofs require
 %% Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} require
 %% (I'm no fan of forward references)
@@ -281,15 +281,15 @@ to the semantics given here, if practicable.
 %we bind {\tt A} to it: {\tt A} {\tt :-} {\tt foo}.
 %Until {\tt A} is used
 %(as a type or as a value), we cannot know what it is.}.
-For example, the axiom \verb+bird_list_not_empty+ above could also be as
-follows:
-\begin{quote}
-\begin{verbatim}
-tff(bird_list_not_empty, axiom,
-    := [b :> bird, A : $tType, c(A) :> list(A)]:
-        ![B : b, Bs : c(b)]: ~ is_empty(b, cons(b, B, Bs))).
-\end{verbatim}
-\end{quote}
+%For example, the axiom \verb+bird_list_not_empty+ above could also be as
+%follows:
+%\begin{quote}
+%\begin{verbatim}
+%tff(bird_list_not_empty, axiom,
+%    := [b :> bird, A : $tType, c(A) :> list(A)]:
+%        ![B : b, Bs : c(b)]: ~ is_empty(b, cons(b, B, Bs))).
+%\end{verbatim}
+%\end{quote}
 %One can put a mixed list of bindings in a let-statement;
 %in such lists each subsequent binding can refer
 %to the variables introduced by preceding ones%
