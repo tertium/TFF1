@@ -119,8 +119,9 @@ of types, terms, and formulas. The only nontrivial case is
 that of a quantified formula, $\forall u \ty \tau .\; \varphi$.
 It is easy to see that any $a \in \univ$ belongs
 to $\llb \tau \rrb^\cM_\theta$ if and only if
-$\llb \typeof(\hat{u},\MON(\tau)) \rrb^\cI_{\nu'}{}_{\vphantom{]}}$,
-where $\nu' = [\hat{u} \mapsto a]$, holds. Indeed, the latter is equivalent to
+$\llb \typeof(\hat{u},\MON(\tau)) \rrb^\cI_{\nu'}$,
+where $\nu' = \nu[\hat{u} \mapsto a]$, holds.
+Indeed, the latter is equivalent to
 $a \in \llb \MON(\tau) \rrb^\cI_{\nu'}$.
 Since $\nu$ and $\nu'$ produce the same
 $\theta$ in $\cM$,
@@ -237,6 +238,7 @@ Hence, $d_1 = d_2$ and $\eval{\varphi} = \llb \MON(\varphi) \rrb^\cM_{\nu}$.
 Let $\varphi$ be a quantified formula $\forall u \ty \tau .\; \psi$.
 We must show that for every pair $\la a,\, d \ra$ in $\evalT{\tau}$, we have
 $\typeof^\cM(a, \llb \MON(\tau) \rrb^\cM_{\nu'})$,
+where $\nu' = \nu[\hat{u} \mapsto a]$,
 and vice versa, for every $a$ in the domain of $\und$, if
 $\typeof^\cM(a, \llb \MON(\tau) \rrb^\cM_{\nu'})$
 holds, then there exists some $d$ such that $\la a,\, d \ra \in

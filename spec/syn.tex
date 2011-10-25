@@ -73,7 +73,7 @@ For example, we can declare a polymorphic propositional
 constant {\tt is\_linear} with the signature
 {\tt !>}~{\tt [A} {\tt :} {\tt \$tType]:} {\tt \$o} and use it as a guard to restrict the
 axioms specifying that a binary predicate {\tt less\_eq} with the signature
-{\tt |>}~{\tt [A} {\tt :} {\tt \$tType]:} {\tt (A} {\tt *} {\tt A)} {\tt >} {\tt \$o}
+{\tt !>}~{\tt [A} {\tt :} {\tt \$tType]:} {\tt (A} {\tt *} {\tt A)} {\tt >} {\tt \$o}
 is a linear order to those types that satisfy the {\tt is\_linear} predicate.
 
 %A type with a quantifier prefix is called {\em polytype},
@@ -157,7 +157,7 @@ map(\$int,} {\tt list(A))}, and {\tt V} has type {\tt \$i}.
 
 In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
 instantiated with actual types. In particular, \verb+$o+, \verb+$tType+,
-and {\tt |>} binders cannot occur in type arguments of polymorphic symbols.
+and {\tt !>} binders cannot occur in type arguments of polymorphic symbols.
 
 For systems that implement type inference, the following extension
 of TFF1 might be useful. When a type argument of
@@ -304,64 +304,3 @@ to the semantics given here, if practicable.
 the terms and formulas of TFF1 are identical to those of TFF0. We refer to the
 TFF0 specification \cite{TFF0} for further information.
 
-\ourparagraph{Notation.} In the remaining sections, we use standard
-mathematical notation to write types, terms, and formulas. Our conventions
-for metavariables are summarized below.
-%
-\begin{center}
-\begin{tabular}{l@{\enskip}l@{\qquad}l@{\enskip}l}
-Type variables: & $\alpha,$ $\beta$ &
-  Function symbols: & $f,$ $g$ \\
-Type constructors: & $\kappa$ &
-  Predicate symbols: & $p,$ $q$ \\
-Types: & $\sigma$, $\tau$ &
-  Terms: & $s$, $t$ \\
-Term variables: & $u,$ $v$ &
-  Formulas: & $\varphi,$ $\psi$
-\end{tabular}
-\end{center}
-%
-%We write the names of type constructors, function, and predicate symbols using a
-%fixed-width font:\ {\tt list}, {\tt map}, {\tt cons}, {\tt set}.
-%% @ANDREI: There were very few examples of this in the rest of the document (lessEq and isOrdered) and
-%% it was obvious from the context what they were. Also, I'm trying italics for those, to mix
-%% better with the maths; but I'm using the macro \sym, so it's easy to change.
-Possibly empty lists of types and terms are denoted by $\bar{\tau}$ and
-$\bar{t}$, respectively.
-
-We use the symbols ${\times}$, ${\to}$, and ${\ALL}$
-%\footnote{We can also use ${\prod}$, but should we,
-%given that there are no dependent types in TFF1?}
-to write type signatures, and write $\omicron$ (lowercase omicron) for the
-Boolean type {\tt \$o}. It is convenient to treat
-equality ($\eq$), negation ($\lnot$), conjunction ($\rand$), and universal
-quantification ($\forall$) as logical symbols and regard disequality
-($\not\eq$), disjunction ($\lor$), implication ($\limp$), reverse implication
-($\revlimp$), equivalence ($\lequ$), inequivalence ($\inlequ$), and existential
-quantification ($\exists$) as abbreviations.
-%The symbols $\top$ and $\bot$ stand for ``true'' and ``false'',
-%respectively.
-
-Equality can be seen as a polymorphic predicate with the signature
-$\forall\alpha.\; \alpha\times\alpha\to\omicron$, but the type instance is
-implicitly specified by the type of the arguments, instead of explicitly via a
-type argument. Hence, it is preferable to consider it a logical
-symbol.
-
-The set of type variables occurring freely in a formula $\varphi$
-(in the type arguments of polymorphic symbols or
-in the types of bound variables) is denoted by $\FVT(\varphi)$.
-The set of free term variables of $\varphi$
-is denoted by $\FV(\varphi)$. The formula $\varphi$ is {\em closed\/}
-if both $\FVT(\varphi)$ and $\FV(\varphi)$ are empty.
-
-A {\em type substitution\/} $\rho$ is a mapping of type variables
-to types. A {\em monomorphic\/} type substitution
-maps every type variable either to itself or to a monomorphic type.
-%
-%A type $\tau$ is said to {\em match\/} another type $\tau'$ whenever there exists a
-%type substitution~$\rho$ such that $\tau\rho = \tau'$.
-%We reserve $\rho$ for type substitutions.
-%
-%The operator $\circ$ composes two substitutions:\
-%$\tau(\rho \circ \rho') \eqdef (\tau\rho)\rho' = \tau\rho\rho'$.
