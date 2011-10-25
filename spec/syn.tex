@@ -304,7 +304,7 @@ to the semantics given here, if practicable.
 the terms and formulas of TFF1 are identical to those of TFF0. We refer to the
 TFF0 specification \cite{TFF0} for further information.
 
-\ourparagraph{Notation.} In the sequel, we use standard
+\ourparagraph{Notation.} In the remaining sections, we use standard
 mathematical notation to write types, terms, and formulas. Our conventions
 for metavariables are summarized below.
 %
@@ -365,100 +365,3 @@ maps every type variable either to itself or to a monomorphic type.
 %
 %The operator $\circ$ composes two substitutions:\
 %$\tau(\rho \circ \rho') \eqdef (\tau\rho)\rho' = \tau\rho\rho'$.
-
-\ourparagraph{Type Checking.}
-Let $\GAM$ be a {\em type context}, a function that maps
-every variable symbol to a type.
-A type judgment $\GAM \,\vdash t \ty \tau$ expresses that that the term $t$
-is {\em well-typed\/} and has type $\tau$ in context~$\GAM$.
-A type judgment $\GAM \,\vdash \varphi \ty \omicron$ expresses that the formula
-$\varphi$ is {\em well-typed\/} in~$\GAM$.
-We write $f \ty \forall \alpha_1\dots\alpha_m .\;
-\tau_1 \times \dots \times \tau_n \to \tau$ and
-$p \ty \forall \alpha_1\dots\alpha_m .\;
-\tau_1 \times \dots \times \tau_n \to \omicron$ to specify
-type signatures of function and predicate symbols,
-where both $m$ and $n$ can be 0.
-
-The typing rules of TFF1 are given below:
-%in Figure~\ref{fig:typing}.
-
-\vskip\abovedisplayskip
-
-\centerline{$\displaystyle \ourfrac{}{\GAM \,\vdash\, v \ty \GAM(v)}$}
-
-\vskip3\smallskipamount
-
-\centerline{$\displaystyle
-\ourfrac{f \ty \forall \alpha_1\dots\alpha_m .\;
-    \tau_1 \times \dots \times \tau_n \to \tau
-\qquad
-\GAM \,\vdash\, t_1 \ty \tau_1\,\rho
-\quad\cdots\quad
-\GAM \,\vdash\, t_n \ty \tau_n\,\rho
-}{\GAM \,\vdash\,
-f(\alpha_1\,\rho,\>\dots,\>\alpha_m\,\rho,\>t_1,\>\dots,\>t_n) \ty \tau\rho}
-$}
-
-\vskip3\smallskipamount
-
-\centerline{$\displaystyle
-\ourfrac{p \ty \forall \alpha_1\dots\alpha_m .\;
-    \tau_1 \times \dots \times \tau_n \to \omicron
-\qquad
-\GAM \,\vdash\, t_1 \ty \tau_1\,\rho
-\quad\cdots\quad
-\GAM \,\vdash\, t_n \ty \tau_n\,\rho
-}{\GAM \,\vdash\,
-p(\alpha_1\,\rho,\>\dots,\>\alpha_m\,\>\rho,\>t_1,\>\dots,\>t_n) \ty \omicron}
-$}
-
-\vskip3\smallskipamount
-
-\centerline{$\displaystyle
-\ourfrac{\GAM \,\vdash\, t_1 \ty \tau \qquad \GAM \,\vdash\, t_2 \ty \tau}{
-\GAM \,\vdash\, t_1 \eq t_2 \ty \omicron}$\qquad$\displaystyle
-\ourfrac{\GAM \,\vdash\, \varphi \ty \omicron \qquad
-\GAM \,\vdash\, \psi \ty \omicron}{
-\GAM \,\vdash\, \varphi \rand \psi \ty \omicron}$}
-
-\vskip3\smallskipamount
-
-\centerline{$\displaystyle
-\ourfrac{\GAM \,\vdash\, \varphi \ty \omicron}{
-\GAM \,\vdash\, \lnot\, \varphi \ty \omicron}\qquad\qquad
-\ourfrac{\GAM[v \mapsto \tau] \,\vdash\, \varphi \ty \omicron}{
-\GAM \,\vdash\, \forall v \mathbin{\ty} \tau .\; \varphi \ty \omicron}\qquad\qquad
-\ourfrac{\GAM \,\vdash\, \varphi[\alpha'\!/\alpha] \ty \omicron}{
-\GAM \,\vdash\, \forall \alpha .\; \varphi \ty \omicron}$}
-
-\vskip\belowdisplayskip
-
-%\caption{Typing rules of TFF1}
-%\label{fig:typing}
-%\end{figure}
-
-We write $\GAM[u \mapsto \tau]$ to denote a type context that maps
-variable $u$ to type $\tau$ and every other variable $v$ to $\GAM(v)$.
-In the last rule, $\alpha'$ is an arbitrary type variable that
-occurs neither in $\varphi$ nor in the values of~$\GAM$.
-The renaming is necessary to reject formulas such as
-$\forall\alpha.\:\forall u\ty\alpha.\:\forall\alpha.\:\forall v\ty\alpha.\;
-u \eq v$, where the types of $u$ and $v$ are actually different.
-In order to simplify our subsequent definitions, we assume from now on
-that no type variable can be both free and bound in the same formula;
-we call this the {\em no-clash assumption}.
-%Consequently, nested quantifiers on the same type
-%variable are not allowed, either.
-Then we can do without explicit renaming of type variables,
-and the last typing rule's antecedent  is simply
-$\GAM \,\vdash\, \varphi \ty \omicron$.
-
-A closed TFF1 formula $\varphi$ is {\em well-typed\/} if and only if
-the judgment $\GAM \vdash \varphi \ty \omicron$ is derivable
-for any $\GAM$.
-Obviously, if a closed formula is
-well-typed in one type context, it is well-typed in any other one;
-hence, we omit $\GAM$ and simply write
-${} \vdash \varphi \ty \omicron$.
-Closed well-typed formulas are called {\em sentences}.
