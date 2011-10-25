@@ -3,7 +3,7 @@
 \input{preamble}
 \begin{document}
 \title{
-TFF1: The TPTP Typed First-Order Form \\ Extended with Polymorphic Types}
+TFF1: The TPTP Typed First-Order Form \\ Extended with Rank-1 Polymorphic Types}
 \subtitle{Version 1.0 beta}
 
 \author{
@@ -20,8 +20,16 @@ Institut für Informatik, Technische Universität München, Germany
 
 %\vspace{-2ex}
 \begin{abstract}
-This \paper{} describes the extension of the TPTP TFF format with polymorphic
-types in the HOL/ML style.
+The TPTP (Thousands of Problems for Theorem Provers) is a library of problems
+for theorem provers. TPTP defines concrete syntaxes for various logics, notably
+an untyped first-order form (FOF) and a monomorphic, simply typed first-order
+form (TFF0), that have become de facto standards in the automated reasoning
+community. This \paper{} describes the TPTP TFF1 format, an extension of TFF
+with rank-1 polymorphism. The format was designed to be easy to process
+by existing reasoning tools that support ML-style polymorphism. It opens the
+door for useful middleware---for example, monomorphizers and other translation
+tools that encode polymorphism in FOF or TFF0. Ultimately, our hope is that TFF1
+will be implemented directly in popular automatic theorem provers.
 \end{abstract}
 
 \input{intro}
