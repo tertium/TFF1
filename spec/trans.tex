@@ -3,11 +3,13 @@
 % Or: Translation to a Many-Sorted Logic
 % Or simply: Translation
 
-We describe a translation from TFF1 to the monomorphic simply typed first-order
-logic TFF0. The translation is included here for illustrative purposes; more
-practical encoding schemes are discussed in Section~\ref{sec_related_work}. To
-lighten the presentation, we call the TFF0 types ``sorts,'' keeping ``types''
-for TFF1.
+We describe a translation from TFF1 to the many-sorted first-order logic TFF0.%
+\footnote{The TFF0 specification \cite{TFF0} prefers the term ``type'' to
+``sort,'' but since only nullary type constructors are supported, TFF1 types are
+strictly speaking sorts.}
+The translation is included here for illustrative purposes; more suitable
+encoding schemes for applications are discussed in
+Section~\ref{sec_related_work}.
 
 Our strategy for translating polymorphic types is to encode them as terms and
 use a special binary predicate to encode type information.
