@@ -115,13 +115,12 @@ of types, terms, and formulas. The only nontrivial case is
 that of a quantified formula, $\forall u \ty \tau .\; \varphi$.
 It is easy to see that any $a \in \univ$ belongs
 to $\llb \tau \rrb^\cM_\theta$ if and only if
-$\llb \typeof(\hat{u},\MON(\tau)) \rrb^\cI_{\nu\smash{[\hat{u}\,\mapsto\,a]}}{}_{\vphantom{]}}$
-holds. Indeed, the latter is equivalent to
-$a \in \llb \MON(\tau) \rrb^\cI_{\nu\smash{[\hat{u}\,\mapsto\,a]}}{}_{\vphantom{]}}$.
-Since $\nu$ and $\nu[\hat{u} \mapsto a]$ produce the same
+$\llb \typeof(\hat{u},\MON(\tau)) \rrb^\cI_{\nu'}{}_{\vphantom{]}}$,
+where $\nu' = [\hat{u} \mapsto a]$, holds. Indeed, the latter is equivalent to
+$a \in \llb \MON(\tau) \rrb^\cI_{\nu'}$.
+Since $\nu$ and $\nu'$ produce the same
 $\theta$ in $\cM$,
-$\llb \MON(\tau) \rrb^\cI_{\nu\smash{[\hat{u}\,\mapsto\,a]}}{}_{\vphantom{]}} =
-\llb \tau \rrb^\cM_\theta$.
+$\llb \MON(\tau) \rrb^\cI_{\nu'} = \llb \tau \rrb^\cM_\theta$.
 Then
 $\llb \forall \hat{u} .\; \typeof(\hat{u},\MON(\tau))
 \limp \MON(\varphi) \rrb^\cI_{\nu}$ is exactly
@@ -141,15 +140,15 @@ is satisfiable in classical many-sorted first-order logic
 with equality, then $\DEL$ is satisfiable in TFF1.
 \end{theorem}
 \begin{proof}
-Let $\cM$ be a model of $\MON(\DEL)$. We first construct a model $\cM'$ of $\MON(\DEL)$
-from $\cM$ by replacing every element $d$ in
-the domain of $\typ$ by the set $D = \{\la a,\,d \ra \vb \exists a.\; \typeof^\cM(a,\,d)\}$
+Let $\cM_0$ be a model of $\MON(\DEL)$. We first construct a model $\cM$ of $\MON(\DEL)$
+from $\cM_0$ by replacing every element $d$ in
+the domain of $\typ$ by the set $D = \{\la a,\,d \ra \vb \exists a.\; \typeof^{\cM_0\!}(a,\,d)\}$
 and updating the interpretations of type constructors
-and function and predicate symbols in $\cM$ accordingly.
+and function and predicate symbols in $\cM_0$ accordingly.
 We can safely perform this substitution: Since the inhabitation
-axiom $\Inh$ holds in $\cM$, every set~$D$ is nonempty, and clearly distinct
+axiom $\Inh$ holds in $\cM_0$, every set~$D$ is nonempty, and clearly distinct
 elements are mapped to distinct sets.
-The predicate $\typeof^{\cM'\!}(a,\,D)$ holds if and only if
+The predicate $\typeof^{\cM\!}(a,\,D)$ holds if and only if
 $D$ contains a pair of the form $\la a,\, d \ra$ for some $d$.
 %
 Below, $\pi_1$ and $\pi_2$ stand for the first and the second projection
@@ -233,18 +232,18 @@ Hence, $d_1 = d_2$ and $\eval{\varphi} = \llb \MON(\varphi) \rrb^\cM_{\nu}$.
 
 Let $\varphi$ be a quantified formula $\forall u \ty \tau .\; \psi$.
 We must show that for every pair $\la a,\, d \ra$ in $\evalT{\tau}$, we have
-$\typeof^\cM(a, \llb \MON(\tau) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]})$,
+$\typeof^\cM(a, \llb \MON(\tau) \rrb^\cM_{\nu'})$,
 and vice versa, for every $a$ in the domain of $\und$, if
-$\typeof^\cM(a, \llb \MON(\tau) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]})$
+$\typeof^\cM(a, \llb \MON(\tau) \rrb^\cM_{\nu'})$
 holds, then there exists some $d$ such that $\la a,\, d \ra \in
 \evalT{\tau}$.
 %
 Since term variables do not occur in types,
-\[\llb \MON(\tau) \rrb^\cM_{\nu[\hat{u}\,\mapsto\,a]} =
-\llb \tau \rrb^\cI_\theta\]%.
+$\llb \MON(\tau) \rrb^\cM_{\nu'} =
+\llb \tau \rrb^\cI_\theta$.
 By construction of $\cM$,
 $\typeof^\cM(a, \llb \tau \rrb^\cI_\theta)$
-holds if and only if there is some $d'$ such that
+holds if and only if there exists some $d'$ such that
 $\la a,\, d' \ra \in \llb \tau \rrb^\cI_\theta$.
 %
 Now, notice that the triple $\GAM[u \mapsto \tau],
