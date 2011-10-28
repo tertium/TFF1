@@ -160,14 +160,7 @@ ${} \vdash \varphi \ty \omicron$.
 Closed well-typed formulas are called {\em sentences}.
 
 \ourparagraph{Interpretation.}
-%The semantics of a polymorphic formula coincides with that of its
-%monomorphic instances.
-%%% @JASMIN: A "monomorphic instance" is a nontrivial notion in
-%%% presence of quantifiers over types.
-%
 The semantics of TFF1 postulates a nonempty collection $\sorts$ of
-%(not necessarily mutually disjoint)
-%%% @JASMIN: Trop lourd sans trop d'info
 nonempty sets, the {\em domains}. The union of all domains is the
 {\em universe}, %denoted by
 $\univ$.
@@ -188,10 +181,12 @@ on the type variables occurring in a type, we write $\evalG{\tau}$
 to denote the domain of a monomorphic type $\tau$.
 %% NEEDED?:
 %%% @JASMIN: yes, it is used in the proof of Theorem 2
-%We also write
-%$\evalG{\tau}_{[\alpha_1\,\mapsto\,D_1,\,\dots,\,\alpha_m\,\mapsto\,D_m]}$
-%to evaluate a type whose free type variables
-%are among $\alpha_1,\dots,\alpha_m$.
+%%% @ANDREI: it's fairly obvious what
+%%% $[\alpha_1\,\mapsto\,D_1,\,\dots,\,\alpha_m\,\mapsto\,D_m]$ stands for on its own, but OK.
+We also write
+$\evalG{\tau}_{[\alpha_1\,\mapsto\,D_1,\,\dots,\,\alpha_m\,\mapsto\,D_m]}$
+to evaluate a type whose free type variables
+are among $\alpha_1,\dots,\alpha_m$.
 
 A predicate symbol $p : \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n
 \to \omicron$ is interpreted as a relation

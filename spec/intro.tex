@@ -1,51 +1,71 @@
 \section{Introduction}
 \label{sec_intro}
 
-%\textbf{TODO: introduce name TFF0; mention TFF2}
-%
-%In part motivated by the desire to support arithmetic, TPTP has been slowly
-%moving towards supporting types, in the form of simple types (many-typed/sorted)
-%in TFF (Typed First-Order Form) \cite{TFF0} and THF0 (Typed Higher-Order Form)
-%\cite{xxx}. In the coming days, a new version of Vampire supporting TFF
-%(actually TFA, i.e., TFF + arithmetic) will be released, and the developers of E
-%and SPASS are expected to follow suit.
-%
-%Since such transitions take many years, it is not too early to be thinking about
-%the next move. Many specification languages rely on a polymorphic formalism
-%(Boogie, Why3, Isabelle/HOL, Mizar, ...), and there is no entirely satisfactory
-%way of translating it away and at the same time benefit from interpreted types
-%(e.g. for arithmetic). Couchot and Lescuyer (2007) show how to do it in the
-%context of SMT-LIB, but there's a performance cost (and some trickiness)
-%associated with the bridging between the general encoding and the interpreted
-%types. Monomorphization is simple but also not entirely satisfactory. Hybrid
-%schemes seem to perform best but are fairly complicated.
-%
-%The time is ripe to develop a polymorphic version of the TFF format. Even if no
-%ATPs would support it, it could still be worthwhile as an intermediate language
-%(e.g. between MaLARea and various interactive theorem provers); but our ultimate
-%goal should be to convince ATP developers to support polymorphic TFF natively.
-%
-%This wiki gathers documents related to a polymorphic TFF proposal. Such a
-%proposal should be straightforward to develop: The THF people already did some
-%work on polymorphism (although it's not in THF0), and monomorphic TFF would have
-%to be a special case. The syntax should also be future-proof, so that dependent
-%types, type classes, and other extensions are possible.
-%
-%The envisioned polymorphic TFF syntax should fit nicely with the rest of TPTP
-%and subsume private experiments such as Josef Urban's extensions for MPTP 0.2. A
-%polymorphic TFF syntax, just like Alt-Ergo, could be a major sensitization tool,
-%and as ATP authors are poised to add types and arithmetic support to their
-%little babies, they might just as well do it right and deal with polymorphism.
-%
-%Structure of spec:
-%
-%  * description of types, terms, and formulas; syntax, including type checking,
-%    and semantics;
-%  * focus on the differences with TFF0
-%
-%Many desired reasoning tools we would like to support TFF1 lack some support for
-%something. We show how to translate away some of the features of TFF1. First, we
-%show how to translate away polymorphism, allowing to use TFF0-based reasoners on
-%TFF1 problems. Second, we show how to translate away two features,
-%ghost type arguments and explicit type quantifiers, that are not directly
-%supported by ML-style formalisms.
+The TPTP World \cite{sutcliffe-2010-world} is a well-established infrastructure
+for supporting research, development, and deployment of automatic theorem
+provers and other reasoning tools. It includes a vast problem library, the
+Thousands of Problems for Theorem Provers (TPTP) \cite{sutcliffe-2009-lib}, as
+well as specifications of concrete syntaxes to facilitate interchange of
+problems and solutions: The TPTP untyped conjunctive normal form (CNF) and
+first-order form (FOF) are the most used syntaxes and are implemented in dozens
+of reasoning tools, but a growing number of reasoners are moving to the core
+typed first-order form (TFF0) \cite{TFF0} and the corresponding higher-order
+form (THF0) \cite{benzmueller-et-al-2008-thf0}, which provide simple monomorphic
+types and interpreted arithmetic symbols.
+
+Despite the variety of this offering, there is a strong desire in the automated
+reasoning community for a polymorphic first-order format. Many applications
+require polymorphism, notably specification languages for program verification
+and bridges between automatic and interactive provers; but lacking an
+appropriate interchange format that preserves polymorphism, these can only
+communicate via monomorphic formats. Furthermore, there is no satisfactory way
+to translate polymorphism away while benefiting from interpreted types:
+Monomorphizing the problem is generally incomplete, and it is tricky to encode
+polymorphism using functions or predicates in a sound, complete, and efficient
+manner, especially in the presence of interpreted types.
+
+Lacking such a standard, everybody writes their own monomorphizers and type
+encodings, often using suboptimal solutions. Ultimately, we believe that
+polymorphism belongs in provers, where it can be implemented simply and
+efficiently, as demonstrated by the SMT solver Alt-Ergo \cite{bobot-et-al-2008}.
+
+Higher-order: it's part of the not yet finalized full THF syntax \cite{xxx} but
+most reasoning tools out there are first-order, and the higher-order syntax is
+sufficiently unwieldy that it's unrealistic to expect apps to support it;
+furthermore, the form of polymorphism offered there is much more general than
+what we expect to need in the first-order setting.
+
+This specification fills this gap by specifying TPTP TFF1 format, an extension
+of the untyped TFF0 with rank-1 polymorphism.%
+\footnote{What is now called TFF0 was initially simply called TFF.}
+This specification was designed together with the TPTP community. Because of its
+situation between TFF0 and full THF, many of the design decisions had already
+been taken. One important design goal was to ensure that the format can easily
+be processed by existing reasoning tools that support ML-style polymorphism.
+TFF1 opens the door to useful middleware, such as monomorphizers and other
+translation tools that encode polymorphism in FOF or TFF0. It is already
+implemented in a few applications, including one theorem prover.
+
+To facilitate implementation, more advanced features such as type classes and
+dependent types are not covered by TFF1 (although type classes can easily be
+encoded in terms of it). If there is enough interest in it, these features will
+appear in TFF2.
+
+This specification is structured as follows:
+\begin{itemize}
+\item Section 2 describes syntax.
+\item Section 3 describes the typing rules and semantics.
+\item Section 4 presents a reduction of TFF1 to TFF0.
+\item Section 5 presents two simple preprocessing steps to eliminate type
+quantifiers in TFF1 type signatures and formulas, necessary steps to translate
+problems to ML-style formalisms, where type quantification is implicit
+\item Section 6 presents some applications that implement TFF1 at the time of
+writing, in addition to TPTP World.
+\item Section 7 considers related work---polymorphic specification languages
+and translation schemes to untyped or monomorphic logics.
+\end{itemize}
+
+This specification extends, rather than replace, the TFF0 specification
+\cite{TFF0}. W attempted to make the document self-contained enough that it can
+be read independently but refer to the TFF1 specification for the shared parts,
+notably the support for arithmetic and parenthesization issues.

@@ -3,33 +3,36 @@
 \input{preamble}
 \begin{document}
 \title{
-TFF1: The TPTP Typed First-Order Form \\ Extended with Rank-1 Polymorphic Types}
-\subtitle{Version 1.0 beta}
+TFF1: The TPTP Typed First-Order Form \\ Extended with %Rank-1
+Polymorphic Types}
+\subtitle{Version 1.0 Beta \\ \small \today}
 
 \author{
 Andrei Paskevich\inst{1,2} \and Jasmin Christian Blanchette\inst{3}
+%\and Geoff Sutcliffe\inst{4}
 }
 
 \institute{
 LRI, Université Paris-Sud 11, CNRS, France \and
 ProVal, INRIA Saclay-Île de France, France \and
 Institut für Informatik, Technische Universität München, Germany
+%\and C.S. Dept, University of Miami, USA
 }
 
 \maketitle
 
 %\vspace{-2ex}
 \begin{abstract}
-The TPTP (Thousands of Problems for Theorem Provers) is a library of problems
-for theorem provers. TPTP defines concrete syntaxes for various logics, notably
-an untyped first-order form (FOF) and a monomorphic, simply typed first-order
-form (TFF0), that have become de facto standards in the automated reasoning
-community. This \paper{} describes the TPTP TFF1 format, an extension of TFF
-with rank-1 polymorphism. The format was designed to be easy to process
-by existing reasoning tools that support ML-style polymorphism. It opens the
-door for useful middleware---for example, monomorphizers and other translation
-tools that encode polymorphism in FOF or TFF0. Ultimately, our hope is that TFF1
-will be implemented directly in popular automatic theorem provers.
+The TPTP World is a well-established infrastructure for automatic theorem
+provers. It includes a vast problem library as well as concrete syntaxes,
+notably an untyped first-order form (FOF) and a typed first-order form (TFF0),
+that have become de facto standards in the automated reasoning community. This
+paper introduces the TPTP TFF1 format, an extension of TFF0 with rank-1
+polymorphism. The format is designed to be easy to process by existing
+reasoning tools that support ML-style polymorphism. It opens the door to useful
+middleware, such as monomorphizers and other translation tools that encode
+polymorphism in FOF or TFF0. Ultimately, our hope is that TFF1 will be
+implemented directly in popular automatic theorem provers.
 \end{abstract}
 
 \input{intro}
