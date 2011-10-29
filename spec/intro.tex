@@ -26,27 +26,16 @@ suboptimal schemes. Ultimately, we contend that polymorphism belongs in provers,
 where it can be implemented simply and efficiently, as demonstrated by the SMT
 solver Alt-Ergo \cite{bobot-et-al-2008}.
 
-Higher-order: it's part of the not yet finalized full THF syntax \cite{xxx} but
-most reasoning tools out there are first-order, and the higher-order syntax is
-sufficiently unwieldy that it's unrealistic to expect apps to support it;
-furthermore, the form of polymorphism offered there is much more general than
-what we expect to need in the first-order setting.
-
-This specification fills this gap by specifying TPTP TFF1 format, an extension
-of the untyped TFF0 with rank-1 polymorphism.%
+This paper fills this gap by specifying the TPTP TFF1 format, an extension of the
+untyped TFF0 with rank-1 polymorphism.%
 \footnote{What is now called TFF0 was initially simply called TFF.}
-This specification was designed together with the TPTP community. Because of its
-situation between TFF0 and full THF, many of the design decisions had already
-been taken. One important design goal was to ensure that the format can easily
-be processed by existing reasoning tools that support ML-style polymorphism.
-TFF1 opens the door to useful middleware, such as monomorphizers and other
-translation tools that encode polymorphism in FOF or TFF0. It is already
-implemented in a few applications, including one theorem prover.
-
-To facilitate implementation, more advanced features such as type classes and
-dependent types are not covered by TFF1 (although type classes can easily be
-encoded in terms of it). If there is enough interest in it, these features will
-appear in TFF2.
+This extension was designed together with the TPTP community. Besides compatibility
+with TFF0 and the upcoming full THF format \cite{xxx}, one important design goal
+was to ensure that the format can easily be processed by existing reasoning
+tools that support ML-style polymorphism. TFF1 opens the door to useful
+middleware, such as monomorphizers and other translation tools that encode
+polymorphism in FOF or TFF0. It is already implemented in a few applications,
+including one theorem prover.
 
 This specification is structured as follows:
 \begin{itemize}
@@ -63,6 +52,11 @@ and translation schemes to untyped or monomorphic logics.
 \end{itemize}
 
 This specification extends, rather than replace, the TFF0 specification
-\cite{TFF0}. W attempted to make the document self-contained enough that it can
+\cite{TFF0}. We attempted to make the document self-contained enough that it can
 be read independently but refer to the TFF1 specification for the shared parts,
 notably the support for arithmetic and parenthesization issues.
+
+To facilitate implementation, more advanced features such as type classes and
+dependent types are not covered by TFF1 (although type classes can easily be
+encoded in terms of it). If there is enough interest in it, these features will
+appear in TFF2.
