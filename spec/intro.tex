@@ -6,28 +6,25 @@ for supporting research, development, and deployment of automatic theorem
 provers and other reasoning tools. It includes a vast problem library, the
 Thousands of Problems for Theorem Provers (TPTP) \cite{sutcliffe-2009-lib}, as
 well as specifications of concrete syntaxes to facilitate interchange of
-problems and solutions: The TPTP untyped conjunctive normal form (CNF) and
+problems and solutions: The untyped conjunctive normal form (CNF) and
 first-order form (FOF) are the most used syntaxes and are implemented in dozens
 of reasoning tools, but a growing number of reasoners are moving to the core
 typed first-order form (TFF0) \cite{TFF0} and the corresponding higher-order
 form (THF0) \cite{benzmueller-et-al-2008-thf0}, which provide simple monomorphic
-types and interpreted arithmetic symbols.
+types and interpreted arithmetic.
 
 Despite the variety of this offering, there is a strong desire in the automated
 reasoning community for a polymorphic first-order format. Many applications
-require polymorphism, notably specification languages for program verification
-and bridges between automatic and interactive provers; but lacking an
-appropriate interchange format that preserves polymorphism, these can only
-communicate via monomorphic formats. Furthermore, there is no satisfactory way
-to translate polymorphism away while benefiting from interpreted types:
-Monomorphizing the problem is generally incomplete, and it is tricky to encode
-polymorphism using functions or predicates in a sound, complete, and efficient
-manner, especially in the presence of interpreted types.
-
-Lacking such a standard, everybody writes their own monomorphizers and type
-encodings, often using suboptimal solutions. Ultimately, we believe that
-polymorphism belongs in provers, where it can be implemented simply and
-efficiently, as demonstrated by the SMT solver Alt-Ergo \cite{bobot-et-al-2008}.
+require polymorphism, notably interactive theorem provers and program
+specification languages, but lacking an appropriate interchange format, these
+must communicate via monomorphic formats. Furthermore, there is no entirely
+satisfactory way to translate polymorphism away: Monomorphization is generally
+incomplete, and it is difficult to encode polymorphism in a sound, complete, and
+efficient manner, especially in the presence of interpreted types. Tool authors
+are reduced to writing their own monomorphizers and type encodings, often using
+suboptimal schemes. Ultimately, we contend that polymorphism belongs in provers,
+where it can be implemented simply and efficiently, as demonstrated by the SMT
+solver Alt-Ergo \cite{bobot-et-al-2008}.
 
 Higher-order: it's part of the not yet finalized full THF syntax \cite{xxx} but
 most reasoning tools out there are first-order, and the higher-order syntax is
