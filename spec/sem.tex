@@ -86,7 +86,7 @@ The typing rules of TFF1 are given below:
 \vskip.25\abovedisplayshortskip
 \vskip.75\abovedisplayskip
 
-\centerline{$\displaystyle \ourfrac{}{\GAM \,\vdash\, v \ty \GAM(v)}$}
+\centerline{$\displaystyle \ourfrac{}{\GAM \,\vdash\, u \ty \GAM(u)}$}
 
 \vskip3\smallskipamount
 
@@ -128,8 +128,8 @@ $}
 \centerline{$\displaystyle
 \ourfrac{\GAM \,\vdash\, \varphi \ty \omicron}{
 \GAM \,\vdash\, \lnot\, \varphi \ty \omicron}\qquad\qquad
-\ourfrac{\GAM[v \mapsto \tau] \,\vdash\, \varphi \ty \omicron}{
-\GAM \,\vdash\, \forall v \mathbin{\ty} \tau .\; \varphi \ty \omicron}\qquad\qquad
+\ourfrac{\GAM[u \mapsto \tau] \,\vdash\, \varphi \ty \omicron}{
+\GAM \,\vdash\, \forall u \mathbin{\ty} \tau .\; \varphi \ty \omicron}\qquad\qquad
 \ourfrac{\GAM \,\vdash\, \varphi[\alpha'\!/\alpha] \ty \omicron}{
 \GAM \,\vdash\, \forall \alpha .\; \varphi \ty \omicron}$}
 
@@ -207,15 +207,16 @@ to every variable an element of $\univ$. TFF1 terms
 and formulas are evaluated according to the following equations:
 \begin{align*}
 \eval{u} &\eqdef \xi(u) &
-\eval{f(\bar{\tau},\,\bar{t}\,)} &\eqdef f^\cI\bigl(\evalT{\bar{\tau}},\eval{\bar{t}\,}\bigr) \\
+  \eval{\lnot\, \varphi} &\eqdef \lnot\, \eval{\varphi} \\
+\eval{f(\bar{\tau},\,\bar{t}\,)} &\eqdef f^\cI\bigl(\evalT{\bar{\tau}},\eval{\bar{t}\,}\bigr) &
+  \eval{\varphi \rand \psi} &\eqdef \eval{\varphi} \rand \eval{\psi} \\
+\eval{p(\bar{\tau},\,\bar{t}\,)} &\eqdef p^\cI\bigl(\evalT{\bar{\tau}},\eval{\bar{t}\,}\bigr) &
+  \eval{\forall u \ty \tau .\; \varphi} &\eqdef \forall {a \mathbin\in \evalT{\tau}} .\;
+  \evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]} \\
 \eval{t_1 \eq t_2} &\eqdef \bigl(\eval{t_1} = \eval{t_2}\bigr) &
-\eval{p(\bar{\tau},\,\bar{t}\,)} &\eqdef p^\cI\bigl(\evalT{\bar{\tau}},\eval{\bar{t}\,}\bigr) \\
-\eval{\lnot\, \varphi} &\eqdef \lnot\, \eval{\varphi} &
-\eval{\varphi \rand \psi} &\eqdef \eval{\varphi} \rand \eval{\psi} \\
-\eval{\forall u \ty \tau .\; \varphi} &\eqdef \forall {a \mathbin\in \evalT{\tau}} .\;
-\evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]} &
-\eval{\forall \alpha .\; \varphi} &\eqdef \forall {D \in \sorts} .\;
-\evalG{\varphi}_{\theta[\alpha\,\mapsto\,D],\,\xi} % \\
+  \eval{\forall \alpha .\; \varphi} &\eqdef \forall {D \in \sorts} .\;
+  \evalG{\varphi}_{\theta[\alpha\,\mapsto\,D],\,\xi}
+% \\
 %\eval{\forall u \ty \tau .\; \varphi} &\eqdef \!\!\!\!
 %\bigwedge_{a \in \evalT{\tau}} \!
 %\evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]} &
