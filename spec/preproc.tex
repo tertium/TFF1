@@ -65,9 +65,13 @@ $\tau_1,\dots,\tau_n$.
 Finally, we add a ``witness'' constant $\wit : \forall \alpha.\;\ghost(\alpha)$.
 The $\ELI$ transformation translates terms and atomic
 formulas according to the following equations:
+%\begin{align*}
+%\ELI(u) & \eqdef u &
+%\ELI(s \eq t) & \eqdef \ELI(s) \eq \ELI(t)
+%\end{align*}
 \begin{align*}
 \ELI(u) \eqdef u
-\quad\quad & \qquad\qquad\qquad\enskip %% TYPESETTING
+\kern1.4em & \kern5.55em %% TYPESETTING
 \ELI(s \eq t) \eqdef \ELI(s) \eq \ELI(t) \\
 \ELI(f(\sigma_1,\dots,\sigma_m,\bar t\,)) &\eqdef
 \hat{f}(\sigma_1,\dots,\sigma_m,\wit(\sigma_{i_1}),\dots,\wit(\sigma_{i_r}),
@@ -86,7 +90,7 @@ Any $\DEL$ is equisatisfiable to $\ELI(\DEL)$.
 \end{theorem}
 \begin{proof}
 A model of $\DEL$ can be converted to a model of $\ELI(\DEL)$
-as follows. We choose an arbitrary value $e$ and choose the singleton
+as follows. We choose an arbitrary value $e$ and take the singleton
 $\{ e \}$ as the domain of $\ghost(D)$ for any domain $D$.
 Accordingly, $\wit$ evaluates to $e$ on any argument.
 Interpretations of other function and predicate symbols are
@@ -107,15 +111,14 @@ Another feature of TFF1 that is not universally supported
 by systems with polymorphic types is explicit
 quantification over type variables.
 For example, while Boogie and Coq \cite{CoqManualV8}
-allow quantifiers over types in their logic,
-HOL and other ML-style formalisms provide no such syntax.
+allow quantifiers over types in their logics,
+HOL and other ML-style formalisms provide no such syntax:
 Instead, they consider all type variables
 implicitly universally quantified at the top of a formula, which is similar to
-the treatment of variables in TPTP CNF clauses.
-A simple and practical solution to translate TFF1 problems
-for the systems of the second kind is type skolemization. This is slightly
-involved because type quantifiers may appear under equivalence, where they are
-unpolarized.
+the treatment of term variables in TPTP CNF clauses.
+A simple and practical solution to translate TFF1 problems to prepare problems
+for ML-style logics is type skolemization. This is slightly involved because
+type quantifiers may appear under equivalence, where they are unpolarized.
 
 We introduce two transformations, $\SKO^-$ and $\SKO^+$, to perform type
 skolemization in premises and in goals, respectively. (The latter is more
