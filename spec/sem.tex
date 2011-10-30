@@ -212,10 +212,10 @@ and formulas are evaluated according to the following equations:
   \eval{\varphi \rand \psi} &\eqdef \eval{\varphi} \rand \eval{\psi} \\
 \eval{p(\bar{\tau},\,\bar{t}\,)} &\eqdef p^\cI\bigl(\evalT{\bar{\tau}},\eval{\bar{t}\,}\bigr) &
   \eval{\forall u \ty \tau .\; \varphi} &\eqdef \forall {a \mathbin\in \evalT{\tau}} .\;
-  \evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]} \\
+  \smash{\evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]}} \\
 \eval{t_1 \eq t_2} &\eqdef \bigl(\eval{t_1} = \eval{t_2}\bigr) &
   \eval{\forall \alpha .\; \varphi} &\eqdef \forall {D \in \sorts} .\;
-  \evalG{\varphi}_{\theta[\alpha\,\mapsto\,D],\,\xi}
+  \smash{\evalG{\varphi}_{\theta[\alpha\,\mapsto\,D],\,\xi}}
 % \\
 %\eval{\forall u \ty \tau .\; \varphi} &\eqdef \!\!\!\!
 %\bigwedge_{a \in \evalT{\tau}} \!
