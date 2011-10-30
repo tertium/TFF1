@@ -8,10 +8,11 @@ Provers (TPTP) \cite{sutcliffe-2009-lib}, as well as specifications of concrete
 syntaxes to facilitate interchange of problems and solutions: The untyped
 conjunctive normal form (CNF) and the first-order form (FOF) are implemented in
 dozens of reasoning tools, and a growing number of reasoners can process the
-typed first-order form (TFF0) \cite{TFF0} or the corresponding higher-order form
-(THF0) \cite{benzmueller-et-al-2008-thf0}, both of which provide simple
-monomorphic types and interpreted arithmetic. A polymorphich version of THF0,
-the full THF, is in the works \cite{sutcliffe-benzmueller-2010}.
+typed first-order form (TFF0) \cite{sutcliffe-et-al-2011-tff0} or the
+corresponding higher-order form (THF0) \cite{benzmueller-et-al-2008-thf0}, both
+of which provide simple monomorphic types and interpreted arithmetic. A
+polymorphich version of THF0, the full THF, is in the works
+\cite{sutcliffe-benzmueller-2010}.
 
 Despite the variety of this offering, there is a strong desire in the automated
 reasoning community for a polymorphic first-order format. Many applications
@@ -44,14 +45,14 @@ This paper is structured as follows:
 in TFF1 type signatures and formulas, bridging the gap with ML-style
 formalisms. % (where type quantification is implicit).
 \item Section 6 reviews applications that implement TFF1.
-\item Section 7 considers related work---polymorphic specification languages
-and translation schemes to untyped or monomorphic logics.
+\item Section 7 considers related work---polymorphic formalisms and translation
+schemes to untyped or monomorphic logics.
 \end{itemize}
 
 This specification extends, rather than replace, the TFF0 specification
-\cite{TFF0}. We refer to that specification for the parts that TFF1 inherits
-directly from TFF0, notably the support for arithmetic and the concrete syntax
-for the logical connectives.
+\cite{sutcliffe-et-al-2011-tff0}. We refer to that specification for the parts
+that TFF1 inherits directly from TFF0, notably the support for arithmetic and
+the concrete syntax for the logical connectives.
 %
 To facilitate implementation, more advanced features such as type classes and
 dependent types are not addressed by TFF1 (although type classes can be

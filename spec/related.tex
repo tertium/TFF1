@@ -1,36 +1,57 @@
 \section{Related Work}
 \label{sec_related_work}
 
-%The Boogie language~\cite{Barnett06boogie} supports explicit quantifiers over
-%types, and the encoding methods presented in Leino and R\"ummer
-%\cite{leino10tacas} are devised for the unrestricted setting.
-%
-%PVS...
-%
-%Mizar...
-%
-%More sophisticated encodings that preserve selected types by translating them
-%into separate sorts, do not change the propositional structure of the encoded
-%formulas, or are particularly efficient with automatic provers are described
-%elsewhere
-%\cite{blanchette-et-al-2012-mono}
-%\cite{leino10tacas}.
-%\cite{bobot11frocos}
-%
-%Both \cite{leino10tacas} and \cite{bobot11frocos} assume preliminary elimination
-%of ghost type arguments (cf.~Section~\ref{ssec:ghost}); the latter also assumes
-%preliminary type skolemization (cf.~Section~\ref{ssec:skol}).
-%
-%An easy approach to pass TFF1 problems can be passed to TFF0
-%reasoning tools is to monomorphize the problem first---that is, to heuristically
-%instantiate all type variables with appropriate
-%ground types. Monomorphization is incomplete and often overlooked
-%or derided in the literature \cite[p.\ 3]{couchot07cade}, but it was
-%applied with much success in Sledgehammer
-%\cite[\S6]{blanchette-et-al-2011-sledge-smt}.
+\ourparagraph{Formalisms.}
+%   stds:
+%   * TPTP
+        %Higher-order: it's part of the not yet finalized full THF syntax \cite{xxx} but
+        %most reasoning tools out there are first-order, and the higher-order syntax is
+        %sufficiently unwieldy that it's unrealistic to expect apps to support it;
+        %furthermore, the form of polymorphism offered there is much more general than
+        %what we expect to need in the first-order setting.
 
-%Higher-order: it's part of the not yet finalized full THF syntax \cite{xxx} but
-%most reasoning tools out there are first-order, and the higher-order syntax is
-%sufficiently unwieldy that it's unrealistic to expect apps to support it;
-%furthermore, the form of polymorphism offered there is much more general than
-%what we expect to need in the first-order setting.
+%   * parallel, and converging: SMT-LIB
+
+%   intermediate:
+%   * Boogie
+%   * Why3
+%   have both TPTP and SMT-LIB backends
+
+%   provers:
+%   * Alt-Ergo
+%   * interactive provers
+
+\ourparagraph{Encodings.}
+Early descriptions of type encodings are due to Enderton
+\cite[\S4.3]{enderton-1972}, Stickel \cite[p.~99]{stickel-1986}, and Wick and
+McCune \cite[\S4]{wick-mccune-1989}. TFF1 type arguments are reminiscent of
+System~F; a FOF-based encoding that exploits them is described by Meng and
+Paulson \cite{meng-paulson-2008-trans}, who also present a translation of
+axiomatic type classes.
+
+Considerable progress has been made lately toward sound, complete, and efficient
+encodings of polymorphic logics in untyped or monomorphic logics. Leino and
+R\"ummer \cite{leino-ruemmer-2010} present a translation of higher-rank
+polymorphism, including explicit quantifiers over types, into the many-sorted
+SMT-LIB syntax, while preserving interpreted types. They also show how to
+exploit SMT triggers to prevent unsound variable instantiations in a
+translation based on type arguments. Bobot and Paskevich
+\cite{bobot-paskevich-2011} expand on earlier work by Couchot and Lescuyer
+\cite{couchot-lescuyer-2007} to encode polymorphism while preserving selected
+$n$-ary type constructors (e.g., for arithmetic and array types).
+Blanchette et
+al.\ \cite{blanchette-et-al-2012-mono}, building on work by Claessen et al.\
+\cite{claessen-et-al-2011}, present a particularly lightweight encoding of
+polymorphic types that exploits type monotonicity. All of these translations
+assume preliminary elimination of ghost type arguments
+(Section~\ref{ssec:ghost}); the last two also assumes type skolemization
+(Section~\ref{ssec:skol}).
+
+An easy approach to pass TFF1 problems can be passed to TFF0
+reasoning tools is to monomorphize the problem first---that is, to heuristically
+instantiate all type variables with appropriate
+ground types. Monomorphization is incomplete and often overlooked
+or derided in the literature \cite[p.\ 3]{couchot-lescuyer-2007}, but it was
+applied with much success in Sledgehammer \cite[\S6]{blanchette-et-al-2012-mono}
+and Why3.
+%% @ANDREI: Reference for Why3?
