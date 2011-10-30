@@ -35,7 +35,7 @@ the arithmetic types and their operations.
 \ourparagraph{Type Signatures.}
 Each function and predicate symbol occurring in a formula must be associated
 with a {\em type signature\/} that specifies the types of the arguments and, for
-functions, the return type. Type signatures may take the following forms:
+functions, the return type. Type signatures can take the following forms:
 %
 \begin{enumerate}
 \item[(a)] a type;
@@ -48,7 +48,8 @@ where $\tau_1,\dots,\tau_n$ are types;
 $\alpha_n$\,:\,\$tType]:\;$\varsigma$}, where $\alpha_1,\dots,\alpha_n$ are distinct
 type variables, $\varsigma$ has one of the previous four forms, and every type
 variable occurring in $\varsigma$ appears among the $\alpha_{\!j}$'s. If
-$\varsigma$ is of form (c) or (d), it must be put in parentheses.
+$\varsigma$ is of form (c) or (d), it must be put in parentheses.%
+\footnote{This restriction is necessary for the TPTP World's Prolog-based parser.}
 %The converse is not true: Some $\alpha_i$ cannot occur in $\tau$.
 \end{enumerate}
 %
@@ -87,7 +88,7 @@ is a linear order to those types that satisfy the {\tt is\_linear} predicate.
 
 \ourparagraph{Type Declarations.} Type constructors,
 like function and predicate symbols,
-may optionally be declared prior to use.
+can optionally be declared prior to use.
 The following declarations introduce a type
 constant {\tt bird}, a unary type constructor {\tt list},
 and a binary type constructor {\tt map}:
@@ -148,32 +149,33 @@ predicate symbol.
 inference to a minimum, every use of a polymorphic symbol must explicitly
 specify the type instance. A function or predicate symbol with a type signature
 \[\hbox{{\tt !>} {\tt [$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:\;%
-($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\widehat \tau$}}\]
+(($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$)}}\]
 must be applied to $m$ type arguments and $n$ term arguments. Given the above
 signatures for {\tt is\_empty}, {\tt cons}, and {\tt lookup}, the term
 \[\hbox{\tt lookup(\$int,\;\,list(A),\;\,M,\;\,2)}\]
 and the atomic formula
-\[\hbox{\tt is\_empty(\$i,\;\,cons(\$i,\;V,\;nil(\$i)))}\]
-are well-formed, assuming that {\tt A} ranges over {\tt
-\$tType} (i.e., it is a type variable), {\tt M} has type {\tt
-map(\$int,} {\tt list(A))}, and {\tt V} has type {\tt \$i}.
+\[\hbox{\tt is\_empty(\$i,\;\,cons(\$i,\;X,\;nil(\$i)))}\]
+are well-formed.
+%, assuming that {\tt A} ranges over {\tt
+%\$tType} (i.e., it is a type variable), {\tt M} has type {\tt
+%map(\$int,} {\tt list(A))}, and {\tt X} has type {\tt \$i}.
 
 In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
 instantiated with actual types. In particular, \verb+$o+, \verb+$tType+,
-and {\tt !>} binders cannot occur in type arguments of polymorphic symbols.
+and {\tt !>}-binders cannot occur in type arguments of polymorphic symbols.
 
 For systems that implement type inference, the following extension
 of TFF1 might be useful. When a type argument of
 a polymorphic symbol can be inferred automatically, it may be
-replaced with an underscore ({\tt \_}), for example:
-\[\hbox{{\tt is\_empty(\_,} {\tt cons(\_,\;V,\;nil(\_)))}}\]
+replaced with an underscore ({\tt \_}). For example:
+\[\hbox{{\tt is\_empty(\_,} {\tt cons(\_,\;X,\;nil(\_)))}}\]
 % \footnote{Should this be part of {\tt SyntaxBNF}?}
 % @ANDREI: I don't care much either way... SyntaxBNF is anyway very slack; I
 % wouldn't be surprised if it could be used to parse C++. ;)
 Although {\tt nil}'s type argument cannot be inferred locally from the types of
 the term arguments, it can be deduced using the Hindley--Milner type inference.
 The producer of a TFF1 problem must be aware of the type inference algorithm
-implemented in the consumer to omit only the redundant type arguments.
+implemented in the consumer to omit only redundant type arguments.
 
 \ourparagraph{Type and Term Variables.}
 Every variable in a TFF1 formula must be bound. It can be given a type at
@@ -186,34 +188,32 @@ tff(bird_list_not_empty, axiom,
 \end{verbatim}
 \end{quote}
 If the type and the preceding colon ({\tt :}) are omitted, the variable is given
-the type~\verb+$i+. Every type variable occurring in a TFF1 formula
+type~\verb+$i+. Every type variable occurring in a TFF1 formula
 (whether in a type argument or in the type of a bound variable)
 must also be bound:
 \begin{quote}
 \begin{verbatim}
-tff(lookup_set, axiom,
+tff(lookup_update, axiom,
     ![A : $tType, B : $tType, M : map(A, B), I : A, V : B]:
-        lookup(A, B, set(A, B, M, I, V), I) = V).
+        lookup(A, B, update(A, B, M, I, V), I) = V).
 \end{verbatim}
 \end{quote}
-A single quantifier cluster can bind both type variables and term variables. If
-the type of a term variable contains a type variable, the latter must be bound
-before the former.
+A single quantifier cluster can bind both type variables and term variables.
+%If the type of a term variable contains a type variable, the latter must be bound
+%before the former.
 %\footnote{We can permit omitting the {\tt\$tType} annotations,
 %too, but should we? If an untyped variable can turn to be
 %a type variable or an {\tt\$i}-variable, then we must look
 %into the formula to know which it is.}.
 %%% @ANDREI: We shouldn't allow that. Chances are that some implementations
 %%% would get that wrong.
-
-
 % (one might need
 % to eliminate upper equivalences to establish the polarity
 % of a quantifier)
 %%% @ANDREI: What is an _upper_ equivalence? An outer one? I'd rather postpone
 %%% the discussion on polarity until the part that treats skolemization. It is
 %%% enough here to say "including equivalence", to hint at the issue, IMO.
-
+%
 Universal and existential quantifiers over type variables are allowed under the
 propositional connectives, including equivalence, as well as under other
 quantifiers over type variables, but not in the scope of a quantifier over a
