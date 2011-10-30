@@ -131,22 +131,22 @@ correctly called ``type herbrandization.'')
 %Types-under-values are nasty anyway.}.
 Their definitions follow:
 \begin{align*}
-\SKO^-(p(\bar{\sigma},\bar{t}\,)) &\eqdef p(\bar{\sigma},\bar{t}\,) &
-\SKO^+(p(\bar{\sigma},\bar{t}\,)) &\eqdef p(\bar{\sigma},\bar{t}\,) \\
+\SKO^-(p(\bar{\sigma},\,\bar{t}\,)) &\eqdef p(\bar{\sigma},\,\bar{t}\,) &
+\SKO^+(p(\bar{\sigma},\,\bar{t}\,)) &\eqdef p(\bar{\sigma},\,\bar{t}\,) \\
 \SKO^-(t_1 \eq t_2) &\eqdef t_1 \eq t_2 &
 \SKO^+(t_1 \eq t_2) &\eqdef t_1 \eq t_2 \\
-\SKO^-(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi &
-\SKO^+(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi \\
-\SKO^-(\varphi \rand \psi) &\eqdef \SKO^-(\varphi) \rand \SKO^-(\psi) &
-\SKO^+(\varphi \rand \psi) &\eqdef \SKO^+(\varphi) \rand \SKO^+(\psi) \\
 \SKO^-(\lnot\, \varphi) &\eqdef \lnot\, \SKO^+(\varphi) &
 \SKO^+(\lnot\, \varphi) &\eqdef \lnot\, \SKO^-(\varphi) \\
+\SKO^-(\varphi \rand \psi) &\eqdef \SKO^-(\varphi) \rand \SKO^-(\psi) &
+\SKO^+(\varphi \rand \psi) &\eqdef \SKO^+(\varphi) \rand \SKO^+(\psi) \\
+\SKO^-(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi &
+\SKO^+(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi \\
 \SKO^-(\forall \alpha .\; \varphi) &\eqdef \forall \alpha .\; \SKO^-(\varphi) &
 \SKO^+(\forall \alpha .\; \varphi) &\eqdef
 \SKO^+(\varphi[\kappa(\bar\beta)/\alpha])
 \end{align*}
-where $\kappa$ is a fresh type constructor and $\bar\beta$ are
-the free type variables of $\forall \alpha .\; \varphi$.
+where $\kappa$ is a fresh type constructor and $\bar\beta$ is the list of free
+type variables of $\forall \alpha .\; \varphi$.
 Recall that TFF1 forbids quantifiers over type variables in the scope
 of a quantifier over a term variable; otherwise, Skolem type constructors
 would have to take term variables as arguments. This explains why $\SKO^-$ and
