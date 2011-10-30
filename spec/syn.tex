@@ -7,31 +7,30 @@
 Briefly, the types, terms, and formulas of TFF1 are analogous to those of TFF0,
 except that function and predicate symbols can be declared to be polymorphic,
 types can contain type variables, and $n$-ary type constructors are allowed.
-Type variables in types and formulas are explicitly bound. Instances of
+Type variables in type signatures and formulas are explicitly bound. Instances of
 polymorphic constants are specified by explicit type arguments, rather than
 inferred.
 
 \ourparagraph{Types.} The {\em types\/} of TFF1 are built from {\em type
-variables\/} and {\em type constructors\/} of fixed arity. Nullary type
-constructors are called {\em type constants}. We follow the usual notation
-conventions of TPTP\@: Type variables start with an uppercase letter and type
-constructors with a lowercase letter. The types \verb+A+, \verb+list(A)+,
-\verb+list(bird)+, and \verb+map(nat,+ \verb+list(B))+ are all examples of
-well-formed types. A type is {\em polymorphic} if it contains type variables;
-otherwise, it is {\em monomorphic}.
+variables\/} and {\em type constructors\/} of fixed arities. Nullary type
+constructors are called {\em type constants}. The usual conventions of TPTP
+apply: Type variables start with an uppercase letter and type constructors
+with a lowercase letter. The types \verb+A+, \verb+list(A)+, \verb+list(bird)+,
+and \verb+map(nat,+ \verb+list(B))+ are all examples of well-formed types. A
+type is {\em polymorphic} if it contains type variables; otherwise, it is {\em
+monomorphic.}
 
 %%% @ANDREI: $iType and $oType don't appear in the TFF0 spec. I'm not a big fan
 %%% of aliases.
 
-TFF1 includes several predefined type constants, inherited from TFF0.
+TFF1 inherits several predefined type constants from TFF0.
 The type {\tt \$i} %(also called \verb+$iType+)
 of individuals is predefined but has no peculiar semantics, whereas the
 arithmetic types
 {\tt \$int}, {\tt \$rat}, and {\tt \$real} are modeled by $\mathbb{Z}$,
 $\mathbb{Q}$, and $\mathbb{R}$, respectively. We refer
 to the TFF0 specification \cite{TFF0} for the semantics of
-the arithmetic types and the predefined operations on
-these types. %, and focus here on the nonarithmetic fragment of TFF1.
+the arithmetic types and their operations.
 
 \ourparagraph{Type Signatures.}
 Each function and predicate symbol occurring in a formula must be associated
@@ -45,29 +44,29 @@ functions, the return type. Type signatures may take the following forms:
 where $\tau_1,\dots,\tau_n$ and $\tau$ are types;
 \item[(d)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;\$o} for $n > 0$,
 where $\tau_1,\dots,\tau_n$ are types;
-\item[(e)] {\tt !>\;[$\alpha_1$\::\:\$tType,}\;{\tt ${\dots}$,}\;{\tt
-$\alpha_n$\::\:\$tType]:\;$\tau$}, where $\alpha_1,\dots,\alpha_n$ are distinct
-type variables, $\tau$ has one of the previous four forms, and every type
-variable occurring in $\tau$ appears among the $\alpha_i$'s.
+\item[(e)] {\tt !>\;[$\alpha_1$\,:\,\$tType,}\;{\tt ${\dots}$,}\;{\tt
+$\alpha_n$\,:\,\$tType]:\;$\varsigma$}, where $\alpha_1,\dots,\alpha_n$ are distinct
+type variables, $\varsigma$ has one of the previous four forms, and every type
+variable occurring in $\varsigma$ appears among the $\alpha_{\!j}$'s. If
+$\varsigma$ is of form (c) or (d), it must be put in parentheses.
 %The converse is not true: Some $\alpha_i$ cannot occur in $\tau$.
 \end{enumerate}
 %
-We omit the parentheses in forms (c) and (d) if $n = 1$. The binder {\tt !>} in
-form (e) denotes %type-level  (it's really type-signature-level)
+The parentheses in forms (c) and (d) are omitted if $n = 1$. The binder {\tt !>}
+in form (e) denotes %type-level (it's really type-signature-level)
 universal quantification.
 
 %%% TODO: define monomorphic and polymorphic symbols?
 Form (a) is used for variables and monomorphic constants; form (b), for
 propositional constants, including the predefined symbols {\tt \$true} and
 {\tt \$false}; form (c), for monomorphic functions; form (d), for monomorphic
-predicates; and form (e), for polymorphic functions and predicates.
-It is sometimes convenient to regard all the forms above as a special case of
-the general syntax
+predicates; and form (e), for polymorphic functions and predicates. It is often
+convenient to regard all forms above as instances of the general syntax
 \begin{center}
 {\tt !>} {\tt [$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:} {\tt
-($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\widehat \tau$}
+(($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$)}
 \end{center}
-where $m$ and $n$ may be 0 and $\widehat \tau$ may be any type or {\tt \$o}.
+where $m$ and $n$ can be 0 and $\tilde \tau$ can be any type or {\tt \$o}.
 
 Type variables that are bound by {\tt !>} without
 occurring in the type signature's body are called \emph{ghost type variables}.
@@ -77,7 +76,7 @@ For example, we can declare a polymorphic propositional
 constant {\tt is\_linear} with the signature
 {\tt !>}~{\tt [A} {\tt :} {\tt \$tType]:} {\tt \$o} and use it as a guard to restrict the
 axioms specifying that a binary predicate {\tt less\_eq} with the signature
-{\tt !>}~{\tt [A} {\tt :} {\tt \$tType]:} {\tt (A} {\tt *} {\tt A)} {\tt >} {\tt \$o}
+{\tt !>}~{\tt [A} {\tt :} {\tt \$tType]:} {\tt ((A} {\tt *} {\tt A)} {\tt >} {\tt \$o)}
 is a linear order to those types that satisfy the {\tt is\_linear} predicate.
 
 %A type with a quantifier prefix is called {\em polytype},
@@ -89,7 +88,7 @@ is a linear order to those types that satisfy the {\tt is\_linear} predicate.
 \ourparagraph{Type Declarations.} Type constructors,
 like function and predicate symbols,
 may optionally be declared prior to use.
-For example, the following declarations introduce a type
+The following declarations introduce a type
 constant {\tt bird}, a unary type constructor {\tt list},
 and a binary type constructor {\tt map}:
 \begin{quote}
@@ -111,19 +110,19 @@ determined at the first occurrence.
 %a term or a type.
 
 A declaration of a function or predicate symbol specifies its {\em type
-signature}. For example, the following declarations introduce a monomorphic
+signature}. The following declarations introduce a monomorphic
 constant {\tt pi}, a polymorphic predicate
 {\tt is\_empty}, and a pair of polymorphic functions {\tt cons} and {\tt lookup}:
 \begin{quote}
 \verb+tff(pi_t, type, pi: $real).+
 \par\smallskip
-\verb+tff(is_empty_t, type, is_empty : !> [A : $tType]: list(A) > $o).+\kern-10mm
+\verb+tff(is_empty_t, type, is_empty : !> [A : $tType]: (list(A) > $o)).+\kern-10mm
 \par\smallskip
 \verb+tff(cons_t, type,+\\
-\verb+    cons : !> [A : $tType]: (A * list(A)) > list(A)).+
+\verb+    cons : !> [A : $tType]: ((A * list(A)) > list(A))).+
 \par\smallskip
 \verb+tff(lookup_t, type,+\\
-\verb+    lookup : !> [A : $tType, B : $tType]: (map(A, B) * A) > B).+
+\verb+    lookup : !> [A : $tType, B : $tType]: ((map(A, B) * A) > B)).+
 \end{quote}
 If a function or predicate symbol is used before being declared, a
 default type signature is assumed:\ {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$i}
