@@ -1,9 +1,32 @@
 \section{Applications}
 \label{sec_apps}
 
-%  * TPTP World
+Geoff Sutcliffe has extended the TPTP World infrastructure to process TFF1
+problems and solutions. This involved in particular adapting the BNF
+specification of the TPTP syntaxes, from which parsers are generated. Some tools
+still need to be adapted to TFF1 (or TFF0); this is ongoing work.
+
+A few other applications provide some support for TFF1:
 %
-%  * Sledgehammer
+\begin{itemize}
+\item The SMT solver Alt-Ergo can process problems expressed in TFF1 besides its
+custom ML-style syntax.
+
+\item The Sledgehammer tool, which bridges the interactive theorem prover
+Isabelle\slash HOL and first-order automatic provers, has been extended to
+output TFF1 problems without arithmetic. Once it is fitted with a TFF1 parser,
+it will also be able to act as a translation tool from TFF1 to TFF0 and FOF.
+
+\item The Why3 specification language and tool handles TFF1 both as input and
+output.
+\end{itemize}
+
+Other tools, notably an LF-based type checker similar to TwHelFTC for THF0,
+are in development.
+
+Using Sledgehammer and Why3, we generated XXXX problems to populate the TFF1
+part of the TPTP library.
+
 %
 %  * Why3
 %
