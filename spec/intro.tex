@@ -31,8 +31,8 @@ format, an extension of the monomorphic TFF0 with rank-1 polymorphism. This
 extension was designed together with the TPTP community, reflecting its needs.
 Besides compatibility with TFF0 and conceptual integrity with the upcoming full
 THF format, an important design goal was to ensure that the format can easily be
-processed by existing reasoning tools that support ML-style polymorphism.
-TFF1 opens the door to useful middleware, such as monomorphizers and other
+processed by existing reasoning tools that support ML-style polymorphism. TFF1
+also opens the door to useful middleware, such as monomorphizers and other
 translation tools that encode polymorphism in FOF or TFF0.
 
 This paper is structured as follows:
@@ -49,11 +49,11 @@ and translation schemes to untyped or monomorphic logics.
 \end{itemize}
 
 This specification extends, rather than replace, the TFF0 specification
-\cite{TFF0}. We refer to the TFF1 specification for the parts that are inherited
+\cite{TFF0}. We refer to that specification for the parts that TFF1 inherits
 directly from TFF0, notably the support for arithmetic and the concrete syntax
 for the logical connectives.
 %
 To facilitate implementation, more advanced features such as type classes and
-dependent types are not covered by TFF1 (although type classes can comfortably
-be encoded in terms of it); these features are expected to be part of TFF2 if
-there is enough interest.
+dependent types are not addressed by TFF1 (although type classes can be
+comfortably encoded in it); these features are expected to be part of a
+future TFF2 if there is enough interest.
