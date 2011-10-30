@@ -3,7 +3,8 @@
 % Or: Translation to a Many-Sorted Logic
 % Or simply: Translation
 
-We describe a translation from TFF1 to the many-sorted first-order logic TFF0.%
+We describe a translation from TFF1 to the classical many-sorted first-order logic TFF0
+with equality.%
 \footnote{The TFF0 specification \cite{TFF0} prefers the appellation ``type'' to
 ``sort,'' but since only nullary type constructors are supported, TFF0 types are
 strictly speaking sorts.}
@@ -40,25 +41,28 @@ The $\MON$ transformation translates TFF1 types, terms, and formulas
 according to the following equations:
 \begin{align*}
 \MON(\alpha) &\eqdef \hat{\alpha} &
-\MON(\kappa(\bar{\tau})) &\eqdef \hat{\kappa}(\MON(\bar{\tau})) \\
+  \MON(t_1 \eq t_2) &\eqdef \MON(t_1) \eq \MON(t_2) \\
+\MON(\kappa(\bar{\tau})) &\eqdef \hat{\kappa}(\MON(\bar{\tau})) &
+  \MON(\lnot\, \varphi) &\eqdef \lnot\, \MON(\varphi) \\
 \MON(u) &\eqdef \hat{u} &
-\MON(f(\bar{\tau},\,\bar{t}\,)) &\eqdef \hat{f}(\MON(\bar{\tau}),\,\MON(\bar{t}\,)) \\
-\MON(t_1 \eq t_2) &\eqdef \MON(t_1) \eq \MON(t_2) &
-\MON(p(\bar{\tau},\,\bar{t}\,)) &\eqdef \hat{p}(\MON(\bar{\tau}),\,\MON(\bar{t}\,)) \\
-\MON(\lnot\, \varphi) &\eqdef \lnot\, \MON(\varphi) &
-\MON(\varphi \rand \psi) &\eqdef \MON(\varphi) \rand \MON(\psi) \\
-\MON(\forall u \ty \tau .\; \varphi) &\eqdef
-\forall \hat{u} .\; \typeof(\hat{u},\, \MON(\tau)) \limp \MON(\varphi) &
-\MON(\forall \alpha .\; \varphi) &\eqdef
-\forall \hat{\alpha} .\; \MON(\varphi)
+  \MON(\varphi \rand \psi) &\eqdef \MON(\varphi) \rand \MON(\psi) \\
+\MON(f(\bar{\tau},\,\bar{t}\,)) &\eqdef \hat{f}(\MON(\bar{\tau}),\,\MON(\bar{t}\,)) &
+  \MON(\forall u \ty \tau .\; \varphi) &\eqdef
+  \forall \hat{u} .\; \typeof(\hat{u},\, \MON(\tau)) \limp \MON(\varphi) \\
+\MON(p(\bar{\tau},\,\bar{t}\,)) &\eqdef \hat{p}(\MON(\bar{\tau}),\,\MON(\bar{t}\,)) &
+  \MON(\forall \alpha .\; \varphi) &\eqdef
+  \forall \hat{\alpha} .\; \MON(\varphi)
 \end{align*}
 %
 \newcommand{\AxD}{\text{\sc Ax}_{\DEL}}%
 \newcommand{\Inh}{\text{\sc Inh}}%
 \newcommand{\Dom}{\mathrm{Dom}}%
 %
+The $\MON$ transformation is lifted to lists of types or terms in the evident,
+pointwise way.
+
 The {\em inhabitation axiom}, $\Inh$, is the formula
-$\forall \hat{\alpha}.\, \exists \hat{u} .\;
+$\forall \hat{\alpha}.\> \exists \hat{u} .\;
 \typeof(\hat{u},\,\hat{\alpha}).$
 For each function symbol $f :
 \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \tau$,
@@ -67,7 +71,7 @@ $$
 \forall \hat{\alpha}_1\dots\hat{\alpha}_m .\;
 \forall \hat{u}_1\dots\hat{u}_n .\;
 \typeof(\hat{f}(\hat{\alpha}_1,\dots,\hat{\alpha}_m,
-\hat{u}_1,\dots,\hat{u}_n), \MON(\tau))%.
+\hat{u}_1,\dots,\hat{u}_n),\, \MON(\tau))%.
 $$
 We let $\AxD$ denote the set of typing axioms associated with all function
 symbols occurring in $\DEL$.
@@ -78,16 +82,17 @@ $$
 \AxD \mathrel\cup \{ \Inh \}%.
 $$
 %
-It is easy to see that $\MON$ converts TFF1 types into well-formed
-terms of sort $\typ$, TFF1 terms into well-formed terms of sort $\und$,
-and (not necessarily well-typed) TFF1 formulas into well-formed formulas.
+It is easy to see that $\MON$ converts TFF1 types into well-formed TFF0 terms of
+sort $\typ$, TFF1 terms into well-formed TFF0 terms of sort $\und$, and
+well-formed %(but not necessarily well-typed)
+TFF1 formulas into well-formed TFF0 formulas.
 
 \begin{theorem}[Soundness of $\BOLDMON$]%
 \label{thm:mon_sound}%
 \afterDot
 If a set of sentences $\DEL$ is satisfiable in TFF1,
-then $\MON(\DEL)$ is satisfiable in classical
-many-sorted first-order logic with equality.
+then $\MON(\DEL)$ is satisfiable in TFF0.
+%classical many-sorted first-order logic with equality
 \end{theorem}
 \begin{proof}
 Let $\cM$ be a model of $\DEL$.
@@ -104,7 +109,7 @@ The predicate symbol $\typeof$ is interpreted as the membership relation.
 %This concludes the definition of interpretation $\cI$.
 
 We show that for every type $\sigma$, term $t$,
-and formula $\varphi$ occurring in $\DEL$,
+and formula $\varphi$ occurring in $\DEL$, and
 for every variable valuation $\nu$ in $\cI$, we have
 \begin{align*}
 \llb \MON(\sigma) \rrb^\cI_{\nu} &= \llb \sigma \rrb^\cM_{\theta} &
