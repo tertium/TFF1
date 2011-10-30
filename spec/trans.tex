@@ -126,7 +126,7 @@ that of a quantified formula, $\forall u \ty \tau .\; \varphi$.
 It is easy to see that any $a \in \univ$ belongs
 to $\llb \tau \rrb^\cM_\theta$ if and only if
 $\llb \typeof(\hat{u},\MON(\tau)) \rrb^\cI_{\nu'}$,
-where $\nu' = \nu[\hat{u} \mapsto a]$, holds.
+where $\nu' = \nu[\hat{u} \mapsto a]$.
 Indeed, the latter is equivalent to
 $a \in \llb \MON(\tau) \rrb^\cI_{\nu'}$.
 Since $\nu$ and $\nu'$ produce the same
@@ -138,7 +138,7 @@ $\llb \forall \hat{u} .\; \typeof(\hat{u},\MON(\tau))
 $\llb \forall u \ty \tau .\; \varphi \rrb^\cM_{\theta,\xi}$
 by induction hypothesis.
 
-Now we only have to check that the typing axioms
+Now we must only ensure that the typing axioms
 $\AxD$ and the inhabitation axiom $\Inh$ hold in $\cI$.
 This immediately follows from the definition of
 interpretation in TFF1 and the first equality above.
@@ -147,8 +147,7 @@ interpretation in TFF1 and the first equality above.
 
 \begin{theorem}[Completeness of $\BOLDMON$] \label{thm:mon_compl}
 Given a set of sentences $\DEL$, if $\MON(\DEL)$
-is satisfiable in classical many-sorted first-order logic
-with equality, then $\DEL$ is satisfiable in TFF1.
+is satisfiable in TFF0, then $\DEL$ is satisfiable in TFF1.
 \end{theorem}
 \begin{proof}
 Let $\cM_0$ be a model of $\MON(\DEL)$. We first construct a model $\cM$ of $\MON(\DEL)$
@@ -157,7 +156,7 @@ the domain of $\typ$ by the set $D = \{\la a,\,d \ra \vb \exists a.\; \typeof^{\
 and updating the interpretations of type constructors
 and function and predicate symbols in $\cM_0$ accordingly.
 We can safely perform this substitution: Since the inhabitation
-axiom $\Inh$ holds in $\cM_0$, every set~$D$ is nonempty, and clearly distinct
+axiom $\Inh$ holds in $\cM_0$, every set~$D$ is nonempty, and distinct
 elements are mapped to distinct sets.
 The predicate $\typeof^{\cM\!}(a,\,D)$ holds if and only if
 $D$ contains a pair of the form $\la a,\, d \ra$ for some $d$.
@@ -192,22 +191,22 @@ and $d$ is the fixed second coordinate of pairs in the domain
 \llb \tau \rrb^\cI_{[\alpha_1\,\mapsto\,D_1,\dots,\alpha_m\,\mapsto\,D_m]}\]%.
 %
 Since the typing axioms $\AxD$ hold in $\cM$, we have
-$\typeof^\cM(f^\cM(D_1,\dots,D_n,a_1,\dots,a_m), D)$,
-and therefore, the result of $f^\cI$ belongs indeed to $D$.
+$\smash{\typeof^\cM\bigl(f^\cM(D_1,\dots,D_n,a_1,\dots,a_m), D\bigr)}$,
+and therefore the result of $f^\cI$ belongs indeed to $D$.
 %This concludes the definition of $\cI$.
 
 Given a type context $\GAM$, a type valuation $\theta$,
 and a variable valuation $\xi$, we say that they are \emph{admissible}
-for a TFF1 formula $\varphi$ when the following conditions are satisfied:
+for a TFF1 formula $\varphi$ if the following conditions are satisfied:
 \begin{itemize}
 \item $\varphi$ is well-typed in context $\GAM$;
 \item for every variable $v$ free in $\varphi$, no type variable
 occurring in $\GAM(v)$ is bound in $\varphi$;
 \item for every variable $v$ free in $\varphi$, we have $\xi(v) \in \evalT{\GAM(v)}$.
 \end{itemize}
-Obviously, any triple is admissible for a sentence.
+Obviously, any triple $\GAM,\, \theta,\, \xi$ is admissible for a sentence.
 We must show that for every type $\sigma$, term $t$, and formula $\varphi$,
-and for all $\GAM$, $\theta$, $\xi$ admissible for $\varphi$, we have
+and for all $\GAM,\, \theta,\, \xi$ admissible for $\varphi$, we have
 \begin{align*}
 \evalT{\sigma} &= \llb \MON(\sigma) \rrb^\cM_{\nu} &
 \pi_1(\eval{t}) &= \llb \MON(t) \rrb^\cM_{\nu} &
@@ -217,7 +216,7 @@ where $\nu(\hat{\alpha}) \inlineeqdef \theta(\alpha)$ and
 $\nu(\hat{u}) \inlineeqdef \pi_1(\xi(u))$
 for every type variable $\alpha$ and variable $u$.
 
-The proof goes by induction on the structure of types, terms, and formulas.
+The proof is by induction on the structure of types, terms, and formulas.
 There are three nontrivial cases:\ equality, quantification over a term
 variable, and quantification over a type variable.
 
@@ -229,7 +228,7 @@ By assumption, $\varphi$ is well-typed in $\GAM$.
 Thus, $\GAM\,\vdash t_1 \ty \sigma$ and $\GAM\,\vdash t_2 \ty \sigma$
 for some type~$\sigma$.
 If $t_1$ is a variable $v$, then
-$\eval{t_1} = \xi(v) \in \eval{\GAM(v)} = \evalT{\sigma}$. Otherwise,
+$\smash{\eval{t_1} = \xi(v) \in \eval{\GAM(v)} = \evalT{\sigma}}$. Otherwise,
 $t_1$ is a function application $f(\sigma_1,\dots,\sigma_m,s_1,\dots,s_n)$,
 for $f \ty
 \forall \alpha_1\dots\alpha_m .\; \tau_1 \times \dots \times \tau_n \to \tau$.
@@ -258,16 +257,16 @@ $\typeof^\cM(a, \llb \tau \rrb^\cI_\theta)$
 holds if and only if there exists some $d'$ such that
 $\la a,\, d' \ra \in \llb \tau \rrb^\cI_\theta$.
 %
-Now, notice that the triple $\GAM[u \mapsto \tau],
-\theta,\xi[u \mapsto \la a,\, d \ra]$ is admissible for $\psi$.
+Now, notice that the triple $\GAM[u \mapsto \tau],\,
+\theta,\,\xi[u \mapsto \la a,\, d \ra]$ is admissible for $\psi$.
 Indeed, $\psi$ is well-typed in $\GAM[u \mapsto \tau]$,
 and for every $v \in \FV(\psi)$, we have
 \[\xi[u \mapsto \la a,\, d \ra](v) \in \evalT{\GAM[u \mapsto \tau](v)}\]%.
-Also, if $\tau$ contains a type variable $\beta$ bound in $\psi$,
-then $\beta$ is both free and bound in $\varphi$, which violates
+Also, if $\tau$ contains a type variable $\alpha$ bound in $\psi$,
+then $\alpha$ is both free and bound in $\varphi$, which violates
 the no-clash assumption.
 %
-Then, by induction hypothesis, $\eval{\forall u \ty \tau .\; \psi}$
+Then, by induction hypothesis, $\smash{\eval{\forall u \ty \tau .\; \psi}}$
 is exactly $\llb \forall \hat{u} .\; \typeof(\hat{u},\MON(\tau))
 \limp \MON(\psi) \rrb^\cM_{\nu}$.
 
