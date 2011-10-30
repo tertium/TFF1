@@ -22,7 +22,7 @@ Term variables: & $u,$ $v$ &
 %% @ANDREI: There were very few examples of this in the rest of the document (lessEq and isOrdered) and
 %% it was obvious from the context what they were. Also, I'm trying italics for those, to mix
 %% better with the maths; but I'm using the macro \sym, so it's easy to change.
-Possibly empty lists of types and terms are denoted by $\bar{\tau}$ and
+Possibly empty lists of types and terms are denoted by $\bar{\sigma}$ and
 $\bar{t}$, respectively.
 
 We use the symbols ${\times}$, ${\to}$, and ${\ALL}$
@@ -208,9 +208,9 @@ and formulas are evaluated according to the following equations:
 \begin{align*}
 \eval{u} &\eqdef \xi(u) &
   \eval{\lnot\, \varphi} &\eqdef \lnot\, \eval{\varphi} \\
-\eval{f(\bar{\tau},\,\bar{t}\,)} &\eqdef f^\cI\bigl(\evalT{\bar{\tau}},\eval{\bar{t}\,}\bigr) &
+\eval{f(\bar{\sigma},\,\bar{t}\,)} &\eqdef f^\cI\bigl(\evalT{\bar{\sigma}},\eval{\bar{t}\,}\bigr) &
   \eval{\varphi \rand \psi} &\eqdef \eval{\varphi} \rand \eval{\psi} \\
-\eval{p(\bar{\tau},\,\bar{t}\,)} &\eqdef p^\cI\bigl(\evalT{\bar{\tau}},\eval{\bar{t}\,}\bigr) &
+\eval{p(\bar{\sigma},\,\bar{t}\,)} &\eqdef p^\cI\bigl(\evalT{\bar{\sigma}},\eval{\bar{t}\,}\bigr) &
   \eval{\forall u \ty \tau .\; \varphi} &\eqdef \forall {a \mathbin\in \evalT{\tau}} .\;
   \smash{\evalG{\varphi}_{\theta,\,\xi[u\,\mapsto\,a]}} \\
 \eval{t_1 \eq t_2} &\eqdef \bigl(\eval{t_1} = \eval{t_2}\bigr) &
