@@ -11,14 +11,14 @@ dozens of reasoning tools, and a growing number of reasoners can process the
 typed first-order form (TFF0) \cite{TFF0} or the corresponding higher-order form
 (THF0) \cite{benzmueller-et-al-2008-thf0}, both of which provide simple
 monomorphic types and interpreted arithmetic. A polymorphich version of THF0,
-full THF, is in the works \cite{sutcliffe-benzmueller-2010}.
+the full THF, is in the works \cite{sutcliffe-benzmueller-2010}.
 
 Despite the variety of this offering, there is a strong desire in the automated
 reasoning community for a polymorphic first-order format. Many applications
 require polymorphism, notably interactive theorem provers and program
-specification languages, but lacking an appropriate interchange format, these
-must communicate via monomorphic formats. Furthermore, there is no entirely
-satisfactory way to translate polymorphism away: Monomorphization is generally
+specification languages, but lacking a suitable interchange format these
+must communicate via monomorphic formats. Moreover, there is no entirely
+satisfactory way to eliminate polymorphism: Monomorphization is generally
 incomplete, and it is difficult to encode polymorphism in a sound, complete, and
 efficient manner, especially in the presence of interpreted types. Tool authors
 are reduced to developing their own monomorphizers and type encodings, often
@@ -28,17 +28,17 @@ the SMT solver Alt-Ergo \cite{bobot-et-al-2008}.
 
 This paper attempts to change this state of affairs by introducing the TPTP TFF1
 format, an extension of the monomorphic TFF0 with rank-1 polymorphism. This
-extension was designed together with the TPTP community, reflecting their needs.
-Besides compatibility with TFF0 and the upcoming full THF format, an important
-design goal was to ensure that the format can easily be processed by existing
-reasoning tools that support ML-style polymorphism. TFF1 opens the door to
-useful middleware, such as monomorphizers and other translation tools that
-encode polymorphism in FOF or TFF0.
+extension was designed together with the TPTP community, reflecting its needs.
+Besides compatibility with TFF0 and conceptual integrity with the upcoming full
+THF format, an important design goal was to ensure that the format can easily be
+processed by existing reasoning tools that support ML-style polymorphism.
+TFF1 opens the door to useful middleware, such as monomorphizers and other
+translation tools that encode polymorphism in FOF or TFF0.
 
 This paper is structured as follows:
 \begin{itemize}
-\item Section 2 describes the format's syntax.
-\item Section 3 describes its typing rules and semantics.
+\item Section 2 specifies the format's syntax.
+\item Section 3 specifies its typing rules and semantics.
 \item Section 4 presents a reduction of TFF1 to TFF0.
 \item Section 5 presents two preprocessing steps that address type quantifiers
 in TFF1 type signatures and formulas, bridging the gap with ML-style
