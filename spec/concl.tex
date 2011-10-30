@@ -1,6 +1,22 @@
 \section{Conclusion}
 \label{sec_concl}
 
+We described the TPTP TFF1 format, an extension of the monomorphic TFF0 format
+with rank-1 polymorphism. The new format neatly complements the existing TPTP
+offering. Like other TPTP formats, we expect it to become a lingua franca for
+automatic theorem provers and other automated reasoning tools.
+
+%%% TODO: CASC?
+TFF1 is implemented as part of the TPTP World infrastructure. The TPTP library
+already contains 0~polymorphic problems, and the format is supported by several
+applications, including zero SMT solvers. Given that many applications today
+require polymorphism, we expect other reasoning tools to gradually follow suit.
+
+To facilitate implementation, more advanced features such as type classes and
+dependent types are not addressed by TFF1 (although type classes can be
+comfortably encoded in it). These features are expected to be part of a future
+TFF2 if there is enough interest from users.
+
 \def\ackname{Acknowledgment}
 \paragraph{\textbf{\upshape\ackname.}}
 %
