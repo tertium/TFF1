@@ -321,16 +321,16 @@ tff(update_t, type,
                  ((map(A, B) * A * B) > map(A, B))).
 
 tff(lookup_update_same, axiom,
-    (![M : map(B, A), K : B, V : A]:
+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:
          lookup(A, B, update(A, B, M, K, V), K) = V)).
 tff(lookup_update_other, axiom,
-    (![M : map(A, B), V : B, K1 : A, K2 : A]:
-         (K1 != K2 => lookup(A, B, update(A, B, M, K1, V), K2) =
-                      lookup(A, B, M, K2)))).
+    (![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:
+         (K != L => lookup(A, B, update(A, B, M, K, V), L) =
+                    lookup(A, B, M, L)))).
 tff(map_ext, axiom,
-    (![M1 : map(A, B), M2 : map(A, B)]:
-         ((![K : A]: lookup(A, B, M1, K) = lookup(A, B, M2, K)) =>
-          M1 = M2))).
+    (![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:
+         ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>
+          M = N))).
 tff(update_idem, conjecture,
     (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:
          update(A, B, update(A, B, M, K, V), K, V) =
