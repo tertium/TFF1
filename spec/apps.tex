@@ -4,21 +4,23 @@
 Geoff Sutcliffe has extended the TPTP World infrastructure to process TFF1
 problems and solutions. This involved in particular adapting the BNF
 specification of the TPTP syntaxes, from which parsers are generated. Some tools
-still need to be adapted to TFF1 (or TFF0); this is ongoing work.
+still need to be ported to TFF1; this is ongoing work.
 
-A few other applications provide some support for TFF1:
+A few other applications already provide some support for TFF1:
 %
 \begin{itemize}
-\item The SMT solver Alt-Ergo can process problems expressed in TFF1 besides its
-custom ML-style syntax.
+\item The SMT solver Alt-Ergo \cite{bobot-et-al-2008} can process problems
+expressed in TFF1 besides its custom ML-style syntax.
 
-\item The Sledgehammer tool, which bridges the interactive theorem prover
-Isabelle\slash HOL and first-order automatic provers, has been extended to
-output TFF1 problems without arithmetic. Once it is fitted with a TFF1 parser,
-it will also be able to act as a translation tool from TFF1 to TFF0 and FOF.
+\item The Sledgehammer tool \cite{paulson-blanchette-2010}, which bridges the
+interactive theorem prover Isabelle\slash HOL and first-order automatic provers,
+has been extended to output TFF1 problems without arithmetic. Once it is fitted
+with a TFF1 parser, it will also be able to act as a translation tool from TFF1
+to TFF0 and FOF.
 
-\item The Why3 specification language and tool handles TFF1 both as input and
-output.
+\item The Why3 \cite{bobot-et-al-2011} tool, which provides its own polymorphic
+specification language, supports TFF1 both for input and output. It can be used
+to translate between TFF1 and existing formats (FOF, SMT-LIB, etc.).
 \end{itemize}
 
 Other tools, notably an LF-based type checker similar to TwHelFTC for THF0,
