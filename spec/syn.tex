@@ -40,6 +40,9 @@ functions, the return type. Type signatures can take the following forms:
 \begin{enumerate}
 \item[(a)] a type;
 \item[(b)] the Boolean pseudotype {\tt \$o}; % (also called {\tt \$oType});
+
+\pagebreak[2] %% TYPESETTING
+
 \item[(c)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tau$} for $n > 0$,
 where $\tau_1,\dots,\tau_n$ and $\tau$ are types;
 \item[(d)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;\$o} for $n > 0$,
@@ -173,9 +176,10 @@ replaced with an underscore ({\tt \_}). For example:
 % @ANDREI: I don't care much either way... SyntaxBNF is anyway very slack; I
 % wouldn't be surprised if it could be used to parse C++. ;)
 Although {\tt nil}'s type argument cannot be inferred locally from the types of
-the term arguments, it can be deduced using the Hindley--Milner type inference.
-The producer of a TFF1 problem must be aware of the type inference algorithm
-implemented in the consumer to omit only redundant type arguments.
+its term arguments (since there are none), the Hindley--Milner type inference
+can deduce it. The producer of a TFF1 problem must be aware of the type
+inference algorithm implemented in the consumer to omit only redundant type
+arguments.
 
 \ourparagraph{Type and Term Variables.}
 Every variable in a TFF1 formula must be bound. It can be given a type at
