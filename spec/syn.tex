@@ -30,7 +30,9 @@ arithmetic types
 {\tt \$int}, {\tt \$rat}, and {\tt \$real} are modeled by $\mathbb{Z}$,
 $\mathbb{Q}$, and $\mathbb{R}$, respectively. We refer
 to the TFF0 specification \cite{sutcliffe-et-al-2011-tff0} for the semantics of
-the arithmetic types and their operations.
+the arithmetic types and their operations. It is perfectly acceptable for a TFF
+implementation not to support arithmetic. ``TFF\kern.04ex$k$ with arithmetic'' is
+sometimes called ``TFA\kern.04ex$k$.''
 
 \ourparagraph{Type Signatures.}
 Each function and predicate symbol occurring in a formula must be associated
@@ -50,7 +52,7 @@ $\alpha_n$\;:\;\$tType]:\;$\varsigma$}, where $\alpha_1,\dots,\alpha_n$ are dist
 type variables, $\varsigma$ has one of the previous four forms, and every type
 variable occurring in $\varsigma$ appears among the $\alpha_{\!j}$'s. If
 $\varsigma$ is of form (c) or (d), it must be put in parentheses.%
-\footnote{This restriction is necessary for the TPTP World's Prolog-based parser.}
+%\footnote{This restriction is necessary for the TPTP World's Prolog-based parser.}
 %The converse is not true: Some $\alpha_i$ cannot occur in $\tau$.
 \end{enumerate}
 %

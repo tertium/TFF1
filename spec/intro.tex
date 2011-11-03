@@ -27,14 +27,15 @@ using suboptimal schemes. Ultimately, we contend that polymorphism belongs in
 provers, where it can be implemented simply and efficiently, as demonstrated by
 the SMT solver Alt-Ergo \cite{bobot-et-al-2008}.
 
-We hope to change this state of affairs by introducing the TPTP TFF1
+We hope to change this state of affairs by introducing the TFF1
 format, an extension of TFF0 with rank-1 polymorphism. The
-extension was designed together with the TPTP community, reflecting its needs.
+extension was designed with the participation of members of the TPTP community,
+reflecting its needs.
 Besides compatibility with TFF0 and conceptual integrity with the upcoming full
-THF format, an important design goal was to ensure that the format can easily be
+THF, an important design goal was to ensure that the format can easily be
 processed by existing reasoning tools that support ML-style polymorphism. TFF1
 also opens the door to useful middleware, such as monomorphizers and other
-translation tools that encode polymorphism in FOF or TFF0.
+tools that encode polymorphism in FOF or TFF0.
 
 This paper is structured as follows:
 \begin{itemize}
@@ -51,5 +52,6 @@ schemes to untyped or monomorphic logics.
 
 This specification extends, rather than replace, the TFF0 specification
 \cite{sutcliffe-et-al-2011-tff0}. We refer to that specification for the parts
-that TFF1 inherits directly from TFF0, notably the support for arithmetic and
-the concrete syntax for the logical connectives.
+that TFF1 inherits directly from TFF0, notably the
+concrete syntax for the logical connectives and the
+(optional) arithmetic constructs.
