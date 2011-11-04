@@ -91,7 +91,7 @@ is a linear order to those types that satisfy the {\tt is\_linear} predicate.
 
 \ourparagraph{Type Declarations.} Type constructors,
 like function and predicate symbols,
-can optionally be declared prior to use.
+can optionally be declared.
 The following declarations introduce a type
 constant {\tt bird}, a unary type constructor {\tt list},
 and a binary type constructor {\tt map}:
@@ -103,7 +103,7 @@ and a binary type constructor {\tt map}:
 \verb+tff(map_t, type, map: ($tType * $tType) > $tType).+
 \end{quote}
 If a type constructor is used before being declared, its arity is
-determined at the first occurrence. A later declaration, if any,
+determined by the first occurrence. Any later declaration
 must give it the same arity.
 %%% @ANDREI: Too early for this. TODO: move where it belongs (and edit)
 %However, one should keep in mind that a type
@@ -115,8 +115,8 @@ must give it the same arity.
 
 A declaration of a function or predicate symbol specifies its
 {\em type signature}.
-The type signature must be closed, that is, every type variable
-occurring in it must be {\tt !>}-bound.
+Every type variable occurring in a type signature must be bound by a
+{\tt !>}-binder.
 The following declarations introduce a monomorphic
 constant {\tt pi}, a polymorphic predicate
 {\tt is\_empty}, and a pair of polymorphic functions {\tt cons} and {\tt lookup}:
@@ -322,18 +322,18 @@ for fixed keys and values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 
 \begin{quote}
 \verb+tff(map_t, type, map : ($tType * $tType) > $tType).+
-\par\medskip
+\par\smallskip
 \verb+tff(lookup_t, type,+\\
 \verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
-\par\medskip
+\par\smallskip
 \verb+tff(update_t, type,+\\
 \verb+    update : !>[A : $tType, B : $tType]:+\\
 \verb+                 ((map(A, B) * A * B) > map(A, B))).+
-\par\medskip
+\par\medskip %% deliberate (between declarations and formulas)
 \verb+tff(lookup_update_same, axiom,+\\
 \verb+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
 \verb+         lookup(A, B, update(A, B, M, K, V), K) = V)).+
-\par\medskip
+\par\smallskip
 \verb+tff(lookup_update_other, axiom,+\\
 \verb+    (![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:+\kern-10mm\\
 \verb+         (K != L => lookup(A, B, update(A, B, M, K, V), L) =+\\
@@ -343,7 +343,7 @@ for fixed keys and values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 \verb+    (![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:+\\
 \verb+         ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>+\kern-10mm\\
 \verb+          M = N))).+
-\par\medskip
+\par\smallskip
 \verb+tff(update_idem, conjecture,+\\
 \verb+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
 \verb+         update(A, B, update(A, B, M, K, V), K, V) =+\\
