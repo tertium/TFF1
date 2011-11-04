@@ -220,10 +220,11 @@
 %                         (<tff_subtype>)
 
 %----See <thf_top_level_type> for commentary
-<tff_top_level_type>  ::= <tff_quantified_type> | <tff_simple_type>
-<tff_quantified_type> ::= !> [<tff_variable_list>] : <tff_simple_type> |
+<tff_top_level_type> ::= <tff_atomic_type> | <tff_mapping_type> |
+                         <tff_quantified_type>
+<tff_quantified_type> ::= !> [<tff_variable_list>] : <tff_monotype> |
                           (<tff_quantified_type>)
-<tff_simple_type>    ::= <tff_atomic_type> | <tff_mapping_type>
+<tff_monotype>       ::= <tff_atomic_type> | (<tff_mapping_type>)
 <tff_unitary_type>   ::= <tff_atomic_type> | (<tff_xprod_type>)
 <tff_atomic_type>    ::= <tff_function_type> | <defined_type> | <variable>
 <tff_function_type>  ::= <constant> | <functor>(<tff_type_arguments>)
