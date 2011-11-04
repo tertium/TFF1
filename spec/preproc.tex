@@ -29,9 +29,10 @@ The natural translation from TFF1 to such a formalism would map $\forall
 \alpha\times\beta\to\omicron$) to $\alpha\times\beta\to\omicron$, simply
 omitting the $\forall$-binders. To compensate for the missing type arguments,
 type annotations are sometimes needed to guide the Hindley--Milner type
-inference. This is slightly awkward but not difficult to implement.
+inference. %This is slightly awkward but not difficult to implement.
+% A great tradition is never awkward ;)
 
-The main difficulties arise in conjunction with ghost type variables: If
+The difficulties arise in conjunction with ghost type variables: If
 $\forall\alpha.\;\omicron$ collapses to $\omicron$, the dependency on the type
 is lost.
 %

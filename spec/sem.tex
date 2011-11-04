@@ -54,8 +54,9 @@ A {\em type substitution\/} $\rho$ is a mapping of type variables
 to types. A {\em monomorphic\/} type substitution
 maps every type variable either to itself or to a monomorphic type.
 
-The expression $f[x \mapsto a]$ denotes the function that maps $x$ to $a$ and
-every other element $y$ in $f$'s domain to $f(y)$.
+Given an arbitrary function $h$, the expression $h[x \mapsto a]$
+denotes the function that maps $x$ to $a$ and
+every other element $y$ in $h$'s domain to $h(y)$.
 
 %
 %A type $\tau$ is said to {\em match\/} another type $\tau'$ whenever there exists a
@@ -155,6 +156,10 @@ Then we can do without explicit renaming, % of type variables,
 and the last typing rule's premise becomes
 $\GAM \,\vdash\, \varphi \ty \omicron$.
 
+Since every type variable in a polymorphic type signature
+must be bound in it, it is impossible for a term to have two
+different types in the same context.
+
 A closed TFF1 formula $\varphi$ is {\em well-typed\/} if and only if
 the judgment $\GAM \vdash \varphi \ty \omicron$ is derivable
 for any $\GAM$.
@@ -165,12 +170,12 @@ ${} \vdash \varphi \ty \omicron$.
 Closed well-typed formulas are called {\em sentences}.
 
 \ourparagraph{Semantics.}
-The semantics of TFF1 postulates a nonempty collection $\sorts$ of
+An interpretation $\cI$ for a given set of type constructors,
+function symbols, and predicate symbols is constructed as follows.
+First, we fix a nonempty collection $\sorts$ of
 nonempty sets, the {\em domains}. The union of all domains is called the
 {\em universe}, %denoted by
 $\univ$.
-An interpretation $\cI$ for a given set of type constructors,
-function symbols, and predicate symbols is constructed as follows.
 
 An $n$-ary type constructor $\kappa$ is interpreted as a function
 $\kappa^{\cI} : \sorts^{\,n} \to \sorts$.

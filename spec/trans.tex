@@ -3,16 +3,16 @@
 % Or: Translation to a Many-Sorted Logic
 % Or simply: Translation
 
-We describe a translation from TFF1 to the classical many-sorted first-order logic TFF0
-with equality.%
+We describe a translation from TFF1 to the classical many-sorted%
 \footnote{The TFF0 specification \cite{sutcliffe-et-al-2011-tff0} prefers the
 appellation ``type'' to ``sort,'' but since only nullary type constructors are
 supported, TFF0 types are strictly speaking sorts.}
+first-order logic TFF0.
 The translation is included here for illustrative purposes; more suitable
 encoding schemes for applications are discussed in
 Section~\ref{sec_related}.
 
-Our strategy for translating polymorphic types is to encode them as terms and
+Our strategy for translating types is to encode them as terms and
 use a special binary predicate to encode type information.
 %
 To avoid mixing types
@@ -84,8 +84,8 @@ $$
 %
 It is easy to see that $\MON$ converts TFF1 types into well-formed TFF0 terms of
 sort $\typ$, TFF1 terms into well-formed TFF0 terms of sort $\und$, and
-well-formed %(but not necessarily well-typed)
-TFF1 formulas into well-formed TFF0 formulas.
+%well-formed %(but not necessarily well-typed)
+TFF1 formulas into well-for\-med TFF0 formulas.
 
 \begin{theorem}[Soundness of $\BOLDMON$]%
 \label{thm:mon_sound}%
@@ -165,7 +165,7 @@ Below, $\pi_1$ and $\pi_2$ stand for the first and the second projection
 of a pair, respectively.
 
 We construct an interpretation $\cI$ of $\DEL$ as follows.
-The set of domains $\sorts$ is the new domain
+The set of domains $\sorts$ is the domain
 of $\typ$ in $\cM$. As usual, $\univ$ denotes the union
 of all domains in $\sorts$. Note that some elements of
 the domain of $\und$ may not appear in any pair in $\univ$.

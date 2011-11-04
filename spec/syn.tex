@@ -8,7 +8,7 @@ Briefly, the types, terms, and formulas of TFF1 are analogous to those of TFF0,
 except that function and predicate symbols can be declared to be polymorphic,
 types can contain type variables, and $n$-ary type constructors are allowed.
 Type variables in type signatures and formulas are explicitly bound. Instances of
-polymorphic constants are specified by explicit type arguments, rather than
+polymorphic symbols are specified by explicit type arguments, rather than
 inferred.
 
 \ourparagraph{Types.} The {\em types\/} of TFF1 are built from {\em type
@@ -43,34 +43,34 @@ functions, the return type. Type signatures can take any of the following forms:
 \item[(a)] a type;
 \item[(b)] the Boolean pseudotype {\tt \$o}; % (also called {\tt \$oType});
 \pagebreak[2] %% TYPESETTING
-\item[(c)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tau$} for $n > 0$,
-where $\tau_1,\dots,\tau_n$ and $\tau$ are types;
-\item[(d)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;\$o} for $n > 0$,
-where $\tau_1,\dots,\tau_n$ are types;
-\item[(e)] {\tt !>[$\alpha_1$\;:\;\$tType,}\;{\tt ${\dots}$,}\;{\tt
-$\alpha_n$\;:\;\$tType]:\;$\varsigma$}, where $\alpha_1,\dots,\alpha_n$ are distinct
-type variables, $\varsigma$ has one of the previous four forms, and every type
-variable occurring in $\varsigma$ appears among the $\alpha_{\!j}$'s. If
-$\varsigma$ is of form (c) or (d), it must be put in parentheses.%
+\item[(c)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$}
+\ for $n > 0$, where $\tau_1,\dots,\tau_n$ are types and $\tilde \tau$ is
+a type or {\tt \$o};
+\item[(d)] {\tt !>[$\alpha_1$\;:\;\$tType,}\;{\tt ${\dots}$,}\;{\tt
+$\alpha_n$\;:\;\$tType]:\;$\varsigma$}
+\ for $n > 0$, where $\alpha_1,\dots,\alpha_n$ are distinct
+type variables and $\varsigma$ has one of the previous three forms.
 %\footnote{This restriction is necessary for the TPTP World's Prolog-based parser.}
 %The converse is not true: Some $\alpha_i$ cannot occur in $\tau$.
 \end{enumerate}
 %
-The parentheses in forms (c) and (d) are omitted if $n = 1$. The binder {\tt !>}
-in form (e) denotes %type-level (it's really type-signature-level)
-universal quantification.
+The parentheses in form (c) are omitted if $n = 1$.
+The binder {\tt !>} in form (d) denotes universal quantification.
+%Every type variable occurring in $\varsigma$
+%must appear among the $\alpha_{\!j}$'s.
+If $\varsigma$ is of form (c), it must be put in parentheses.
 
 %%% TODO: define monomorphic and polymorphic symbols?
-Form (a) is used for variables and monomorphic constants; form (b), for
+Form (a) is used for monomorphic constants; form (b), for
 propositional constants, including the predefined symbols {\tt \$true} and
-{\tt \$false}; form (c), for monomorphic functions; form (d), for monomorphic
-predicates; and form (e), for polymorphic functions and predicates. It is often
+{\tt \$false}; form (c), for monomorphic functions and predicates;
+and form (d), for polymorphic functions and predicates. It is often
 convenient to regard all forms above as instances of the general syntax
 \begin{center}
 {\tt !>[$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:} {\tt
 (($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$)}
 \end{center}
-where $m$ and $n$ can be 0 and $\tilde \tau$ can be any type or {\tt \$o}.
+where $m$ and $n$ can be 0. % and $\tilde \tau$ can be any type or {\tt \$o}.
 
 Type variables that are bound by {\tt !>} without
 occurring in the type signature's body are called \emph{ghost type variables}.
@@ -102,9 +102,9 @@ and a binary type constructor {\tt map}:
 \par\smallskip
 \verb+tff(map_t, type, map: ($tType * $tType) > $tType).+
 \end{quote}
-Type constructors must be fully applied, and therefore
-their arity can be %unambiguously
-determined at the first occurrence.
+If a type constructor is used before being declared, its arity is
+determined at the first occurrence. A later declaration, if any,
+must give it the same arity.
 %%% @ANDREI: Too early for this. TODO: move where it belongs (and edit)
 %However, one should keep in mind that a type
 %expression can occur in a position of a term (see below
@@ -113,8 +113,11 @@ determined at the first occurrence.
 %and predicate symbols in order to know whether it parses
 %a term or a type.
 
-A declaration of a function or predicate symbol specifies its {\em type
-signature}. The following declarations introduce a monomorphic
+A declaration of a function or predicate symbol specifies its
+{\em type signature}.
+The type signature must be closed, that is, every type variable
+occurring in it must be {\tt !>}-bound.
+The following declarations introduce a monomorphic
 constant {\tt pi}, a polymorphic predicate
 {\tt is\_empty}, and a pair of polymorphic functions {\tt cons} and {\tt lookup}:
 \begin{quote}
@@ -126,15 +129,17 @@ constant {\tt pi}, a polymorphic predicate
 \verb+    cons : !>[A : $tType]: ((A * list(A)) > list(A))).+
 \par\smallskip
 \verb+tff(lookup_t, type,+\\
-\verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+
+\verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
 \end{quote}
 If a function or predicate symbol is used before being declared, a
 default type signature is assumed:\ {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$i}
 for functions and {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$o} for predicates.
+If a symbol is declared after its first use, the declared signature
+must agree with the assumed signature.
 
 Each type constructor, function symbol, and predicate symbol may be declared at
-most once. If a symbol is declared after its first use, the declared signature
-must agree with the default signature. All symbols share the same namespace; in
+most once.
+All symbols share the same namespace; in
 particular, a type constructor cannot have the same name as a function or
 predicate symbol.
 
@@ -234,7 +239,7 @@ Moreover, type handling in an automatic prover would be more difficult were
 such constructions allowed, since they require paramodulation into types.
 
 On the other hand, all the notions and procedures described in this
-specification, except for type skolemization, are independent of this
+specification---except for type skolemization---are independent of this
 restriction. The rules of type checking and the notion of interpretation are
 directly applicable to unrestricted formulas. The encoding into a monomorphic
 logic (Section~\ref{sec_trans}) is sound and complete on unrestricted formulas,
@@ -316,28 +321,31 @@ TFF0 specification \cite{sutcliffe-et-al-2011-tff0} for further information.
 for fixed keys and values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 
 \begin{quote}
-\begin{verbatim}
-tff(map_t, type, map : ($tType * $tType) > $tType).
-tff(lookup_t, type,
-    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).
-tff(update_t, type,
-    update : !>[A : $tType, B : $tType]:
-                 ((map(A, B) * A * B) > map(A, B))).
-
-tff(lookup_update_same, axiom,
-    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:
-         lookup(A, B, update(A, B, M, K, V), K) = V)).
-tff(lookup_update_other, axiom,
-    (![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:
-         (K != L => lookup(A, B, update(A, B, M, K, V), L) =
-                    lookup(A, B, M, L)))).
-tff(map_ext, axiom,
-    (![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:
-         ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>
-          M = N))).
-tff(update_idem, conjecture,
-    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:
-         update(A, B, update(A, B, M, K, V), K, V) =
-         update(A, B, M, K, V))).
-\end{verbatim}
+\verb+tff(map_t, type, map : ($tType * $tType) > $tType).+
+\par\medskip
+\verb+tff(lookup_t, type,+\\
+\verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
+\par\medskip
+\verb+tff(update_t, type,+\\
+\verb+    update : !>[A : $tType, B : $tType]:+\\
+\verb+                 ((map(A, B) * A * B) > map(A, B))).+
+\par\medskip
+\verb+tff(lookup_update_same, axiom,+\\
+\verb+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
+\verb+         lookup(A, B, update(A, B, M, K, V), K) = V)).+
+\par\medskip
+\verb+tff(lookup_update_other, axiom,+\\
+\verb+    (![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:+\kern-10mm\\
+\verb+         (K != L => lookup(A, B, update(A, B, M, K, V), L) =+\\
+\verb+                    lookup(A, B, M, L)))).+
+\par\smallskip
+\verb+tff(map_ext, axiom,+\\
+\verb+    (![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:+\\
+\verb+         ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>+\kern-10mm\\
+\verb+          M = N))).+
+\par\medskip
+\verb+tff(update_idem, conjecture,+\\
+\verb+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
+\verb+         update(A, B, update(A, B, M, K, V), K, V) =+\\
+\verb+         update(A, B, M, K, V))).+
 \end{quote}
