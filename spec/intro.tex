@@ -27,7 +27,7 @@ using suboptimal schemes. Ultimately, we contend that polymorphism belongs in
 provers, where it can be implemented simply and efficiently, as demonstrated by
 the SMT solver Alt-Ergo \cite{bobot-et-al-2008}.
 
-We hope to change this state of affairs by introducing the TFF1
+We aim to change this state of affairs by introducing the TFF1
 format, an extension of TFF0 with rank-1 polymorphism. The
 extension was designed with the participation of members of the TPTP community,
 reflecting its needs.
@@ -37,15 +37,22 @@ processed by existing reasoning tools that support ML-style polymorphism. TFF1
 also opens the door to useful middleware, such as monomorphizers and other
 tools that encode polymorphism in FOF or TFF0.
 
+\newcommand\cheat{\vskip0.3ex} %% TYPESETTING
+
 This paper is structured as follows:
 \begin{itemize}
 \item Section~\ref{sec_syntax} specifies the format's syntax.
+\cheat
 \item Section~\ref{sec_semantics} specifies its typing rules and semantics.
+\cheat
 \item Section~\ref{sec_trans} presents a translation from TFF1 to TFF0.
+\cheat
 \item Section~\ref{sec_preproc} presents two preprocessing steps that address type quantifiers
 in TFF1 type signatures and formulas, bridging the gap with ML-style
 formalisms. % (where type quantification is implicit).
+\cheat
 \item Section~\ref{sec_apps} reviews applications that implement TFF1.
+\cheat
 \item Section~\ref{sec_related} considers related work:\ polymorphic
 formalisms and translation schemes to untyped or monomorphic logics.
 \end{itemize}
