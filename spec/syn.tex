@@ -315,9 +315,10 @@ to the semantics given here, if practicable.
 the terms and formulas of TFF1 are identical to those of TFF0. We refer to the
 TFF0 specification \cite{sutcliffe-et-al-2011-tff0} for further information.
 
-\ourparagraph{Example.} The following TFF1 problem axiomatizes {\tt lookup} and
-{\tt update} operations on maps, then conjectures that {\tt update} is idempotent
-for fixed keys and values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
+\ourparagraph{Example.} The following problem gives the general flavor of TFF1.
+It first declares and axiomatizes {\tt lookup} and {\tt update} operations on
+maps, then conjectures that {\tt update} is idempotent for fixed keys and
+values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 
 \begin{quote}
 \verb+tff(map_t, type, map : ($tType * $tType) > $tType).+
@@ -328,12 +329,12 @@ for fixed keys and values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 \verb+tff(update_t, type,+\\
 \verb+    update : !>[A : $tType, B : $tType]:+\\
 \verb+                 ((map(A, B) * A * B) > map(A, B))).+
-\par\medskip %% deliberate (between declarations and formulas)
+\par\medskip\smallskip %% deliberate (between declarations and axioms)
 \verb+tff(lookup_update_same, axiom,+\\
 \verb+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
 \verb+         lookup(A, B, update(A, B, M, K, V), K) = V)).+
 \par\smallskip
-\verb+tff(lookup_update_other, axiom,+\\
+\verb+tff(lookup_update_diff, axiom,+\\
 \verb+    (![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:+\kern-10mm\\
 \verb+         (K != L => lookup(A, B, update(A, B, M, K, V), L) =+\\
 \verb+                    lookup(A, B, M, L)))).+
@@ -342,7 +343,7 @@ for fixed keys and values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 \verb+    (![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:+\\
 \verb+         ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>+\kern-10mm\\
 \verb+          M = N))).+
-\par\smallskip
+\par\medskip\smallskip %% deliberate (between axioms and conjecture)
 \verb+tff(update_idem, conjecture,+\\
 \verb+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
 \verb+         update(A, B, update(A, B, M, K, V), K, V) =+\\
