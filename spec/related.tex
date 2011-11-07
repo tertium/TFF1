@@ -4,21 +4,28 @@
 \ourparagraph{Formalisms.}
 The TPTP family of formats is well established in the automated reasoning
 community. As part of the MPTP project \cite{urban-2006}, Urban designed private
-extensions of the TPTP FOF syntax with dependent polymorphic types, and
-translation from these, but there was no attempt to standardize these; TFF2 is
-expected to subsume this work. Also related to TFF1 is the full THF syntax
-\cite{sutcliffe-benzmueller-2010}, which is not yet finalized or implemented.
-Like Urban's extensions, full THF supports dependent types.
+extensions of the TPTP FOF syntax with dependent polymorphic types to
+accommodate Mizar, as well as translations, but there was no attempt to
+standardize these extensions; TFF2 is expected to subsume this work. Also
+related to TFF1 is the full THF syntax \cite{sutcliffe-benzmueller-2010}, which
+is not yet finalized or implemented. Like Urban's extensions, full THF supports
+dependent types.
         %most reasoning tools out there are first-order, and the higher-order syntax is
         %sufficiently unwieldy that it's unrealistic to expect apps to support it;
         %furthermore, the form of polymorphism offered there is much more general than
         %what we expect to need in the first-order setting.
 
-For SMT solvers, the SMT-LIB format \cite{barrett-et-al-2010}
-specifies a classical many-sorted logic with equality and interpreted
-arithmetic, much in the style of TFF0 but with overloading (ad hoc
-polymorphism). The SMT solver Alt-Ergo \cite{bobot-et-al-2008} defines its own
-polymorphic format with a syntax very close to ML.
+For SMT solvers, the SMT-LIB 2 format \cite{barrett-et-al-2010} specifies a
+classical many-sorted logic with equality and interpreted arithmetic, much in
+the style of TFF0 but with parametric symbol declarations (overloading).
+Polymorphism would make sense there as well, as witnessed by Alt-Ergo
+\cite{bobot-et-al-2008}.
+% provides its own polymorphic format with a syntax very close to ML.
+However, the SMT community is still recovering from the major
+upgrade to SMT-LIB 2 and busy defining a standard proof format
+\cite{besson-et-al-2011}; implementers would likely not welcome yet another
+feature at this point. Nonetheless, with its support for arithmetic, TFF1 is a
+reasonable format to implement in an SMT solver if polymorphism is desired.
 
 In the world of interactive theorem proving, polymorphism is the norm rather
 than the exception. HOL systems \cite{gordon-melham-1993} provide simple types
