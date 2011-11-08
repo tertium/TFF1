@@ -191,8 +191,8 @@ binding time:
 \begin{quote}
 \begin{verbatim}
 tff(bird_list_not_empty, axiom,
-    (![B : bird, Bs : list(bird)]:
-         ~ is_empty(bird, cons(bird, B, Bs)))).
+    ![B : bird, Bs : list(bird)]:
+        ~ is_empty(bird, cons(bird, B, Bs))).
 \end{verbatim}
 \end{quote}
 If the type and the preceding colon ({\tt :}) are omitted, the variable is given
@@ -202,8 +202,8 @@ must also be bound, with the pseudotype {\tt\$tType}:
 \begin{quote}
 \begin{verbatim}
 tff(lookup_update_same, axiom,
-    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:
-         lookup(A, B, update(A, B, M, K, V), K) = V)).
+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:
+        lookup(A, B, update(A, B, M, K, V), K) = V).
 \end{verbatim}
 \end{quote}
 A single quantifier cluster can bind both type variables and term variables.
@@ -331,21 +331,21 @@ values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 \verb+                 ((map(A, B) * A * B) > map(A, B))).+
 \par\medskip\smallskip %% deliberate (between declarations and axioms)
 \verb+tff(lookup_update_same, axiom,+\\
-\verb+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
-\verb+         lookup(A, B, update(A, B, M, K, V), K) = V)).+
+\verb+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
+\verb+        lookup(A, B, update(A, B, M, K, V), K) = V).+
 \par\smallskip
 \verb+tff(lookup_update_diff, axiom,+\\
-\verb+    (![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:+\kern-10mm\\
-\verb+         (K != L => lookup(A, B, update(A, B, M, K, V), L) =+\\
-\verb+                    lookup(A, B, M, L)))).+
+\verb+    ![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:+\kern-10mm\\
+\verb+        (K != L => lookup(A, B, update(A, B, M, K, V), L) =+\\
+\verb+                   lookup(A, B, M, L))).+
 \par\smallskip
 \verb+tff(map_ext, axiom,+\\
-\verb+    (![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:+\\
-\verb+         ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>+\kern-10mm\\
-\verb+          M = N))).+
+\verb+    ![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:+\\
+\verb+        ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>+\kern-10mm\\
+\verb+         M = N)).+
 \par\medskip\smallskip %% deliberate (between axioms and conjecture)
 \verb+tff(update_idem, conjecture,+\\
-\verb+    (![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
-\verb+         update(A, B, update(A, B, M, K, V), K, V) =+\\
-\verb+         update(A, B, M, K, V))).+
+\verb+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
+\verb+        update(A, B, update(A, B, M, K, V), K, V) =+\\
+\verb+        update(A, B, M, K, V)).+
 \end{quote}
