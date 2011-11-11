@@ -136,11 +136,11 @@ for functions and {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$o} for predicates.
 If a symbol is declared after its first use, the declared signature
 must agree with the assumed signature.
 
-Each type constructor, function symbol, and predicate symbol may be declared at
-most once.
-All symbols share the same namespace; in
-particular, a type constructor cannot have the same name as a function or
-predicate symbol.
+If a type constructor, function symbol, or predicate symbol is declared more
+than once, it must be given the same type signature (up to renaming of bound
+type variables).
+All symbols share the same namespace; in particular, a type constructor
+cannot have the same name as a function or predicate symbol.
 
 %\footnote{Is this restriction present in TPTP FOF and TFF0? If not, we can
 %lift it for TFF1.}.
