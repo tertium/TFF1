@@ -118,11 +118,11 @@ Instead, they consider all type variables
 implicitly universally quantified at the top of a formula, which is similar to
 the treatment of term variables in TPTP CNF clauses.
 A simple and practical solution to translate TFF1 problems to prepare problems
-for ML-style logics is type Skolemization. This is slightly involved because
+for ML-style logics is type skolemization. This is slightly involved because
 type quantifiers may appear under equivalence, where they are unpolarized.
 
 We introduce two transformations, $\SKO^-$ and $\SKO^+$, to perform type
-Skolemization in premises and in goals, respectively. (The latter is more
+skolemization in premises and in goals, respectively. (The latter is more
 correctly called ``type Herbrandization.'')
 %Let us call a formula $\varphi$ {\em dependently typed} whenever
 %it contains a quantifier over a type variable in the scope

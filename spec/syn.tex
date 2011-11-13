@@ -137,8 +137,8 @@ If a symbol is declared after its first use, the declared signature
 must agree with the assumed signature.
 
 If a type constructor, function symbol, or predicate symbol is declared more
-than once, it must be given the same type signature (up to renaming of bound
-type variables).
+than once, it must be given the same type signature up to renaming of bound
+type variables.
 All symbols share the same namespace; in particular, a type constructor
 cannot have the same name as a function or predicate symbol.
 
@@ -219,7 +219,7 @@ A single quantifier cluster can bind both type variables and term variables.
 % to eliminate upper equivalences to establish the polarity
 % of a quantifier)
 %%% @ANDREI: What is an _upper_ equivalence? An outer one? I'd rather postpone
-%%% the discussion on polarity until the part that treats Skolemization. It is
+%%% the discussion on polarity until the part that treats skolemization. It is
 %%% enough here to say "including equivalence", to hint at the issue, IMO.
 %
 Universal and existential quantifiers over type variables are allowed under the
@@ -228,7 +228,7 @@ quantifiers over type variables, but not in the scope of a quantifier over a
 term variable.
 Rationale: A statement of the form ``for every integer $k$, there exists a type
 $\alpha$ such that $\ldots$'' effectively makes $\alpha$ a dependent type.
-On such statements, type Skolemization (Section~\ref{ssec:skol}) is impossible,
+On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
 and there is no easy translation to ML-style polymorphic formalisms.
 %%% @ANDREI: We can be forceful here, because "easy" is ambiguous anyway.
 %%% Nobody has ever managed to encode dependent types in a nice way in HOL, and
@@ -238,7 +238,7 @@ Moreover, type handling in an automatic prover would be more difficult were
 such constructions allowed, since they require paramodulation into types.
 
 On the other hand, all the notions and procedures described in this
-specification---except for type Skolemization---are independent of this
+specification---except for type skolemization---are independent of this
 restriction. The rules of type checking and the notion of interpretation are
 directly applicable to unrestricted formulas. The encoding into a monomorphic
 logic (Section~\ref{sec_trans}) is sound and complete on unrestricted formulas,
