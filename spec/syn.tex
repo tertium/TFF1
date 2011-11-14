@@ -160,10 +160,10 @@ specify the type instance. A function or predicate symbol with a type signature
 must be applied to $m$ type arguments and $n$ term arguments. Given the above
 signatures for {\tt is\_empty}, {\tt cons}, and {\tt lookup}, the term
 \hbox{\tt lookup(\$int,\;\,list(A),\;\,M,\;\,2)}
-and the atom
+and the atomic formula
 \hbox{\tt is\_empty(\$i,\;\,cons(\$i,\;X,\;nil(\$i)))}
-are well-formed. A formula containing these would have to bind the variables
-{\tt A} and {\tt X} to be well-formed.
+are well-formed and contain free occurrences of type variable {\tt A}
+and term variable {\tt X}, respectively.
 
 In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
 instantiated with actual types. In particular, \verb+$o+, \verb+$tType+,
