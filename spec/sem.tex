@@ -37,11 +37,11 @@ quantification ($\forall$) as logical symbols and regard disequality
 quantification ($\exists$) as abbreviations.
 %The symbols $\top$ and $\bot$ stand for ``true'' and ``false'',
 %respectively.
-
-Equality can be seen as a polymorphic predicate with the signature
+%
+Equality could be seen as a polymorphic predicate with the type signature
 $\forall\alpha.\; \alpha\times\alpha\to\omicron$, but the type instance is
 implicitly specified by the type of either argument, instead of explicitly via a
-type argument. Hence, it is preferable to consider it a logical symbol.
+type argument; hence, it is preferable to consider it a logical symbol.
 
 The set of type variables occurring freely in a formula $\varphi$
 (in the type arguments of polymorphic symbols or
@@ -53,7 +53,7 @@ if both $\FVT(\varphi)$ and $\FV(\varphi)$ are empty.
 A {\em type substitution\/} $\rho$ is a mapping of type variables
 to types. A {\em monomorphic\/} type substitution
 maps every type variable either to itself or to a monomorphic type.
-
+%
 Given a function $h$, the expression $h[x \mapsto a]$
 denotes the function that maps $x$ to $a$ and
 every other element $y$ in $h$'s domain to $h(y)$.
@@ -145,7 +145,7 @@ $}
 In the last rule, $\alpha'$ is an arbitrary type variable that
 occurs neither in $\varphi$ nor in the values of~$\GAM$.
 The renaming is necessary to reject formulas such as
-$\forall\alpha.\:\forall u\ty\alpha.\:\forall\alpha.\:\forall v\ty\alpha.\;
+$\forall\alpha.\:\forall u\ty\alpha.\:\forall\alpha.\:\forall v\ty\alpha.\allowbreak\;
 u \eq v$, where the types of $u$ and $v$ are actually different.
 To simplify the subsequent definitions, we assume from now on
 that no type variable can be both free and bound in the same formula;
