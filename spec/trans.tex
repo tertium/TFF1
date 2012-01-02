@@ -5,7 +5,7 @@
 
 In this section, we describe a translation from TFF1 to the classical many-sorted
 first-order logic TFF0.%
-\footnote{The TFF0 specification \cite{sutcliffe-et-al-2011-tff0} prefers the
+\footnote{The TFF0 specification \cite{sutcliffe-et-al-2012-tff0} prefers the
 appellation ``type'' to ``sort,'' but since only nullary type constructors are
 supported, TFF0 types are strictly speaking sorts.}
 %%% @ANDREI: I found the footnote came too early: It refers to TFF0 but the
@@ -65,7 +65,7 @@ according to the following equations:
 The $\MON$ transformation is lifted to lists of types or terms in the evident,
 pointwise way.
 
-The {\em inhabitation axiom}, $\Inh$, is the formula
+The {\em inhabitation} (or {\em nonemptiness}) {\em axiom}, $\Inh$, is the formula
 $\forall \hat{\alpha}.\> \exists \hat{u} .\;
 \typeof(\hat{u},\,\hat{\alpha}).$
 For each function symbol $f :
