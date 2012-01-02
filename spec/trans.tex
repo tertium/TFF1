@@ -22,7 +22,11 @@ use a special binary predicate to encode type information.
 To avoid mixing types
 and terms in the encoded problem, we introduce two sorts, $\typ$ and $\und$,
 corresponding to the set of domains $\sorts$ and the universe $\univ$,
-respectively.
+respectively.%
+\footnote{%
+In fact, because the generated TFF0 problems are monotonic, the sorts can safely
+be erased to obtain an equisatisfiable FOF problem \cite{claessen-et-al-2011}.
+}
 
 Let $\DEL$ be a set of TFF1 sentences.
 %, that is, closed and well-typed formulas.
