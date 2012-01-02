@@ -23,11 +23,11 @@ satisfactory way to eliminate polymorphism: Monomorphization is generally
 incomplete, and it is difficult to encode polymorphism in a sound, complete, and
 efficient manner, especially in the presence of interpreted types. Tool authors
 are reduced to developing their own monomorphizers and type encodings, often
-using suboptimal schemes. Ultimately, we contend that polymorphism belongs in
+using suboptimal schemes. We contend that polymorphism ultimately belongs in
 provers, where it can be implemented simply and efficiently, as demonstrated by
 the SMT solver Alt-Ergo \cite{bobot-et-al-2008}.
 
-We aim to change this state of affairs by introducing the TFF1
+We introduce the TFF1
 format, an extension of TFF0 with rank-1 polymorphism. The
 extension was designed with the participation of members of the TPTP community,
 reflecting its needs.
