@@ -3,18 +3,17 @@
 % Or: Translation to a Many-Sorted Logic
 % Or simply: Translation
 
-In this section, we describe a translation from TFF1 to the classical many-sorted
-first-order logic TFF0.%
-\footnote{The TFF0 specification \cite{sutcliffe-et-al-2012-tff0} prefers the
-appellation ``type'' to ``sort,'' but since only nullary type constructors are
-supported, TFF0 types are strictly speaking sorts.}
-%%% @ANDREI: I found the footnote came too early: It refers to TFF0 but the
-%%% footnote call was before TFF0! Also, by principle, I like to give the reader
-%%% a chance to finish their sentence before moving to the footnote, unless the
-%%% footnote is a sentence fragment.
+%In this section,
+We describe a simple translation from TFF1 to the classical many-sorted
+first-order logic TFF0.
+%\footnote{The TFF0 specification \cite{sutcliffe-et-al-2012-tff0} prefers the
+%appellation ``type'' to ``sort,'' but since only nullary type constructors are
+%supported, TFF0 types are strictly speaking sorts.}
 The translation is included here for illustrative purposes; more suitable
 encoding schemes for applications are discussed in
 Section~\ref{sec_related}.
+
+\nopagebreak %% TYPESETTING
 
 Our strategy for translating types is to encode them as terms and
 use a special binary predicate to encode type information.
@@ -24,8 +23,8 @@ and terms in the encoded problem, we introduce two sorts, $\typ$ and $\und$,
 corresponding to the set of domains $\sorts$ and the universe $\univ$,
 respectively.%
 \footnote{%
-In fact, because the generated TFF0 problems are monotonic, the sorts can safely
-be erased to obtain an equisatisfiable FOF problem \cite{claessen-et-al-2011}.
+In fact, because the generated TFF0 problems are monotonic, the sorts can
+be safely erased to produce an equisatisfiable FOF problem \cite{claessen-et-al-2011}.
 }
 
 Let $\DEL$ be a set of TFF1 sentences.
@@ -132,13 +131,13 @@ We prove these equalities by induction on the structure
 of types, terms, and formulas. The only nontrivial case is
 that of a quantified formula, $\forall u \ty \tau .\; \varphi$.
 It is easy to see that any $a \in \univ$ belongs
-to $\llb \tau \rrb^\cM_\theta$ if and only if
+to $\llb \tau \rrb^\cM_\theta$ \iff{}
 $\llb \typeof(\hat{u},\MON(\tau)) \rrb^\cI_{\nu'}$,
 where $\nu' = \nu[\hat{u} \mapsto a]$.
 Indeed, the latter is equivalent to
 $a \in \llb \MON(\tau) \rrb^\cI_{\nu'}$.
 Since $\nu$ and $\nu'$ produce the same
-$\theta$ in $\cM$,
+$\theta$ in~$\cM$,
 $\llb \MON(\tau) \rrb^\cI_{\nu'} = \llb \tau \rrb^\cM_\theta$.
 Then
 $\llb \forall \hat{u} .\; \typeof(\hat{u},\MON(\tau))
@@ -166,11 +165,9 @@ and function and predicate symbols in $\cM_0$ accordingly.
 We can safely perform this substitution: Since the inhabitation
 axiom $\Inh$ holds in $\cM_0$, every set~$D$ is nonempty, and distinct
 elements are mapped to distinct sets.
-The predicate $\typeof^{\cM\!}(a,\,D)$ holds if and only if
-$D$ contains a pair of the form $\la a,\, d \ra$ for some $d$.
-%
-Below, $\pi_1$ and $\pi_2$ stand for the first and the second projection
-of a pair, respectively.
+The predicate $\typeof^{\cM\!}(a,\,D)$ holds \iff{}
+$D$ contains a pair %of the form
+$\la a,\, d \ra$ for some $d$.
 
 We construct an interpretation $\cI$ of $\DEL$ as follows.
 The set of domains $\sorts$ is the domain
@@ -212,6 +209,9 @@ for a TFF1 formula $\varphi$ if the following conditions are satisfied:
 occurring in $\GAM(v)$ is bound in $\varphi$;
 \item for every variable $v$ free in $\varphi$, we have $\xi(v) \in \evalT{\GAM(v)}$.
 \end{itemize}
+
+\pagebreak[2] %% TYPESETTING
+
 Obviously, any triple $\GAM,\, \theta,\, \xi$ is admissible for a sentence.
 We must show that for every type $\sigma$, term $t$, and formula $\varphi$,
 and for all $\GAM,\, \theta,\, \xi$ admissible for $\varphi$, we have
@@ -220,7 +220,8 @@ and for all $\GAM,\, \theta,\, \xi$ admissible for $\varphi$, we have
 \pi_1(\eval{t}) &= \llb \MON(t) \rrb^\cM_{\nu} &
 \eval{\varphi} &= \llb \MON(\varphi) \rrb^\cM_{\nu}
 \end{align*}
-where $\nu(\hat{\alpha}) \inlineeqdef \theta(\alpha)$ and
+where $\pi_1$ stands for the first projection of a pair,
+$\nu(\hat{\alpha}) \inlineeqdef \theta(\alpha)$, and
 $\nu(\hat{u}) \inlineeqdef \pi_1(\xi(u))$
 for every type variable $\alpha$ and variable $u$.
 
@@ -262,7 +263,7 @@ $\llb \MON(\tau) \rrb^\cM_{\nu'} =
 \llb \tau \rrb^\cI_\theta$.
 By construction of $\cM$,
 $\typeof^\cM(a, \llb \tau \rrb^\cI_\theta)$
-holds if and only if there exists some $d'$ such that
+holds \iff{} there exists some $d'$ such that
 $\la a,\, d' \ra \in \llb \tau \rrb^\cI_\theta$.
 %
 Now, notice that the triple $\GAM[u \mapsto \tau],\,

@@ -160,7 +160,7 @@ Since every type variable in a polymorphic type signature
 must be bound in it, it is impossible for a term to have two
 different types in the same context.
 
-A closed TFF1 formula $\varphi$ is {\em well-typed\/} if and only if
+A closed TFF1 formula $\varphi$ is {\em well-typed\/} \iff{}
 the judgment $\GAM \vdash \varphi \ty \omicron$ is derivable
 for any $\GAM$.
 Obviously, if a closed formula is
@@ -240,7 +240,7 @@ $\evalG{\varphi}$ to denote the evaluation of a sentence.
 %closed formula. (for TYPESETTING)
 
 A sentence $\varphi$ is {\em true} in an interpretation $\cI$,
-written $\cI \models \varphi$, if and only if $\evalG{\varphi}$ is true.
+written $\cI \models \varphi$, \iff{} if $\evalG{\varphi}$ is true.
 The interpretation $\cI$ is then a {\em model\/} of $\varphi$.
 A sentence that has a model is {\em satisfiable}.
 A sentence that is true in every interpretation is {\em valid}.
