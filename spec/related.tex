@@ -9,33 +9,28 @@ accommodate Mizar, as well as translations; TFF2 is expected to subsume this wor
 related to TFF1 is the full THF syntax \cite{sutcliffe-benzmueller-2010}, which
 is not yet finalized or implemented. Like Urban's extensions, full THF supports
 dependent types.
+
         %most reasoning tools out there are first-order, and the higher-order syntax is
         %sufficiently unwieldy that it's unrealistic to expect apps to support it;
         %furthermore, the form of polymorphism offered there is much more general than
         %what we expect to need in the first-order setting.
 
-For SMT solvers, the SMT-LIB 2 format \cite{barrett-et-al-2010} specifies a
-classical many-sorted logic with equality and interpreted arithmetic, much in
-the style of TFF0 but with parametric symbol declarations (overloading).
-Polymorphism would make sense there as well, as witnessed by Alt-Ergo
-\cite{bobot-et-al-2008}.
-% provides its own polymorphic format with a syntax very close to ML.
-However, the SMT community is still recovering from the major
-upgrade to SMT-LIB 2 and busy defining a standard proof format
-\cite{besson-et-al-2011}; implementers would likely not welcome yet another
-feature at this point. Nonetheless, with its support for arithmetic, TFF1 is a
-reasonable format to implement in an SMT solver if polymorphism is desired.
-
+The SMT solver Alt-Ergo \cite{bobot-et-al-2008} is possibly the only automatic
+prover that supports polymorphism natively, with a concrete syntax very close to
+ML.
+%
 In the world of interactive theorem proving, polymorphism is the norm rather
-than the exception. HOL systems \cite{gordon-melham-1993} provide simple types
-with top-level, ML-style (rank-1) polymorphism, while Coq
+than the exception. HOL systems
+\cite{gordon-melham-1993,harrison-1996,nipkow-et-al-2002} provide simple types
+with %top-level,
+ML-style (rank-1) polymorphism, while Coq
 \cite{bertot-casteran-2004} supports dependent types and higher-rank
 polymorphism.
 
 The intermediate verification language and tool Boogie 2 \cite{leino-ruemmer-2010}
 supports a restricted form of higher-rank polymorphism (due to its polymorphic maps),
 and its cousin Why3 \cite{bobot-et-al-2011}
-provides rank-1 polymorphism.% Both provide TPTP and SMT-LIB backends.
+provides rank-1 polymorphism. Both provide TPTP and SMT-LIB backends.
 
 \ourparagraph{Encodings.}
 Early descriptions of type encodings are due to Enderton
@@ -72,4 +67,4 @@ ground types. Monomorphization is incomplete and often overlooked
 or derided in the literature \cite[p.\ 3]{couchot-lescuyer-2007}, but it was
 applied with much success in Sledgehammer \cite[\S6]{blanchette-et-al-2012-mono}
 and Why3.
-%% @ANDREI: Reference for Why3?
+%% @ANDREI: Reference for Why3's monomorphization (if one exists)?

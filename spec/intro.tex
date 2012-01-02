@@ -25,7 +25,8 @@ efficient manner, especially in the presence of interpreted types. Tool authors
 are reduced to developing their own monomorphizers and type encodings, often
 using suboptimal schemes. We contend that polymorphism ultimately belongs in
 provers, where it can be implemented simply and efficiently, as demonstrated by
-the SMT solver Alt-Ergo \cite{bobot-et-al-2008}.
+the SMT (satisfiability modulo theories) solver Alt-Ergo
+\cite{bobot-et-al-2008}.
 
 We introduce the TFF1
 format, an extension of TFF0 with rank-1 polymorphism. The
@@ -36,6 +37,16 @@ THF, an important design goal was to ensure that the format can easily be
 processed by existing reasoning tools that support ML-style polymorphism. TFF1
 also opens the door to useful middleware, such as monomorphizers and other
 tools that encode polymorphism in FOF or TFF0.
+
+For SMT solvers, the SMT-LIB 2 format \cite{barrett-et-al-2010} specifies a
+classical many-sorted logic with equality and interpreted arithmetic, much in
+the style of TFF0 but with parametric symbol declarations (overloading).
+Polymorphism would make sense there as well, as witnessed by Alt-Ergo.
+However, the SMT community is still recovering from the major
+upgrade to SMT-LIB 2 and busy defining a standard proof format
+\cite{besson-et-al-2011}; implementers would likely not welcome yet another
+feature at this point. Nonetheless, with its support for arithmetic, TFF1 is a
+reasonable format to implement in an SMT solver if polymorphism is desired.
 
 \newcommand\cheat{\vskip0.3ex} %% TYPESETTING
 
@@ -53,8 +64,9 @@ formalisms. % (where type quantification is implicit).
 \cheat
 \item Section~\ref{sec_apps} reviews applications that implement TFF1.
 \cheat
-\item Section~\ref{sec_related} considers related work:\ polymorphic
-formalisms and translation schemes to untyped or monomorphic logics.
+\item Section~\ref{sec_related} considers related work in the TPTP and SMT
+communities:\ polymorphic formalisms and translation schemes to untyped or
+monomorphic logics.
 \end{itemize}
 
 This specification extends, rather than replaces, the TFF0 specification
