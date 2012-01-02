@@ -19,6 +19,8 @@ monomorphic.}
 %%% @ANDREI: $iType and $oType don't appear in the TFF0 spec. I'm not a big fan
 %%% of aliases.
 
+\nopagebreak %% TYPESETTING
+
 As in TFF0, the type {\tt \$i} %(also called \verb+$iType+)
 of individuals is predefined but has no peculiar semantics, whereas the
 arithmetic types
@@ -37,7 +39,6 @@ functions, the return type. Type signatures can take any of the following forms:
 \begin{enumerate}
 \item[(a)] a type (predefined or user-defined);
 \item[(b)] the Boolean pseudotype {\tt \$o}; % (also called {\tt \$oType});
-\pagebreak[2] %% TYPESETTING
 \item[(c)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$}
 \ for $n > 0$, where $\tau_1,\dots,\tau_n$ are types and $\tilde \tau$ is
 a type or {\tt \$o};
@@ -119,9 +120,11 @@ constant {\tt pi}, a polymorphic predicate
 \par\smallskip
 \verb+tff(is_empty_t, type, is_empty : !>[A : $tType]: (list(A) > $o)).+\kern-10mm
 \par\smallskip
+\pagebreak[2] %% TYPESETTING
 \verb+tff(cons_t, type,+\\
 \verb+    cons : !>[A : $tType]: ((A * list(A)) > list(A))).+
 \par\smallskip
+\pagebreak[2] %% TYPESETTING
 \verb+tff(lookup_t, type,+\\
 \verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
 \end{quote}
@@ -130,7 +133,7 @@ default type signature is assumed:\ {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$i}
 for functions and {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$o} for predicates.
 If a symbol is declared after its first use, the declared signature
 must agree with the assumed signature.
-
+%
 If a type constructor, function symbol, or predicate symbol is declared more
 than once, it must be given the same type signature up to renaming of bound
 type variables.
@@ -158,7 +161,7 @@ type signatures for {\tt is\_empty}, {\tt cons}, and {\tt lookup}, the term
 and the atom
 \hbox{\tt is\_empty(\$i,\;\,cons(\$i,\;X,\;nil(\$i)))}
 are well-formed and contain free occurrences of the type variable {\tt A}
-and the term variable {\tt X}, respectively.
+and the term variables {\tt M} and {\tt X}.
 
 In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
 instantiated with actual types. In particular, \verb+$o+, \verb+$tType+,
@@ -199,6 +202,9 @@ tff(lookup_update_same, axiom,
         lookup(A, B, update(A, B, M, K, V), K) = V).
 \end{verbatim}
 \end{quote}
+
+\pagebreak[2] %% TYPESETTING
+
 A single quantifier cluster can bind both type variables and term variables.
 %If the type of a term variable contains a type variable, the latter must be bound
 %before the former.
@@ -319,24 +325,29 @@ values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 \verb+tff(lookup_t, type,+\\
 \verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
 \par\smallskip
+\pagebreak[1] %% TYPESETTING
 \verb+tff(update_t, type,+\\
 \verb+    update : !>[A : $tType, B : $tType]:+\\
 \verb+                 ((map(A, B) * A * B) > map(A, B))).+
 \par\medskip\smallskip %% deliberate (between declarations and axioms)
+\pagebreak[2] %% TYPESETTING
 \verb+tff(lookup_update_same, axiom,+\\
 \verb+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
 \verb+        lookup(A, B, update(A, B, M, K, V), K) = V).+
 \par\smallskip
+\pagebreak[1] %% TYPESETTING
 \verb+tff(lookup_update_diff, axiom,+\\
 \verb+    ![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:+\kern-10mm\\
 \verb+        (K != L => lookup(A, B, update(A, B, M, K, V), L) =+\\
 \verb+                   lookup(A, B, M, L))).+
 \par\smallskip
+\pagebreak[1] %% TYPESETTING
 \verb+tff(map_ext, axiom,+\\
 \verb+    ![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:+\\
 \verb+        ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>+\kern-10mm\\
 \verb+         M = N)).+
 \par\medskip\smallskip %% deliberate (between axioms and conjecture)
+\pagebreak[2] %% TYPESETTING
 \verb+tff(update_idem, conjecture,+\\
 \verb+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
 \verb+        update(A, B, update(A, B, M, K, V), K, V) =+\\
