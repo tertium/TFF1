@@ -39,7 +39,7 @@ quantification ($\exists$) as abbreviations.
 %respectively.
 %
 Equality could be seen as a polymorphic predicate with the type signature
-$\forall\alpha.\; \alpha\times\alpha\to\omicron$, but the type instance is
+$\forall\alpha.\mskip4.5mu \alpha\times\alpha\to\omicron$, but the type instance is
 implicitly specified by the type of either argument, instead of explicitly via a
 type argument; hence, it is preferable to consider it a logical symbol.
 
@@ -149,7 +149,7 @@ $\forall\alpha.\:\forall u\ty\alpha.\:\forall\alpha.\:\forall v\ty\alpha.\allowb
 u \eq v$, where the types of $u$ and $v$ are actually different.
 To simplify the subsequent definitions, we assume from now on
 that no type variable can be both free and bound in the same formula;
-we call this the {\em no-clash assumption}.
+we call this the {\em no-clash assumption.}
 %Consequently, nested quantifiers on the same type
 %variable are not allowed, either.
 Then we can do without explicit renaming, % of type variables,
@@ -167,13 +167,13 @@ Obviously, if a closed formula is
 well-typed in one type context, it is well-typed in any other one;
 hence, we omit $\GAM$ and write
 ${} \vdash \varphi \ty \omicron$.
-Closed well-typed formulas are called {\em sentences}.
+Closed well-typed formulas are called {\em sentences.}
 
 \ourparagraph{Semantics.}
 An interpretation $\cI$ for a given set of type constructors,
 function symbols, and predicate symbols is constructed as follows.
 First, we fix a nonempty collection $\sorts$ of
-nonempty sets, the {\em domains}. The union of all domains is called the
+nonempty sets, the {\em domains.} The union of all domains is called the
 {\em universe}, %denoted by
 $\univ$.
 
@@ -242,7 +242,7 @@ $\evalG{\varphi}$ to denote the evaluation of a sentence.
 A sentence $\varphi$ is {\em true} in an interpretation $\cI$,
 written $\cI \models \varphi$, \iff{} if $\evalG{\varphi}$ is true.
 The interpretation $\cI$ is then a {\em model\/} of $\varphi$.
-A sentence that has a model is {\em satisfiable}.
-A sentence that is true in every interpretation is {\em valid}.
+A sentence that has a model is {\em satisfiable.}
+A sentence that is true in every interpretation is {\em valid.}
 These notions are extended to sets and sequents of TFF1 sentences in
 the usual way.

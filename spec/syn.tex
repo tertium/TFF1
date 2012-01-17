@@ -9,7 +9,7 @@ inferred.
 
 \ourparagraph{Types.} The {\em types\/} of TFF1 are built from {\em type
 variables\/} and {\em type constructors\/} of fixed arities. Nullary type
-constructors are called {\em type constants}. The usual conventions of TPTP
+constructors are called {\em type constants.} The usual conventions of TPTP
 apply: Type variables start with an uppercase letter and type constructors
 with a lowercase letter. The types \verb+A+, \verb+list(A)+, \verb+list(bird)+,
 and \verb+map(nat,+ \verb+list(B))+ are all examples of well-formed types. A
@@ -69,7 +69,7 @@ convenient to regard all forms above as instances of the general syntax
 where $m$ and $n$ can be 0. % and $\tilde \tau$ can be any type or {\tt \$o}.
 
 Type variables that are bound by {\tt !>} without
-occurring in the type signature's body are called \emph{ghost type variables}.
+occurring in the type signature's body are called \emph{ghost type variables.}
 These make it possible to specify operations and relations directly on types,
 providing a convenient way to encode type classes.
 For example, we can declare a polymorphic propositional
@@ -226,7 +226,7 @@ propositional connectives, including equivalence, as well as under other
 quantifiers over type variables, but not in the scope of a quantifier over a
 term variable.
 Rationale: A statement of the form ``for every integer $k$, there exists a type
-$\alpha$ such that $\ldots$'' effectively makes $\alpha$ a dependent type.
+$\alpha$ such that $\ldots$''\ effectively makes $\alpha$ a dependent type.
 On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
 and there is no easy translation to ML-style polymorphic formalisms.
 %%% @ANDREI: We can be forceful here, because "easy" is ambiguous anyway.
