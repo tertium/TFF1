@@ -6,28 +6,27 @@ with rank-1 polymorphism. The new format nicely complements the existing TPTP
 offering and is poised to become a lingua franca for automatic theorem provers
 and other automated reasoning tools.
 
-%%% TODO: CASC?
 TFF1 is implemented as part of the TPTP World infrastructure. The TPTP library
 already contains hundreds of polymorphic problems, and although the format is
 still in its infancy, it is supported by several applications, including zero
 SMT solvers. Given that many applications today require polymorphism, we expect
 other reasoning tools to gradually follow suit. The annual CADE Automated System
-Competition (CASC) will surely play an important part here, starting with the
-2013 edition.
+Competition (CASC) will surely play an important part here, probably starting
+with the 2013 edition.
 
-To facilitate implementation, more advanced features such as type classes and
-dependent types are not addressed by TFF1 (although type classes can be
+To facilitate implementation, more advanced features, such as type classes and
+dependent types, are not addressed by TFF1 (although type classes can be
 comfortably encoded in it). These features are expected to be part of a future
 TFF2 if there is enough interest from users.
+
 
 \def\ackname{Acknowledgment}
 \paragraph{\textbf{\upshape\ackname.}}
 %
 We are grateful to Geoff Sutcliffe, TPTP Master of Ceremonies, for giving TFF1
-his benediction and %(committing himself to)
-implementing it in TPTP World. The
-present specification is largely the result of consensus among participants of
-the {\tt polymorphic-tptp-tff} mailing list, notably Fran\c{c}ois Bobot, Chad
-Brown, Florian Rabe, Philipp R\"ummer, Stephan Schulz, Geoff Sutcliffe, and
-Josef Urban. We also received support from and exchanged ideas with Koen
-Claessen, Viktor Kuncak, Tobias Nipkow, and Nicholas Smallbone.
+his benediction and adapting the TPTP BNF and other infrastructure to support
+it. The present specification is largely the result of consensus among
+participants of the {\tt polymorphic-tptp-tff} mailing list, notably
+Fran\c{c}ois Bobot, Chad Brown, Florian Rabe, Philipp R\"ummer, Stephan Schulz,
+Geoff Sutcliffe, and Josef Urban. Finally, we thank Koen Claessen, Viktor
+Kuncak, Tobias Nipkow, and Nicholas Smallbone for their support and ideas.
