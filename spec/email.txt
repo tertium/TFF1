@@ -1,0 +1,61 @@
+In part motivated by the desire to support arithmetic, TPTP has been
+slowly moving towards supporting types, in the form of simple types
+(many-typed/sorted) in TFF (Typed First-order Form) and THF0 (Typed
+Higher-order Form). In the coming days, a new version of Vampire
+supporting TFF (actually TFA -- TFF + arithmetic) will be released,
+and the developers of E and SPASS are expected to follow suit.
+
+Since such transitions take many years, it is not too early to be
+thinking about the next move. Many of us have a polymorphic logic in
+our frontends (Boogie, WHY, Isabelle/HOL, Mizar, ...), and there is no
+entirely satisfactory way of translating it away and at the same time
+benefit from interpreted types (e.g. for arithmetic) [1].
+
+After discussions with Josef Urban and Andrei Paskevich, it became
+clear to me that several of us would like to have a polymorphic
+TFF-like format -- let's tentatively call it PFF. Even if no ATPs
+would support it, it could still be worthwhile as an intermediate
+language (e.g. between MaLARea and various interactive theorem
+provers); but our ultimate goal should be to convince ATP developers
+to support PFF natively.
+
+My suggestion would be to gather a small group of core people to work
+on a PFF proposal. It should be straightforward: The THF people
+already did some work on polymorphism (although it's not in THF0), and
+TFF would have to be a special case. The syntax should also be
+future-proof, so that dependent types, type classes, and other
+extensions are possible.
+
+I'm writing to you in the hope that you might want to join this
+effort, either as part of the core design group or more loosely as a
+supporter or eventual user. Please forward this email to researchers
+you think might be interested of assisting in one way or the other.
+
+I'm also CC:ing Geoff Sutcliffe. I haven't discussed this with him,
+and he's probably (quite rightly) wary of yet another TPTP format. But
+we should move ahead anyway, and he can choose where he stands --
+surely PFF would be more useful than CNF to end-users. In any event,
+the envisioned PFF syntax should fit nicely with the rest of TPTP and
+subsume private experiments such as Josef Urban's extensions for MPTP
+0.2 (described in his JAR paper).
+
+A PFF syntax, just like Alt-Ergo, could be a major sensitization tool,
+and as ATP authors are poised to add types and arithmetic support to
+their little babies, they might just as well do it right and deal with
+polymorphism.
+
+I'm deliberately not writing to the main ATP developers at this point.
+They're probably tired of hearing "we want types", where "types" means
+something different each time; what they need is a concrete syntax and
+potential users. Let's get our act together first.
+
+What do you think?
+
+Jasmin
+
+[1] Couchot and Lescuyer (2007) show how to do it in the context of
+SMT-LIB, but there's a performance cost (and some trickiness)
+associated with the bridging between the general encoding and the
+interpreted types. Monomorphization is simple but also not entirely
+satisfactory. Hybrid schemes seem to perform best but are fairly
+complicated.

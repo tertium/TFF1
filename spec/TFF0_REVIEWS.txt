@@ -1,0 +1,201 @@
+----------------------- REVIEW 1 ---------------------
+PAPER: 6
+TITLE: The TPTP Typed First-order Form with Arithmetic
+AUTHORS: Geoff Sutcliffe, Stephan Schulz, Koen Claessen and Peter Baumgartner
+
+OVERALL RATING: 2 (accept)
+REVIEWER'S CONFIDENCE: 3 (high)
+
+This paper provides an overview of the new Typed First-order Form
+with Arithmetic (TFF) in TPTP.
+
+I like this paper, it's relevant and well-written.  I was pleased
+to read about these developments in TPTP, and I'm recommending
+acceptance.
+
+I would like to see some (short) discussion of the correspondence
+between TFF (/TFF0) and the relevant logic(s) in SMT-LIB---in
+particular, I would like to see a discussion of any interesting
+differences.  It looks to me like a translator should be trivial,
+as the syntax differs but the correspondence is straightforward.
+Perhaps, if the SMT <--> TFF translation tool has been completed,
+a list of any important challenges overcome in its development
+could be provided?
+
+Similarly, little is offered regarding the design decisions
+behind TFF, although they are generally straightforward.  To what
+extent was TFF influenced by SMT-LIB?  This isn't really
+explicitly stated (except for the notions of categorization,
+which differ), but I imagine that the (existing) SMT-LIB was a
+consideration.  Am I right?
+
+In section 3.1, in the definition of squaring, I'm confused by
+the conjunct "sq(-n) = n".  Was it perhaps meant "sq(-n) = sq(n)"?
+
+Missing a period after paragraph starting "Many proof calculi
+generalize.." in section 2.1.
+
+
+----------------------- REVIEW 2 ---------------------
+PAPER: 6
+TITLE: The TPTP Typed First-order Form with Arithmetic
+AUTHORS: Geoff Sutcliffe, Stephan Schulz, Koen Claessen and Peter Baumgartner
+
+OVERALL RATING: 1 (weak accept)
+REVIEWER'S CONFIDENCE: 3 (high)
+
+This paper describes the extension of the TPTP logic benchmark format
+with simple types and interpreted functions and predicates for arithmetic.
+As the first paragraph rightly notes, the ATP and SMT worlds are moving
+towards each other quickly, and so the SMT-LIB format is relevant related
+work. I will be interested to see how well some of the conenction ideas
+sketched out in section 1 work out.
+
+Generally I found the paper to be readable and interesting. In some cases
+theoretical questions seem to be addressed in a rather casual manner, and
+could benefit from more care. For example
+
+* What does it mean to say equality is "ad hoc polymorphic"? Just that
+  it is considered as a different predicate on each type?
+
+* The statement on page 2 that "for problems without equality, 
+  satisfiability of well-formed formula, satisfiability of WFF is not
+  affected by ignoring types" seems rather too categorical. What about
+
+    (P a and not Q a) and (P b and Q b) and (not P c and Q c)
+
+  where a, b and c are of Boolean type? This is not satisfiable with
+  types since some pair of a, b and c must be the same, yet it is
+  satisfiable in ordinary FOL.
+
+* The separation between terms and formulas is not clear. Is there such
+  a separation, as in standard formulations? Or can one treat Booleans
+  just like any other terms and create terms like "x + f(p and q)"?
+
+In section 2.1 you could also mention that there are decidability benefits
+even for full first-order reasoning, not just finite model finders. See
+e.g. Fontaine, "Techniques for verification of concurrent systems
+with invariants" (PhD thesis 2004).
+
+Is there any provision for finite types other than Boolean? This could be
+useful for machine words and other theories of interest in programming.
+
+
+----------------------- REVIEW 3 ---------------------
+PAPER: 6
+TITLE: The TPTP Typed First-order Form with Arithmetic
+AUTHORS: Geoff Sutcliffe, Stephan Schulz, Koen Claessen and Peter Baumgartner
+
+OVERALL RATING: -2 (reject)
+REVIEWER'S CONFIDENCE: 4 (expert)
+
+The authors, and especially the first author, made a very important work on creating TPTP
+standards for theories. After some consultation with the research community they came up with a 
+solution that is presented in this paper. While the work is important and the end-result is of 
+good quality (with some exceptions noted here in the review), this paper hardly deserves to be 
+published in the current form.
+
+The paper contains a cocktail of several ingredients:
+
+(1) the presentation of the standard itself
+(2) elementary introduction to logic (not well-written)
+(3) results on translations of sorted logic into unsorted logic, which are at a level of 
+graduate student exercises, and on the combination of FOL and arithmetic, which are not new. 
+The authors do not state they are new, but also do not give references to original results. In 
+addition, some presented results are weaker than previously known results.
+
+In my opinion, most of the material in (2) and (3) should be removed from the paper and 
+replaced by standard references.
+
+Detailed comments for the authors:
+
+Sec 1. "CASC is the competition..." - already noted before.
+
+Sec 2.1 "The types are simple atomic types" - functions have non-atomic types
+
+"inhabited" - non-empty 
+
+To me the preferred terminology uses sorts: there is a number of sorts (interpreted by 
+non-empty pairwise disjoint domains), every sort is a (atomic) type, if t,t1 ... tn are types, 
+then t1* ... *tn is a predicate type and t1* ... *tn -> t is a function type. This explains the 
+use of "many-sorted" and also brings a clear distinction: sorts have variable interpretations 
+and the interpretation of types is derived from the interpretation of sorts. This is similar to 
+the development of propositional logic, with variables corresponding to sorts and formulas to 
+types.
+
+"monomorphic and have a unique result type" - monomorphic already implies uniques result types.
+
+"the type of variables in an equation x=y - this is the only source of ambiguity". This depends 
+on the language. An example that is not equality among variables is (if F then x else y) = z.
+
+"For finite model finders..." - this is too simple. While for an unsorted case one can simply 
+increment the domain size, for the sorted case there may be too many combinations of domain 
+sizes for each of the sorts.
+
+There is no type of all types. The fact that the authors write "type" of all types does not 
+make it simpler. Why is it hard to separate sort declarations from symbol declarations on the 
+syntax level? 
+
+The word "signature" is reserved in logic. What you call a "type signature" is a type or a type 
+declaration. 
+
+I thought why it is allowed to have a type declared more than once - then it occurred to me 
+that it makes sense when the input comes from several files sharing symbols - it might be worth 
+pointing this out.
+
+Having the boolean type as an argument type is very useful for applications: it is worth
+commenting on whether it is planned to add it in future. It is also useful to consider
+inclusion of finite types.
+
+Sec 2.3 The first page of this section should be replaced by a standard reference or written 
+srictly and concisely. For example, [KV07] introduce this and the semantics of arithmetic in 
+half a page. It is also sufficient to say "logic with disjont sorts and non-empty domains".
+
+It is strange to define the equality on D instead of equality for every sort. If you do this, 
+you should also allow equality to be applied to different sorts. 
+
+"It is a TFF-model..." the way it is written is unclear - it looks like you do not require 
+equality to be interpreted as equality. 
+
+The translation of sorted logic to the non-sorted one is a simple exercise and can be omitted 
+(it is also not nice to read it in the TPTP syntax, unless your aim is for your article to be 
+read by theorem prover.)
+
+Sec 3 "Conservative completion" - it seems to me there is no such term in logic and I believe 
+it should not be used since "completion" has several well-defined meanings and "conservative" 
+makes one think of conservative extensions.
+
+Even worse, the term "conservative extension" is used in a wrong way.
+
+Why do we need $to_int or $is_int for integer types? Likewise for MANY other 
+functions/predicates. This gives many symbols which will not be used by anybody but must be 
+implemented by theorem provers - why should theorem prover implementers spend extra days on 
+this?
+
+Sec 3.1 is the worst one in the paper and should be removed or replaced by standard references. 
+It does not present any new results and contains a number of inaccuracies.
+
+There is a long and hard-to-read explanation of the semantics of theories (page 8). As pointed 
+out, it is defined very precisely in [KV07] in about half a page together with the semantics of 
+logic with sorts.
+
+Again, formulas are written in the TPTP language, which makes them difficult to read for 
+humans. 
+
+"linear case" is defined (in the context of this paper) incorrectly. It includes the quotient, 
+which makes the logic undecidable.
+
+"the validity problem of formulas of the form ... is semi-decidable" It is not, if G is allowed 
+to have variables other than X1 ... Xn. If G only has these variables, it is still undecidable 
+because of your semantics of quotient.
+
+For undecidability results of arithmetic with uninterpreted function the standard references 
+are [Rog67] and [KV07]. In particular, your results are weaker forms of theorem in these 
+references ([KV07] proves them for rationals but the proof also holds for reals with no 
+changes).
+
+Summary. The paper cannot be accepted in the current form.
+
+References
+[KV07] Korovin, Voronkov. Integrating Linear Arithmetic into Superposition Calculus. CSL 2007
+[Rog67] Rogers. Theory of Recursive Functions and Effective Computability
