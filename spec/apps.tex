@@ -1,43 +1,34 @@
 \section{Applications}
 \label{sec_apps}
 
-Geoff Sutcliffe has extended the TPTP World infrastructure to process TFF1
-problems and solutions. This involved in particular adapting the BNF
-specification of the TPTP syntaxes, from which parsers are generated. Some tools
-still need to be ported to TFF1; this is ongoing work.
-%
-A few other applications already provide some support for TFF1:
-%
-\begin{itemize}
-%\item The SMT solver Alt-Ergo \cite{bobot-et-al-2008} can process problems
-%expressed in TFF1 in addition to its custom ML-style syntax.
+A number of applications already support TFF1. First and foremost, Geoff
+Sutcliffe has extended the TPTP World infrastructure to process TFF1 problems
+and solutions. This involved in particular adapting the BNF specification of the
+TPTP syntaxes, from which parsers are generated. Some tools still need to be
+ported to TFF1; this is ongoing work.
 
-\item The Sledgehammer tool \cite{paulson-blanchette-2010}, which bridges the
-interactive theorem prover Isabelle\slash HOL and first-order automatic provers,
-has been extended to output TFF1 problems without arithmetic. Once it is fitted
-with a TFF1 parser, it will also be able to act as a translation tool from TFF1
-to TFF0 and FOF.
+\pagebreak[1] %%% TYPESETTING
 
-%\smallskip
+%%% TODO: update: grep "pure"
+The Why3 \cite{bobot-et-al-2011} environment, which defines its own polymorphic
+specification language, can parse pure TFF1. Why3 translates
+between TFF1 and a wide range of existing formats, including FOF, SMT-LIB, and
+Alt-Ergo's native syntax. In addition, Why3's TFF1 parser is being ported to
+Alt-Ergo \cite{bobot-et-al-2008}, so that it can process TFF1 problems without
+taking a detour through Why3; code sharing is facilitated here by the use of
+a common implementation language (OCaml).
 
-%\item The Why3 \cite{bobot-et-al-2011} tool, which provides its own polymorphic
-%specification language, supports TFF1 both for input and output. It can be used
-%to translate between TFF1 and existing formats (FOF, SMT-LIB, etc.).
-\end{itemize}
+Sledgehammer \cite{paulson-blanchette-2010}, which bridges the interactive
+theorem prover Isabelle\slash HOL and various automatic provers, has been
+extended to output pure TFF1 problems for Alt-Ergo. Using this tool, we
+generated 987 problems to populate the PFF (``\relax{P}olymorphic T\relax{FF}'')
+domain of the TPTP library. By extending Sledgehammer with a TFF1 parser,
+we hope to transform it into a highly versatile translation service to FOF and
+TFF0.
 
-Other tools, notably an LF-based type checker similar to TwHelFTC for THF0,
-are in development.
-%
-Using Sledgehammer and Why3, we generated nearly 1000 TFF1 problems to populate
-the new PFF (``\relax{P}olymorphic T\relax{FF}'') domain of the TPTP library.
+%Other tools, notably an LF-based type checker similar to TwHelFTC for THF0, are
+%in development.
 
-%
-%  * Why3
-%
-%  * Alt-Ergo
-%
-%  * TwHelFTC
-%
 %  * ToFoF, Monotonox, other -ox tools?
 
 %  * TPTP Library:

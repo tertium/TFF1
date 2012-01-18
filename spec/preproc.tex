@@ -15,7 +15,7 @@ formulas, two features that are not directly supported by ML-style formalisms
 % Related Work section.
 
 ML-style formalisms, as implemented in Alt-Ergo~\cite{bobot-et-al-2008},
-Boogie~\cite{barnett-et-al-2006}, HOL \cite{gordon-melham-1993}, HOL
+Boogie~\cite{leino-ruemmer-2010}, HOL \cite{gordon-melham-1993}, HOL
 Light~\cite{harrison-1996}, Isabelle\slash HOL~\cite{nipkow-et-al-2002},
 Why3~\cite{bobot-et-al-2011}, and several other systems, allow type variables
 in type signatures, but without explicit $\forall$-binders.
@@ -111,17 +111,18 @@ for predicate symbols.
 Another feature of TFF1 that is not universally supported
 by systems with polymorphic types is explicit
 quantification over type variables.
-For example, while Boogie \cite{barnett-et-al-2006} and Coq \cite{bertot-casteran-2004}
-allow quantifiers over types in their logics,
-HOL and other ML-style formalisms provide no such syntax:
-Instead, they consider all type variables
-implicitly universally quantified at the top of a formula, which is similar to
-the treatment of term variables in TPTP CNF clauses.
-A simple and practical solution to translate TFF1 problems to prepare problems
+For example, while Boogie \cite{leino-ruemmer-2010} and Coq \cite{bertot-casteran-2004}
+allow quantifiers over types, % in their logics,
+HOL and other ML-style logics provide no such syntax:
+They consider all type variables
+implicitly universally quantified at the top of a formula, which
+recalls the treatment of term variables in TPTP CNF clauses.
+
+A simple and practical solution for preparing TFF1 problems
 for ML-style logics is type skolemization. This is slightly involved because
 type quantifiers may appear under equivalence, where they are unpolarized.
-
-We introduce two transformations, $\SKO^-$ and $\SKO^+$, to perform type
+%
+We introduce two transformations, $\SKOM$ and $\SKOP$, to perform type
 skolemization in premises and in goals, respectively. (The latter is more
 correctly called ``type Herbrandization.'')
 %Let us call a formula $\varphi$ {\em dependently typed} whenever
@@ -132,38 +133,38 @@ correctly called ``type Herbrandization.'')
 %Types-under-values are nasty anyway.}.
 Their definitions follow:
 \begin{align*}
-\SKO^-(p(\bar{\sigma},\,\bar{t}\,)) &\eqdef p(\bar{\sigma},\,\bar{t}\,) &
-\SKO^+(p(\bar{\sigma},\,\bar{t}\,)) &\eqdef p(\bar{\sigma},\,\bar{t}\,) \\
-\SKO^-(t_1 \eq t_2) &\eqdef t_1 \eq t_2 &
-\SKO^+(t_1 \eq t_2) &\eqdef t_1 \eq t_2 \\
-\SKO^-(\lnot\, \varphi) &\eqdef \lnot\, \SKO^+(\varphi) &
-\SKO^+(\lnot\, \varphi) &\eqdef \lnot\, \SKO^-(\varphi) \\
-\SKO^-(\varphi \rand \psi) &\eqdef \SKO^-(\varphi) \rand \SKO^-(\psi) &
-\SKO^+(\varphi \rand \psi) &\eqdef \SKO^+(\varphi) \rand \SKO^+(\psi) \\
-\SKO^-(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi &
-\SKO^+(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi \\
-\SKO^-(\forall \alpha .\; \varphi) &\eqdef \forall \alpha .\; \SKO^-(\varphi) &
-\SKO^+(\forall \alpha .\; \varphi) &\eqdef
-\SKO^+(\varphi[\kappa(\bar\beta)/\alpha])
+\SKOM(p(\bar{\sigma},\,\bar{t}\,)) &\eqdef p(\bar{\sigma},\,\bar{t}\,) &
+\SKOP(p(\bar{\sigma},\,\bar{t}\,)) &\eqdef p(\bar{\sigma},\,\bar{t}\,) \\
+\SKOM(t_1 \eq t_2) &\eqdef t_1 \eq t_2 &
+\SKOP(t_1 \eq t_2) &\eqdef t_1 \eq t_2 \\
+\SKOM(\lnot\, \varphi) &\eqdef \lnot\, \SKOP(\varphi) &
+\SKOP(\lnot\, \varphi) &\eqdef \lnot\, \SKOM(\varphi) \\
+\SKOM(\varphi \rand \psi) &\eqdef \SKOM(\varphi) \rand \SKOM(\psi) &
+\SKOP(\varphi \rand \psi) &\eqdef \SKOP(\varphi) \rand \SKOP(\psi) \\
+\SKOM(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi &
+\SKOP(\forall u \ty \tau .\; \varphi) &\eqdef \forall u \ty \tau .\; \varphi \\
+\SKOM(\forall \alpha .\; \varphi) &\eqdef \forall \alpha .\; \SKOM(\varphi) &
+\SKOP(\forall \alpha .\; \varphi) &\eqdef
+\SKOP(\varphi[\kappa(\bar\beta)/\alpha])
 \end{align*}
 where $\kappa$ is a fresh type constructor and $\bar\beta$ is the list of free
 type variables of $\forall \alpha .\; \varphi$.
 Recall that TFF1 forbids quantifiers over type variables in the scope
 of a quantifier over a term variable; otherwise, Skolem type constructors
-would have to take term variables as arguments. This explains why $\SKO^-$ and
-$\SKO^+$ simply stop at the outermost term quantifier.
+would have to take term variables as arguments. This explains why $\SKOM$ and
+$\SKOP$ simply stop at the outermost term quantifier.
 
 Given a set of TFF1 sentences $\DEL$,
-$\SKO^-(\DEL)$ and $\SKO^+(\DEL)$ denote the result of applying
+$\SKOM(\DEL)$ and $\SKOP(\DEL)$ denote the result of applying
 the corresponding transformations to every formula in $\DEL$.
 
 \begin{theorem} \label{thm:sko}
-Any\/ $\DEL$ is equisatisfiable to $\SKO^-(\DEL)$.
+Any\/ $\DEL$ is equisatisfiable to $\SKOM(\DEL)$.
 \end{theorem}
 \begin{proof}
 It is easy to see that
 skolemizing the $\typ$-sorted variables in $\MON(\DEL)$ gives
-exactly $\MON(\SKO^-(\DEL))$ modulo renaming of Skolem symbols and
+exactly $\MON(\SKOM(\DEL))$ modulo renaming of Skolem symbols and
 permutation of their arguments. Theorems~\ref{thm:mon_sound} and
 \ref{thm:mon_compl} conclude the proof.
 \qed

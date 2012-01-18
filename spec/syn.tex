@@ -25,11 +25,12 @@ As in TFF0, the type {\tt \$i} %(also called \verb+$iType+)
 of individuals is predefined but has no peculiar semantics, whereas the
 arithmetic types
 {\tt \$int}, {\tt \$rat}, and {\tt \$real} are modeled by $\mathbb{Z}$,
-$\mathbb{Q}$, and $\mathbb{R}$, respectively. We refer
-to the TFF0 specification \cite{sutcliffe-et-al-2012-tff0} for the semantics of
+$\mathbb{Q}$, and $\mathbb{R}$, respectively.
+The TFF0 specification \cite{sutcliffe-et-al-2012-tff0} defines the semantics of
 the arithmetic types and their operations. It is perfectly acceptable for a TFF
-implementation not to support arithmetic. ``TFF\kern.04ex$k$ with arithmetic'' is
-sometimes called ``TFA\kern.04ex$k$.''
+implementation to restrict itself to ``pure TFF\kern.04ex$k$''---i.e., TFF\kern.04ex$k$
+without arithmetic. For clarity, TFF\kern.04ex$k$ with arithmetic is sometimes
+labeled ``TFA\kern.04ex$k$.''
 
 \ourparagraph{Type Signatures.}
 Each function and predicate symbol occurring in a formula must be associated
@@ -311,8 +312,8 @@ to the semantics given here, if practicable.
 %specification.
 
 \ourparagraph{Terms and Formulas.} Apart from the differences described above,
-the terms and formulas of TFF1 are identical to those of TFF0. We refer to the
-TFF0 specification \cite{sutcliffe-et-al-2012-tff0} for further information.
+the terms and formulas of TFF1 are identical to those of TFF0, as defined in the
+TFF0 specification \cite{sutcliffe-et-al-2012-tff0}.
 
 \ourparagraph{Example.} The following problem gives the general flavor of TFF1.
 It first declares and axiomatizes {\tt lookup} and {\tt update} operations on
