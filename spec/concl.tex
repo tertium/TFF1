@@ -12,19 +12,21 @@ upon years of untyped reasoning, the last decade witnessed the rise of
 interpreted arithmetic embedded in restrictive monomorphic type systems. TFF1
 lifts some of the most obvious restrictions.
 
-TFF1 is implemented as part of the TPTP World infrastructure. The TPTP library
-already contains nearly a thousand TFF1 problems, and although the format is
-still in its infancy, it is supported by several applications, including the SMT
-solver Alt-Ergo (via Why3). Given that many applications today require
-polymorphism, we expect other reasoning tools to gradually follow suit. The
-annual CADE Automated System Competition (CASC) will also play an important
-part here, starting with the 2013 edition.
+TFF1 is part of TPTP World. The TPTP library already contains
+nearly a thousand TFF1 problems, and although the format is in its
+infancy, it is supported by several applications, including the SMT solver
+Alt-Ergo (via Why3). Given that many applications today require polymorphism, we
+expect other reasoning tools to gradually follow suit. The annual CADE Automated
+System Competition (CASC), starting with the 2013 edition, will obviously have a
+role to play driving adoption of the format. But regardless of progress in
+prover technology, equipped with a concrete syntax and suitable middleware users
+can turn their favorite automatic theorem prover into a polymorphic prover.
 
-Of course, rank-1 polymorphism is no panacea. More advanced features, such as
+Rank-1 polymorphism is, of course, no panacea. More advanced features, such as
 type classes and dependent types, are not catered for (although type
 classes can be comfortably encoded in TFF1). These features are expected to be
-part of a future TFF2, with the proviso that there be enough interest from users
-and implementers.
+part of a future TFF2, with the proviso that there be sufficient interest from
+users and implementers.
 
 \def\ackname{Acknowledgment}
 \paragraph{\textbf{\upshape\ackname.}}
