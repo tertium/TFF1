@@ -13,7 +13,7 @@ constructors are called {\em type constants.} The usual conventions of TPTP
 apply: Type variables start with an uppercase letter and type constructors
 with a lowercase letter. The types \verb+A+, \verb+list(A)+, \verb+list(bird)+,
 and \verb+map(nat,+ \verb+list(B))+ are all examples of well-formed types. A
-type is {\em polymorphic} if it contains type variables; otherwise, it is {\em
+type is {\em polymorphic} if it contains any type variables; otherwise, it is {\em
 monomorphic.}
 
 %%% @ANDREI: $iType and $oType don't appear in the TFF0 spec. I'm not a big fan
@@ -22,7 +22,7 @@ monomorphic.}
 \nopagebreak %% TYPESETTING
 
 As in TFF0, the type {\tt \$i} %(also called \verb+$iType+)
-of individuals is predefined but has no peculiar semantics, whereas the
+of individuals is predefined but has no fixed semantics, whereas the
 arithmetic types
 {\tt \$int}, {\tt \$rat}, and {\tt \$real} are modeled by $\mathbb{Z}$,
 $\mathbb{Q}$, and $\mathbb{R}$, respectively.
@@ -52,10 +52,17 @@ type variables and $\varsigma$ has one of the previous three forms.
 \end{enumerate}
 %
 The parentheses in form (c) are omitted if $n = 1$.
-The binder {\tt !>} in form (d) denotes universal quantification.
-%Every type variable occurring in $\varsigma$
-%must appear among the $\alpha_{\!j}$'s.
+The binder {\tt !>} in form (d) denotes universal quantification;
+every type variable occurring in the body $\varsigma$
+must appear among the $\alpha_{\!j}$'s.
 If $\varsigma$ is of form (c), it must be put in parentheses.
+
+Here are a few examples:\enskip
+(a) {\tt \$int}, {\tt monkey}, {\tt banana};\enskip
+(b) {\tt \$o};\enskip
+(c) {\tt monkey\;>\allowbreak\;banana},
+    {\tt (monkey\;*\;banana)\;>\;\$o};\enskip
+(d) {\tt !>[A\;:\;\$tType]:\;((A\;*\;list(A))\;>\;list(A))}.
 
 %%% TODO: define monomorphic and polymorphic symbols?
 Form (a) is used for monomorphic constants; form (b), for
@@ -68,6 +75,8 @@ convenient to regard all forms above as instances of the general syntax
 (($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$)}
 \end{center}
 where $m$ and $n$ can be 0. % and $\tilde \tau$ can be any type or {\tt \$o}.
+
+%%%% GEOFF: Add examples here.
 
 Type variables that are bound by {\tt !>} without
 occurring in the type signature's body are called \emph{ghost type variables.}
@@ -183,8 +192,8 @@ inference algorithm implemented in the consumer to omit only redundant type
 arguments.
 
 \ourparagraph{Type and Term Variables.}
-Every variable in a TFF1 formula must be bound. It can be given a type at
-binding time:
+Every variable in a TFF1 formula must be bound. The variable's type must be specified
+at binding time:
 \begin{quote}
 \begin{verbatim}
 tff(bird_list_not_empty, axiom,

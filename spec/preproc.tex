@@ -5,7 +5,7 @@ We describe two preprocessing steps that preserve both satisfiability and
 unsatisfiability of TFF1 problems. They eliminate ghost type variables in type
 signatures and alternating $\forall\raise.15ex\hbox{\ensuremath{\slash}}\vthinspace\exists$ type quantifier prefixes in
 formulas, two features that are not directly supported by ML-style formalisms
-(which otherwise are a good match for TFF1).
+(which are otherwise a good match for TFF1).
 
 \subsection{Elimination of Ghost Type Arguments} \label{ssec:ghost}
 
@@ -19,11 +19,11 @@ Boogie~\cite{leino-ruemmer-2010}, HOL \cite{gordon-melham-1993}, HOL
 Light~\cite{harrison-1996}, Isabelle\slash HOL~\cite{nipkow-et-al-2002},
 Why3~\cite{bobot-et-al-2011}, and several other systems, allow type variables
 in type signatures, but without explicit $\forall$-binders.
-Function and predicate symbols do not take explicit type
-arguments; instead, the concrete instance of the symbol's type signature is
-determined by the types of its term arguments, the type of the result, and
-optional type annotations inside terms.
-
+Instead of relying on explicit type arguments, these systems determine the
+concrete instance of a function or predicate symbol's type signature by the
+types of its term arguments, the type of the result, and optional type
+annotations inside terms.
+%
 The natural translation from TFF1 to such a formalism would map $\forall
 \alpha\beta.\; \alpha\times\beta\to\omicron$ (and $\forall \beta\alpha.\;
 \alpha\times\beta\to\omicron$) to $\alpha\times\beta\to\omicron$, simply
@@ -108,6 +108,7 @@ for predicate symbols.
 \qed
 \end{proof}
 
+
 \subsection{Type Skolemization} \label{ssec:skol}
 
 Another feature of TFF1 that is not universally supported
@@ -120,9 +121,9 @@ They consider all type variables
 implicitly universally quantified at the top of a formula, which
 recalls the treatment of term variables in TPTP CNF clauses.
 
-A simple and practical solution for preparing TFF1 problems
-for ML-style logics is type skolemization. This is slightly involved because
-type quantifiers may appear under equivalence, where they are unpolarized.
+%A simple and practical solution for preparing TFF1 problems
+%for ML-style logics is
+The solution is type skolemization.
 %
 We define two transformations, $\SKOM$ and $\SKOP$, to perform type
 skolemization in axioms and in conjectures, respectively:
@@ -151,10 +152,12 @@ skolemization in axioms and in conjectures, respectively:
 \end{align*}
 where $\kappa$ is a fresh type constructor and $\bar\beta$ is the list of free
 type variables of $\forall \alpha .\; \varphi$.
-Recall that TFF1 forbids quantifiers over type variables in the scope
-of a quantifier over a term variable; otherwise, Skolem type constructors
-would have to take term variables as arguments. This explains why $\SKOM$ and
-$\SKOP$ simply stop at the outermost term quantifier.
+Since TFF1 forbids quantifiers over type variables in the scope
+of a quantifier over a term variable,
+$\SKOM$ and $\SKOP$ simply stop at the outermost term quantifier.
+
+%Recall that ; otherwise, Skolem type constructors
+%would have to take term variables as arguments. This explains why 
 
 Given a set of TFF1 sentences $\DEL$,
 $\SKOM(\DEL)$ and $\SKOP(\DEL)$ denote the result of applying
@@ -171,6 +174,12 @@ permutation of their arguments. Theorems~\ref{thm:mon_sound} and
 \ref{thm:mon_compl} conclude the proof.
 \qed
 \end{proof}
+
+To simplify the presentation, we viewed equivalence ($\lequ$) and inequivalence
+($\inlequ$) as abbreviations. A slight complication arises in practice when
+processing type quantifiers under either connective, where they are unpolarized.
+The easiest solution is to expand the connective before attempting to
+skolemize any type quantifiers that appear under it.
 
 %%% @ANDREI: Which restriction are you talking about? I'm not following you here:
 %

@@ -5,10 +5,10 @@
 The TPTP family of formats is well established in the automated reasoning
 community. As part of the MPTP project \cite{urban-2006}, Urban designed private
 extensions of the TPTP FOF syntax with dependent types to
-accommodate Mizar, as well as translations; TFF2 is expected to subsume this work. Also
-related to TFF1 is the full THF syntax \cite{sutcliffe-benzmueller-2010}, which
-is not yet finalized or implemented. Like Urban's extensions, full THF supports
-dependent types.
+accommodate Mizar, as well as translations;
+these could form the basis of a future TFF2 format. The full THF syntax \cite{sutcliffe-benzmueller-2010},
+which is not yet finalized or implemented,
+also supports dependent types.
 
         %most reasoning tools out there are first-order, and the higher-order syntax is
         %sufficiently unwieldy that it's unrealistic to expect apps to support it;
@@ -59,11 +59,11 @@ elimination of ghost type arguments
 (Section~\ref{ssec:ghost}); the last two also assume type skolemization
 (Section~\ref{ssec:skol}).
 
-An easy approach to pass TFF1 problems can be passed to TFF0
-reasoning tools is to monomorphize the problem first---that is, to heuristically
-instantiate all type variables with appropriate
-ground types. Monomorphization is incomplete and often overlooked
-or derided in the literature \cite[p.\ 3]{couchot-lescuyer-2007}, but it was
-applied with much success in both Sledgehammer
-\cite[\S6]{blanchette-et-al-2012-mono} and Why3.
+%An easy approach to pass TFF1 problems can be passed to TFF0
+%reasoning tools is to monomorphize the problem first---that is, to heuristically
+%instantiate all type variables with appropriate
+%ground types. Monomorphization is incomplete and often overlooked
+%or derided in the literature \cite[p.\ 3]{couchot-lescuyer-2007}, but it was
+%applied with much success in both Sledgehammer
+%\cite[\S6]{blanchette-et-al-2012-mono} and Why3.
 %% @ANDREI: Reference for Why3's monomorphization (if one exists)?

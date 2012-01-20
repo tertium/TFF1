@@ -5,16 +5,16 @@ The TPTP World \cite{sutcliffe-2010-world} is a well-established infrastructure
 for supporting research, development, and deployment of automated reasoning
 tools. It includes a vast problem library, the Thousands of Problems for Theorem
 Provers (TPTP) \cite{sutcliffe-2009-lib}, as well as specifications of concrete
-syntaxes to facilitate interchange of problems and solutions.
+syntaxes for problems and solutions.
 Dozens of reasoning tools implement the TPTP untyped conjunctive normal form
 (CNF) and first-order form (FOF) for classical logic with equality.
 
-It has often been argued that the gap between the features supported by
-reasoners and those needed by applications is too wide
-\cite{schumann-2001,stickel-2009,voronkov-2003}, and that richer interchange formats are
-needed to address this disconnect \cite{kuncak-2011}.
+It has often been argued that the gap between the features supported by provers
+and those needed by applications is too wide, and that rich interchange formats
+are needed to address this disconnect
+\cite{schumann-2001,voronkov-2003,mccune-2003,stickel-2009,kuncak-2011}.
 A growing number of reasoners can process the
-recently introduced ``initial'' typed first-order form (TFF0) \cite{sutcliffe-et-al-2012-tff0},
+recently introduced ``initial'' TPTP typed first-order form (TFF0) \cite{sutcliffe-et-al-2012-tff0},
 with monomorphic types and interpreted arithmetic \cite{SPASS-T,vampire-arith},
 or the corresponding higher-order form (THF0) \cite{benzmueller-et-al-2008-thf0};
 a polymorphic version of THF0, the full THF, is in the works~\cite{sutcliffe-benzmueller-2010}.
@@ -22,17 +22,17 @@ a polymorphic version of THF0, the full THF, is in the works~\cite{sutcliffe-ben
 But despite the variety of this offering, there is a strong desire in part of the automated
 reasoning community for a \emph{polymorphic first-order format.} Many applications
 require polymorphism, notably interactive theorem provers and program
-specification languages, but lacking a suitable interchange format these
-must communicate via monomorphic formats. To make matters worse, there is no entirely
+specification languages; but lacking a suitable interchange format, applications
+and provers must communicate via monomorphic formats. To make matters worse, there is no entirely
 satisfactory way to eliminate polymorphism: Monomorphization is %generally
 incomplete, and it is difficult to encode polymorphism in a complete but
 also sound and efficient manner, especially in the presence of interpreted types. Tool authors
 are reduced to developing their own monomorphizers and type encodings, often
-using suboptimal schemes. We contend that polymorphism ultimately belongs in
+using suboptimal schemes. Polymorphism arguably belongs in
 provers, where it can be implemented simply and efficiently, as demonstrated by
 the SMT (satisfiability modulo theories) solver Alt-Ergo \cite{bobot-et-al-2008}.
 
-We introduce the TFF1
+This paper introduces the TFF1
 format, an extension of TFF0 with rank-1 polymorphism. The
 extension was designed with the participation of members of the TPTP community,
 reflecting its needs.
@@ -57,7 +57,7 @@ reasonable format to implement in an SMT solver if polymorphism is desired.
 This paper is structured as follows.
 %\begin{itemize}
 %\item
-Section~\ref{sec_syntax} specifies the format's syntax, and
+Section~\ref{sec_syntax} specifies the TFF1 syntax, and
 %\cheat\item
 Section~\ref{sec_semantics} specifies its typing rules and semantics.
 %\cheat\item
@@ -75,7 +75,7 @@ to untyped or monomorphic logics.
 %\end{itemize}
 
 This specification extends, rather than replaces, the TFF0 specification
-\cite{sutcliffe-et-al-2012-tff0}. We refer to that specification for the parts
-that TFF1 inherits directly from TFF0, notably the
+\cite{sutcliffe-et-al-2012-tff0}. The parts
+that TFF1 inherits directly from TFF0, such as the
 concrete syntax for the logical connectives and the
-(optional) arithmetic constructs.
+(optional) arithmetic constructs, are described there.

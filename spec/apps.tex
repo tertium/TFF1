@@ -1,26 +1,33 @@
 \section{Applications}
 \label{sec_apps}
 
-A number of applications already support TFF1. First and foremost, Geoff
+A number of applications already support TFF1. Geoff
 Sutcliffe has extended the TPTP World infrastructure to process TFF1 problems
 and solutions. This involved in particular adapting the BNF specification of the
-TPTP syntaxes, from which parsers are generated. Some tools still need to be
+TPTP syntaxes, from which parsers are generated. Some TPTP tools still need to be
 ported to TFF1; this is ongoing work.
 
+\nopagebreak
+
 %%% TODO: update: grep "pure"
-The Why3 \cite{bobot-et-al-2011} environment, which defines its own polymorphic
-specification language, can parse pure TFF1. Why3 translates
-between TFF1 and a wide range of existing formats, including FOF, SMT-LIB, and
+The Why3 \cite{bobot-et-al-2011} environment, which defines its own ML-like
+polymorphic specification language, can parse pure TFF1. Why3 translates
+between TFF1 and a wide range of
+formats, including FOF, SMT-LIB, and
 Alt-Ergo's native syntax. In addition, Why3's TFF1 parser is being ported to
 Alt-Ergo \cite{bobot-et-al-2008}, so that it can process TFF1 problems without
-taking a detour through Why3. Code sharing is facilitated here by the use of
-a common implementation language (OCaml).
+taking a detour through Why3.
+%Code sharing is facilitated here by the use of
+%a common implementation language (OCaml).
 
 Sledgehammer \cite{paulson-blanchette-2010}, a tool that bridges the interactive
 theorem prover Isabelle\slash HOL and various automatic provers, has been
 extended to output pure TFF1 problems for Alt-Ergo. Using Sledgehammer, we
-generated 987 problems to populate the PFF (``\relax{P}olymorphic T\relax{FF}'')
-domain of the TPTP library. By extending the tool with a TFF1 parser,
+generated 987 problems to populate the TPTP library.%
+\footnote{\url{http://www.cs.miami.edu/~tptp/TPTP/Proposals/TFF1.html}}
+%PFF (``\relax{P}olymorphic T\relax{FF}'')
+%domain of the TPTP library.
+By extending the tool with a TFF1 parser,
 we hope to transform it into a highly versatile translation service to FOF and
 TFF0.
 
