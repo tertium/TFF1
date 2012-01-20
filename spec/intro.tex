@@ -11,23 +11,22 @@ Dozens of reasoning tools implement the TPTP untyped conjunctive normal form
 
 It has often been argued that the gap between the features supported by
 reasoners and those needed by applications is too wide
-\cite{stickel-2009,voronkov-2003}, and that richer interchange formats are
+\cite{schumann-2001,stickel-2009,voronkov-2003}, and that richer interchange formats are
 needed to address this disconnect \cite{kuncak-2011}.
 A growing number of reasoners can process the
 recently introduced ``initial'' typed first-order form (TFF0) \cite{sutcliffe-et-al-2012-tff0},
 with monomorphic types and interpreted arithmetic \cite{SPASS-T,vampire-arith},
 or the corresponding higher-order form (THF0) \cite{benzmueller-et-al-2008-thf0};
-a polymorphic version of THF0, the full THF, is in the works
-\cite{sutcliffe-benzmueller-2010}.
-%
+a polymorphic version of THF0, the full THF, is in the works~\cite{sutcliffe-benzmueller-2010}.
+
 But despite the variety of this offering, there is a strong desire in part of the automated
 reasoning community for a \emph{polymorphic first-order format.} Many applications
 require polymorphism, notably interactive theorem provers and program
 specification languages, but lacking a suitable interchange format these
 must communicate via monomorphic formats. To make matters worse, there is no entirely
 satisfactory way to eliminate polymorphism: Monomorphization is %generally
-incomplete, and it is difficult to encode polymorphism in a sound, complete, and
-efficient manner, especially in the presence of interpreted types. Tool authors
+incomplete, and it is difficult to encode polymorphism in a complete but
+also sound and efficient manner, especially in the presence of interpreted types. Tool authors
 are reduced to developing their own monomorphizers and type encodings, often
 using suboptimal schemes. We contend that polymorphism ultimately belongs in
 provers, where it can be implemented simply and efficiently, as demonstrated by
