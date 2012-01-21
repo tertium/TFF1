@@ -47,10 +47,9 @@ type variables and $\varsigma$ has one of the previous three forms.
 \end{enumerate}
 %
 The parentheses in form (c) are omitted if $n = 1$.
-The binder {\tt !>} in form (d) denotes universal quantification;
-every type variable occurring in the body $\varsigma$
-must appear among the $\alpha_{\!j}$'s.
+The binder {\tt !>} in form (d) denotes universal quantification.
 If $\varsigma$ is of form (c), it must be put in parentheses.
+All type variables must be bound by a {\tt !>} binder.
 
 Here are a few examples:\enskip
 (a) {\tt \$int}, {\tt monkey}, {\tt banana};\enskip
@@ -90,8 +89,8 @@ is a linear order to those types that satisfy the {\tt is\_linear} predicate.
 %Notice that a monotype can be a polymorphic type,
 %i.e.~contain type variables.
 
-\ourparagraph{Type Declarations.} Type constructors,
-like function and predicate symbols,
+\ourparagraph{Type Declarations.} Type constructors
+%, like function and predicate symbols,
 can optionally be declared.
 The following declarations introduce a type
 constant {\tt bird}, a unary type constructor {\tt list},
