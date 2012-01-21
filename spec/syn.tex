@@ -16,21 +16,16 @@ and \verb+map(nat,+ \verb+list(B))+ are all examples of well-formed types. A
 type is {\em polymorphic} if it contains any type variables; otherwise, it is {\em
 monomorphic.}
 
-%%% @ANDREI: $iType and $oType don't appear in the TFF0 spec. I'm not a big fan
-%%% of aliases.
-
-\nopagebreak %% TYPESETTING
-
 As in TFF0, the type {\tt \$i} %(also called \verb+$iType+)
 of individuals is predefined but has no fixed semantics, whereas the
 arithmetic types
 {\tt \$int}, {\tt \$rat}, and {\tt \$real} are modeled by $\mathbb{Z}$,
-$\mathbb{Q}$, and $\mathbb{R}$, respectively.
+$\mathbb{Q}$, and $\mathbb{R}$.
 The TFF0 specification \cite{sutcliffe-et-al-2012-tff0} defines the semantics of
 the arithmetic types and their operations. It is perfectly acceptable for a TFF
-implementation to restrict itself to ``pure TFF\kern.04ex$k$''---i.e., TFF\kern.04ex$k$
-without arithmetic. For clarity, TFF\kern.04ex$k$ with arithmetic is sometimes
-labeled ``TFA\kern.04ex$k$.''
+implementation to restrict itself to ``pure TFF\kern.04ex$k$,''
+without arithmetic. %For clarity,
+TFF\kern.04ex$k$ with arithmetic is sometimes labeled ``TFA\kern.04ex$k$.''
 
 \ourparagraph{Type Signatures.}
 Each function and predicate symbol occurring in a formula must be associated

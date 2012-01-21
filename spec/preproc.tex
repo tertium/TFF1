@@ -54,7 +54,7 @@ with a new function symbol $\hat{f} : \forall \alpha_1\dots\alpha_m .\;
 where $\alpha_{i_1},\dots,\alpha_{i_r}$ are the type
 variables from the quantifier prefix that do not occur in
 $\tau_1,\dots,\tau_n$ or $\tau$.
-Similarly, every predicate symbol $p \,\ty\,
+Every predicate symbol $p \,\ty\,
 \forall \alpha_1\dots\alpha_m .\;\allowbreak \tau_1 \times \dots \times \tau_n \to \omicron$
 is replaced with a new predicate symbol $\hat{p} \,\ty\,
 \forall \alpha_1\dots\alpha_m .\;\allowbreak
@@ -65,7 +65,8 @@ variables from the quantifier prefix that do not occur in
 $\tau_1,\dots,\tau_n$.
 Finally, we add a ``witness'' constant $\wit : \forall \alpha.\;\ghost(\alpha)$.
 The $\ELI$ transformation translates terms and atomic
-formulas according to the following equations:
+formulas as follows:
+%according to the following equations:
 %\begin{align*}
 %\ELI(u) & \eqdef u &
 %\ELI(s \eq t) & \eqdef \ELI(s) \eq \ELI(t)
@@ -92,17 +93,17 @@ Any $\DEL$ is equisatisfiable to $\ELI(\DEL)$.
 \begin{proof}
 A model of $\DEL$ can be converted to a model of $\ELI(\DEL)$
 as follows. We choose an arbitrary value $e$ and take the singleton
-$\{ e \}$ as the domain of $\ghost(D)$ for any domain $D$.
+$\{ e \}$ as the domain of $\ghost(D)$ for any domain~$D$.
 Accordingly, $\wit$ evaluates to $e$ on any argument.
-Interpretations of other function and predicate symbols are
-adjusted in the obvious way.
-
-\pagebreak[2] %% TYPESETTING
-
-To convert a model of $\ELI(\DEL)$
-to a model of $\DEL$, we evaluate any functional symbol
-$f$ on $D_1,\dots,D_m,a_1,\dots,a_n$ exactly as
-$\hat{f}$ on $D_1,\dots,D_m,e_1,\dots,e_r,a_1,\dots,a_n$,
+Interpretations of other %function and predicate
+symbols are adjusted in the obvious way.
+%
+%To convert a model of $\ELI(\DEL)$
+% to a model of $\DEL$,
+Conversely, we evaluate any function symbol
+$f$ on $D_1,\dots,D_m,a_1,\dots,a_n$ in $\DEL$ exactly as
+$\hat{f}$ on $D_1,\dots,D_m,\allowbreak e_1,\dots,e_r,\allowbreak a_1,\dots,a_n$
+in $\ELI(\DEL)$,
 where each $e_k$ is the evaluation of $\wit$ on $D_{i_k}$, and similarly
 for predicate symbols.
 \qed
@@ -156,6 +157,12 @@ Since TFF1 forbids quantifiers over type variables in the scope
 of a quantifier over a term variable,
 $\SKOM$ and $\SKOP$ simply stop at the outermost term quantifier.
 
+To simplify the presentation, we viewed equivalence ($\lequ$) and inequivalence
+($\inlequ$) as abbreviations. A slight complication arises in practice when
+processing type quantifiers under either connective, where they are unpolarized.
+The easiest solution is to expand the connective before attempting to
+skolemize any type quantifiers that appear under it.
+
 %Recall that ; otherwise, Skolem type constructors
 %would have to take term variables as arguments. This explains why 
 
@@ -174,12 +181,6 @@ permutation of their arguments. Theorems~\ref{thm:mon_sound} and
 \ref{thm:mon_compl} conclude the proof.
 \qed
 \end{proof}
-
-To simplify the presentation, we viewed equivalence ($\lequ$) and inequivalence
-($\inlequ$) as abbreviations. A slight complication arises in practice when
-processing type quantifiers under either connective, where they are unpolarized.
-The easiest solution is to expand the connective before attempting to
-skolemize any type quantifiers that appear under it.
 
 %%% @ANDREI: Which restriction are you talking about? I'm not following you here:
 %
