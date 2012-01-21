@@ -19,14 +19,18 @@ Alt-Ergo \cite{bobot-et-al-2008}, so that it can directly process TFF1. % proble
 %a common implementation language (OCaml).
 
 Sledgehammer \cite{paulson-blanchette-2010}, a tool that bridges the interactive
-theorem prover Isabelle\slash HOL and various automatic provers, has been
-extended to output pure TFF1 problems for Alt-Ergo. Using Sledgehammer, we
-generated 987 problems to populate the TPTP library.%
+theorem prover Isabelle\slash HOL and various automatic provers, has now been
+extended to output pure TFF1 problems for Alt-Ergo and Why3
+(in addition to FOF, TFF0, and THF0). For the first time, Sledgehammer
+exploits the polymorphic potential of these tools---without having
+to implement their (incompatible) native file formats.
+Moreover, using Sledgehammer, we produced 987 problems to populate the TPTP
+library.%
 \footnote{\url{http://www.cs.miami.edu/~tptp/TPTP/Proposals/TFF1.html}}
 %PFF (``\relax{P}olymorphic T\relax{FF}'')
 %domain of the TPTP library.
 By extending the tool with a TFF1 parser,
-we hope to transform it into a versatile translator to FOF and
+we hope to transform the tool into a versatile translator to FOF and
 TFF0.
 
 %Other tools, notably an LF-based type checker similar to TwHelFTC for THF0, are
