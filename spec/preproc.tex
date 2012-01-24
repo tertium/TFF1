@@ -2,12 +2,12 @@
 \label{sec_preproc}
 
 We describe two preprocessing steps that preserve both satisfiability and
-unsatisfiability of TFF1 problems. They eliminate ghost type variables in type
+unsatisfiability of TFF1 problems. They eliminate \theghost{} type variables in type
 signatures and alternating $\forall\raise.15ex\hbox{\ensuremath{\slash}}\vthinspace\exists$ type quantifier prefixes in
 formulas, two features that are not directly supported by ML-style formalisms
 (which are otherwise a good match for TFF1).
 
-\subsection{Elimination of Ghost Type Arguments} \label{ssec:ghost}
+\subsection{Elimination of \theGhost{} Type Variables} \label{ssec:ghost}
 
 %\footnote{Other relevant citations, please? What about Mizar?}.
 % @ANDREI: I'd rather stick to "ML-style formalisms" here. Mizar is based on
@@ -31,14 +31,14 @@ omitting the $\forall$-binders. To compensate for the missing type arguments,
 type annotations are sometimes needed to guide the Hindley--Milner type
 inference.
 
-The difficulties arise in conjunction with ghost type variables: If
+The difficulties arise in conjunction with \theghost{} type variables: If
 $\forall\alpha.\;\omicron$ collapses to $\omicron$, the dependency on the type
 is lost.
 %
 To ease the adoption of TFF1 in such systems, we suggest a preprocessing step
-that eliminates ghost type variables. This step is lightweight, as it requires
-only the introduction of one term argument per ghost type. In particular,
-it is the identity for formulas that do not rely on ghost type variables.
+that eliminates \theghost{} type variables. This step is lightweight, as it requires
+only the introduction of one term argument per \theghost{} type. In particular,
+it is the identity for formulas that do not rely on \theghost{} type variables.
 
 %that is, the type variables in the symbol's type signature that
 %do not appear in the quantifier-free matrix.
