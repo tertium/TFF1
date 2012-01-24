@@ -9,11 +9,6 @@ formulas, two features that are not directly supported by ML-style formalisms
 
 \subsection{Elimination of \theGhost{} Type Variables} \label{ssec:ghost}
 
-%\footnote{Other relevant citations, please? What about Mizar?}.
-% @ANDREI: I'd rather stick to "ML-style formalisms" here. Mizar is based on
-% set theory and has at most soft types; it would be better treated in the
-% Related Work section.
-
 ML-style formalisms, as implemented in Alt-Ergo~\cite{bobot-et-al-2008},
 Boogie~\cite{leino-ruemmer-2010}, HOL \cite{gordon-melham-1993}, HOL
 Light~\cite{harrison-1996}, Isabelle\slash HOL~\cite{nipkow-et-al-2002},
@@ -160,11 +155,11 @@ $\SKOM$ and $\SKOP$ simply stop at the outermost term quantifier.
 To simplify the presentation, we viewed equivalence ($\lequ$) and inequivalence
 ($\inlequ$) as abbreviations. A slight complication arises in practice when
 processing type quantifiers under either connective, where they are unpolarized.
-The easiest solution is to expand the connective before attempting to
-skolemize any type quantifiers that appear under it.
+The easiest solution is to expand the connective before
+skolemizing type quantifiers that appear under it.
 
 %Recall that ; otherwise, Skolem type constructors
-%would have to take term variables as arguments. This explains why 
+%would have to take term variables as arguments. This explains why
 
 Given a set of TFF1 sentences $\DEL$,
 $\SKOM(\DEL)$ and $\SKOP(\DEL)$ denote the result of applying
