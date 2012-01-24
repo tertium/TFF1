@@ -58,7 +58,6 @@ Here are a few examples:\enskip
     {\tt (monkey\;*\;banana)\;>\;\$o};\enskip
 (d) {\tt !>[A\;:\;\$tType]:\;((A\;*\;list(A))\;>\;list(A))}.
 
-%%% TODO: define monomorphic and polymorphic symbols?
 Form (a) is used for monomorphic constants; form (b), for
 propositional constants, including the predefined symbols {\tt \$true} and
 {\tt \$false}; form (c), for monomorphic functions and predicates;
@@ -105,13 +104,6 @@ and a binary type constructor {\tt map}:
 If a type constructor is used before being declared, its arity is
 determined by the first occurrence. Any later declaration
 must give it the same arity.
-%%% @ANDREI: Too early for this. TODO: move where it belongs (and edit)
-%However, one should keep in mind that a type
-%expression can occur in a position of a term (see below
-%the examples of {\tt cons} and other polymorphic symbols).
-%A TFF parser should refer to the type signatures of function
-%and predicate symbols in order to know whether it parses
-%a term or a type.
 
 A declaration of a function or predicate symbol specifies its type signature.
 Every type variable occurring in a type signature must be bound by a
@@ -144,16 +136,6 @@ type variables.
 All symbols share the same namespace; in particular, a type constructor
 cannot have the same name as a function or predicate symbol.
 
-%\footnote{Is this restriction present in TPTP FOF and TFF0? If not, we can
-%lift it for TFF1.}.
-%%% @ANDREI: FOF definitely shares the namespace for functions and symbols.
-%%% TFF0 doesn't seem to mention anything but Sutcliffe's ToFoF cannot cope with
-%%%   tff(foo_type, type, foo : $tType).
-%%%   tff(foo_const, type, foo : foo).
-%%%   tff(foo_ax, axiom, (![X : foo] : (X = foo))).
-%%% Since TFFx is supposed to be about interoperability, in matters like these
-%%% I tend not to put too heavy a burden on implementors.
-
 \ourparagraph{Function and Predicate Application.} To keep the required type
 inference to a minimum, every use of a polymorphic symbol must explicitly
 specify the type instance. A function or predicate symbol with a type signature
@@ -176,9 +158,6 @@ of TFF1 might be useful. When a type argument of
 a polymorphic symbol can be inferred automatically, it may be
 replaced with the wildcard {\tt \$\_}. For example:
 \[\hbox{{\tt is\_empty(\$\_,} {\tt cons(\$\_,\;X,\;nil(\$\_)))}}\]
-% \footnote{Should this be part of {\tt SyntaxBNF}?}
-% @ANDREI: I don't care much either way... SyntaxBNF is anyway very slack; I
-% wouldn't be surprised if it could be used to parse C++. ;)
 Although {\tt nil}'s type argument cannot be inferred locally from the types of
 its term arguments (since there are none), the Hindley--Milner type inference
 can deduce it. The producer of a TFF1 problem must be aware of the type
@@ -212,19 +191,6 @@ tff(lookup_update_same, axiom,
 A single quantifier cluster can bind both type variables and term variables.
 %If the type of a term variable contains a type variable, the latter must be bound
 %before the former.
-%\footnote{We can permit omitting the {\tt\$tType} annotations,
-%too, but should we? If an untyped variable can turn to be
-%a type variable or an {\tt\$i}-variable, then we must look
-%into the formula to know which it is.}.
-%%% @ANDREI: We shouldn't allow that. Chances are that some implementations
-%%% would get that wrong.
-% (one might need
-% to eliminate upper equivalences to establish the polarity
-% of a quantifier)
-%%% @ANDREI: What is an _upper_ equivalence? An outer one? I'd rather postpone
-%%% the discussion on polarity until the part that treats skolemization. It is
-%%% enough here to say "including equivalence", to hint at the issue, IMO.
-%
 Universal and existential quantifiers over type variables are allowed under the
 propositional connectives, including equivalence, as well as under other
 quantifiers over type variables, but not in the scope of a quantifier over a
@@ -233,10 +199,6 @@ Rationale: A statement of the form ``for every integer $k$, there exists a type
 $\alpha$ such that $\ldots$''\ effectively makes $\alpha$ a dependent type.
 On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
 and there is no easy translation to ML-style polymorphic formalisms.
-%%% @ANDREI: We can be forceful here, because "easy" is ambiguous anyway.
-%%% Nobody has ever managed to encode dependent types in a nice way in HOL, and
-%%% this has been attempted for decades. Surely any new discovery there will not
-%%% be "easy".
 Moreover, type handling in an automatic prover would be more difficult were
 such constructions allowed, since they require paramodulation into types.
 
@@ -252,67 +214,6 @@ no adjustments. This prepares the ground for TFF2, which is expected to lift the
 restriction and support more elaborate forms of dependent types. Implementations
 of TFF1 are encouraged to support unrestricted formulas, treating them according
 to the semantics given here, if practicable.
-
-%Another way to introduce a variable is via the ``let'' construct.
-%A recent extension of the TFF0 format, discussed at the 7th TPTP Tea Party in
-%Wrocław and not yet implemented, allows to introduce a function or predicate
-%locally. For example, the formulas
-%\begin{center}
-%\begin{tabular}{l}
-%{\tt :=\;[X\;:\;\$int,\;f(X)\;=\;g(X,\;X)]:\;p(f(a))} \\[\smallskipamount]
-%{\tt :=\;[X\;:\;\$int,\;p(X)\;<=>\;q(X,\;X)]:\;p(a)}
-%\end{tabular}
-%\end{center}
-%expand to {\tt p(g(a,\;a))} and {\tt q(a,\;a)}, respectively
-%\cite{geoff-tptptp-notes}.
-%Similarly, TFF1 admits binding a type~$\tau$ to $\kappa(\alpha_1, \ldots,
-%\alpha_n)$, where $\alpha_1, \ldots, \alpha_n$ are distinct type variables bound
-%in $\tau$, using the syntax $\kappa(\alpha_1, \ldots, \alpha_n)$~{\tt :>}~$\tau$ inside
-%the ``let'' binder.
-
-%
-%bind a variable
-%to a term as well as to a formula (a variable thus bound has
-%``type'' \verb+$o+ and can only appear in a position of a formula)
-%%% @ANDREI: The proposed syntax is actually more general.
-%
-%\footnote{Should we elaborate on the syntax of let?
-%It was already in TFF0, but it was not described in
-%the article on TFF0. The same about if/ite: should
-%we talk about them, though they are completely
-%orthogonal to polymorphism and types?}.
-%In the former case,
-%the syntax of binding is {\it variable}~{\tt :-}~{\it term\/} and
-%the type of the variable is the type of the term. In the latter case,
-%the syntax of binding is {\it variable}~{\tt :=}~{\it formula\/} and
-%a variable thus bound has the ``type'' \verb+$o+ and
-%can only appear in a position of a formula (notice that
-%one cannot quantify over a variable of type \verb+$o+).
-%
-%\footnote{Since any type is a well-formed TFF1 term,
-%we could reuse the existing syntax for these bindings.
-%But then suppose that {\tt foo} is undeclared and
-%we bind {\tt A} to it: {\tt A} {\tt :-} {\tt foo}.
-%Until {\tt A} is used
-%(as a type or as a value), we cannot know what it is.}.
-%For example, the axiom \verb+bird_list_not_empty+ above could also be as
-%follows:
-%\begin{quote}
-%\begin{verbatim}
-%tff(bird_list_not_empty, axiom,
-%    := [b :> bird, A : $tType, c(A) :> list(A)]:
-%        ![B : b, Bs : c(b)]: ~ is_empty(b, cons(b, B, Bs))).
-%\end{verbatim}
-%\end{quote}
-%One can put a mixed list of bindings in a let-statement;
-%in such lists each subsequent binding can refer
-%to the variables introduced by preceding ones%
-%\footnote{Is this true in TFF0? I didn't find any written
-%specification of multi-variable let.}.
-%
-%The ``let'' bindings can be eliminated from TFF1 formulas using capture-avoiding
-%substitution. Hence we do not need to consider them in the rest of this
-%specification.
 
 \ourparagraph{Terms and Formulas.} Apart from the differences described above,
 the terms and formulas of TFF1 are identical to those of TFF0, as defined in the
