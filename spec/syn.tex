@@ -73,8 +73,8 @@ where $m$ and $n$ can be 0. % and $\tilde \tau$ can be any type or {\tt \$o}.
 
 Type variables that are bound by {\tt !>} without
 occurring in the type signature's body are called \emph{\theghost{} type variables.}
-These make it possible to specify operations and relations directly on types,
-providing a convenient way to encode type classes.
+These make it possible to specify operations and relations directly on types and
+provide a convenient way to encode type classes.
 For example, we can declare a polymorphic propositional
 constant {\tt is\_linear} with the type signature
 {\tt !>[A} {\tt :} {\tt \$tType]:} {\tt \$o} and use it as a guard to restrict the

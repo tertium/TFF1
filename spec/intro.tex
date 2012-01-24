@@ -20,14 +20,14 @@ with monomorphic types and interpreted arithmetic \cite{SPASS-T,vampire-arith},
 or the corresponding higher-order form (THF0) \cite{benzmueller-et-al-2008-thf0};
 a polymorphic version of THF0, the full THF, is in the works~\cite{sutcliffe-benzmueller-2010}.
 
-But despite the variety of this offering, there is a strong desire in part of the automated
-reasoning community for a \emph{polymorphic first-order format.} Many applications
+Despite the variety of this offering, there is a strong desire in part of the automated
+reasoning community for a portable \emph{polymorphic first-order format.} Many applications
 require polymorphism, notably interactive theorem provers and program
 specification languages; but lacking a suitable syntax, applications
 and provers must communicate via monomorphic formats. To make matters worse, there is no entirely
 satisfactory way to eliminate polymorphism: Monomorphization algorithms are %generally
 necessarily incomplete \cite[\S2]{bobot-paskevich-2011},
-and it is difficult to encode polymorphism in a complete but
+and it is difficult to encode polymorphism in a complete yet
 also sound and efficient manner, especially in the presence of interpreted types. Tool authors
 are reduced to developing their own monomorphizers and type encodings, often
 using suboptimal schemes. Polymorphism arguably belongs in
