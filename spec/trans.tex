@@ -48,17 +48,15 @@ The $\MON$ transformation translates TFF1 types, terms, and formulas
 according to the following equations:
 \begin{align*}
 \MON(\alpha) &\eqdef \hat{\alpha} &
-  \MON(t_1 \eq t_2) &\eqdef \MON(t_1) \eq \MON(t_2) \\
-\MON(\kappa(\bar{\sigma})) &\eqdef \hat{\kappa}(\MON(\bar{\sigma})) &
-  \MON(\lnot\, \varphi) &\eqdef \lnot\, \MON(\varphi) \\
+  \MON(\kappa(\bar{\sigma})) &\eqdef \hat{\kappa}(\MON(\bar{\sigma})) \\
 \MON(u) &\eqdef \hat{u} &
-  \MON(\varphi \rand \psi) &\eqdef \MON(\varphi) \rand \MON(\psi) \\
+  \MON(\lnot\, \varphi) &\eqdef \lnot\, \MON(\varphi) \\
 \MON(f(\bar{\sigma},\,\bar{t}\,)) &\eqdef \hat{f}(\MON(\bar{\sigma}),\,\MON(\bar{t}\,)) &
-  \MON(\forall u \ty \tau .\; \varphi) &\eqdef
-  \forall \hat{u} .\; \typeof(\hat{u},\, \MON(\tau)) \limp \MON(\varphi) \\
+  \MON(\varphi \rand \psi) &\eqdef \MON(\varphi) \rand \MON(\psi) \\
 \MON(p(\bar{\sigma},\,\bar{t}\,)) &\eqdef \hat{p}(\MON(\bar{\sigma}),\,\MON(\bar{t}\,)) &
-  \MON(\forall \alpha .\; \varphi) &\eqdef
-  \forall \hat{\alpha} .\; \MON(\varphi)
+  \MON(\forall u \ty \tau .\; \varphi) &\eqdef \forall \hat{u} .\; \typeof(\hat{u},\, \MON(\tau)) \limp \MON(\varphi) \\
+\MON(t_1 \eq t_2) &\eqdef \MON(t_1) \eq \MON(t_2) &
+  \MON(\forall \alpha .\; \varphi) &\eqdef \forall \hat{\alpha} .\; \MON(\varphi)
 \end{align*}
 %
 \newcommand{\AxD}{\text{\sc Ax}_{\DEL}}%
