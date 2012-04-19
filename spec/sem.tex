@@ -35,7 +35,7 @@ quantification ($\exists$) as abbreviations.
 Equality could be seen as a polymorphic predicate with the type signature
 $\forall\alpha.\mskip4.5mu \alpha\times\alpha\to\omicron$, but the type instance is
 implicitly specified by the type of either argument, instead of explicitly via a
-type argument; hence, it is preferable to consider it a logical symbol.
+type argument; hence, it is preferable to treat it as a logical symbol.
 
 The set of type variables occurring freely in a formula $\varphi$
 (in the type arguments of polymorphic symbols or
@@ -146,7 +146,7 @@ that no type variable can be both free and bound in the same formula;
 we call this the {\em no-clash assumption.}
 %Consequently, nested quantifiers on the same type
 %variable are not allowed, either.
-Then we can do without explicit renaming, % of type variables,
+As a result, we can avoid explicit renaming of type variables,
 and the last typing rule's premise becomes
 $\GAM \,\vdash\, \varphi \ty \omicron$.
 
@@ -234,7 +234,7 @@ $\evalG{\varphi}$ to denote the evaluation of a sentence.
 %closed formula. (for TYPESETTING)
 
 A sentence $\varphi$ is {\em true} in an interpretation $\cI$,
-written $\cI \models \varphi$, \iff{} if $\evalG{\varphi}$ is true.
+written $\cI \models \varphi$, \iff{} $\evalG{\varphi}$ is true.
 The interpretation $\cI$ is then a {\em model\/} of $\varphi$.
 A sentence that has a model is {\em satisfiable.}
 A sentence that is true in every interpretation is {\em valid.}
