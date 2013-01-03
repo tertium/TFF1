@@ -182,7 +182,7 @@ A single quantifier cluster can bind both type variables and term variables.
 Universal and existential quantifiers over type variables are allowed under the
 propositional connectives, including equivalence, as well as under other
 quantifiers over type variables, but not in the scope of a quantifier over a
-term variable.
+term variable, to avoid dependent types.
 %Rationale: A statement of the form ``for every integer $k$, there exists a type
 %$\alpha$ such that $\ldots$''\ effectively makes~$\alpha$ a dependent type.
 %On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
