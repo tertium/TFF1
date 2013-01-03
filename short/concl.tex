@@ -25,6 +25,8 @@ role to play driving adoption of the format.
 %prover technology, equipped with a concrete syntax and suitable middleware,
 %users can already turn their favorite automatic theorem prover into a
 %fairly efficient polymorphic prover.
+Rank-1 polymorphism is, of course, no panacea; dependent types and
+other advanced features could be part of a future TFF2.
 
 For SMT (satisfiability modulo theories) solvers, the SMT-LIB 2 format \cite{barrett-et-al-2010} specifies a
 classical many-sorted logic with equality and interpreted arithmetic, much in
@@ -37,12 +39,6 @@ implementers would %likely
 not welcome yet another
 feature at this point. Moreover, with its support for arithmetic, TFF1 is a
 reasonable format to implement in an SMT solver if polymorphism is desired.
-
-Rank-1 polymorphism is, of course, no panacea. More advanced features, such as
-type classes and dependent types, are not catered for (although type
-classes can be comfortably encoded in TFF1). These are expected to be
-part of a future TFF2, with the proviso that there be sufficient interest from
-users and implementers.
 
 \def\ackname{Acknowledgment}
 \paragraph{\textbf{\upshape\ackname.}}

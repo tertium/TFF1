@@ -26,9 +26,11 @@ require polymorphism, notably interactive theorem provers and program
 specification languages; but lacking a suitable syntax, applications
 and provers must communicate via monomorphic formats. To make matters worse, there is no entirely
 satisfactory way to eliminate polymorphism: Monomorphization algorithms are %generally
-necessarily incomplete \cite[\S2]{bobot-paskevich-2011},
+necessarily incomplete,
 and it is difficult to encode polymorphism in a complete yet
-also sound and efficient manner, especially in the presence of interpreted types. Tool authors
+also sound and efficient manner,
+especially in the presence of interpreted types
+\cite{blanchette-et-al-2013-types,bobot-paskevich-2011,leino-ruemmer-2010}. Tool authors
 are reduced to developing their own monomorphizers and type encodings, often
 using suboptimal schemes. Polymorphism arguably belongs in
 provers, where it can be implemented simply and efficiently, as demonstrated by
