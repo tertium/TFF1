@@ -38,12 +38,12 @@ $\forall\alpha.\mskip4.5mu \alpha\times\alpha\to\omicron$, but the type instance
 implicitly specified by the type of either argument, instead of explicitly via a
 type argument; hence, it is preferable to treat it as a logical symbol.
 
-The set of type variables occurring freely in a formula $\varphi$
-(in the type arguments of polymorphic symbols or
-in the types of bound variables) is denoted by $\FVT(\varphi)$.
-The set of free term variables of $\varphi$
-is denoted by $\FV(\varphi)$. The formula $\varphi$ is {\em closed\/}
-if both $\FVT(\varphi)$ and $\FV(\varphi)$ are empty.
+%The set of type variables occurring freely in a formula $\varphi$
+%(in the type arguments of polymorphic symbols or
+%in the types of bound variables) is denoted by $\FVT(\varphi)$.
+%The set of free term variables of $\varphi$
+%is denoted by $\FV(\varphi)$. The formula $\varphi$ is {\em closed\/}
+%if both $\FVT(\varphi)$ and $\FV(\varphi)$ are empty.
 
 A {\em type substitution\/} $\rho$ is a mapping of type variables
 to types. A {\em monomorphic\/} type substitution
@@ -175,12 +175,12 @@ $\univ$.
 An $n$-ary type constructor $\kappa$ is interpreted as a function
 $\kappa^{\cI} : \sorts^{\,n} \to \sorts$.
 Let $\theta$ be a {\em type valuation}, a function that maps every
-type variable to a domain. Types are evaluated according to the following
-equations:
-\begin{align*}
-\evalT{\alpha} &\eqdef \theta(\alpha) &
-\evalT{\kappa(\tau_1,\dots,\tau_n)} &\eqdef \kappa^{\cI}\bigl(\evalT{\tau_1},\,\dots,\,\evalT{\tau_n}\bigr)
-\end{align*}
+type variable to a domain. Types are evaluated according to the
+equations
+$\evalT{\alpha} \eqdef \theta(\alpha)$
+and
+$\evalT{\kappa(\tau_1,\dots,\tau_n)} \eqdef \kappa^{\cI}\bigl(\evalT{\tau_1},\,\dots,\,\evalT{\tau_n}\bigr)$.
+%
 Since type evaluation depends only on the values of $\theta$
 on the type variables occurring in a type, we write $\evalG{\tau}$
 to denote the domain of a monomorphic type $\tau$.
