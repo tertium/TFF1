@@ -75,12 +75,12 @@ Type variables that are bound by {\tt !>} without
 occurring in the type signature's body are called \emph{\theghost{} type variables.}
 These make it possible to specify operations and relations directly on types and
 provide a convenient way to encode type classes.
-For example, we can declare a polymorphic propositional
-constant {\tt is\_linear} with the type signature
-{\tt !>[A} {\tt :} {\tt \$tType]:} {\tt \$o} and use it as a guard to restrict the
-axioms specifying that a binary predicate {\tt less\_eq} with the type signature
-{\tt !>[A} {\tt :} {\tt \$tType]:} {\tt ((A} {\tt *} {\tt A)} {\tt >} {\tt \$o)}
-is a linear order to those types that satisfy the {\tt is\_linear} predicate.
+%For example, we can declare a polymorphic propositional
+%constant {\tt is\_linear} with the type signature
+%{\tt !>[A} {\tt :} {\tt \$tType]:} {\tt \$o} and use it as a guard to restrict the
+%axioms specifying that a binary predicate {\tt less\_eq} with the type signature
+%{\tt !>[A} {\tt :} {\tt \$tType]:} {\tt ((A} {\tt *} {\tt A)} {\tt >} {\tt \$o)}
+%is a linear order to those types that satisfy the {\tt is\_linear} predicate.
 
 %A type with a quantifier prefix is called {\em polytype},
 %otherwise we call it {\em monotype}.
@@ -117,8 +117,7 @@ constant {\tt pi}, a polymorphic predicate
 \verb+tff(is_empty_t, type, is_empty : !>[A : $tType]: (list(A) > $o)).+\kern-10mm
 \par
 \pagebreak[2] %% TYPESETTING
-\verb+tff(cons_t, type,+\\
-\verb+    cons : !>[A : $tType]: ((A * list(A)) > list(A))).+
+\verb+tff(cons_t, type, cons : !>[A : $tType]: ((A * list(A)) > list(A))).+
 \par
 \pagebreak[2] %% TYPESETTING
 \verb+tff(lookup_t, type,+\\
@@ -138,9 +137,9 @@ cannot have the same name as a function or predicate symbol.
 
 \ourparagraph{Function and Predicate Application.} To keep the required type
 inference to a minimum, every use of a polymorphic symbol must explicitly
-specify the type instance. A function or predicate symbol with a type signature
-\[\hbox{{\tt !>[$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:\;%
-(($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$)}}\]
+specify the type instance. A symbol with a type signature
+{{\tt !>[$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:\;%
+(($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$)}}
 must be applied to $m$ type arguments and $n$ term arguments. Given the above
 type signatures for {\tt is\_empty}, {\tt cons}, and {\tt lookup}, the term
 \hbox{\tt lookup(\$int,\;\,list(A),\;\,M,\;\,2)}
@@ -184,25 +183,25 @@ Universal and existential quantifiers over type variables are allowed under the
 propositional connectives, including equivalence, as well as under other
 quantifiers over type variables, but not in the scope of a quantifier over a
 term variable.
-Rationale: A statement of the form ``for every integer $k$, there exists a type
-$\alpha$ such that $\ldots$''\ effectively makes~$\alpha$ a dependent type.
-On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
-and there is no easy translation to ML-style polymorphic formalisms.
-Moreover, type handling in an automatic prover would be more difficult were
-such constructions allowed, since they require paramodulation into types.
+%Rationale: A statement of the form ``for every integer $k$, there exists a type
+%$\alpha$ such that $\ldots$''\ effectively makes~$\alpha$ a dependent type.
+%On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
+%and there is no easy translation to ML-style polymorphic formalisms.
+%Moreover, type handling in an automatic prover would be more difficult were
+%such constructions allowed, since they require paramodulation into types.
 
-On the other hand, all the notions and procedures described in this
-specification---except for type skolemization---are independent of this
-restriction. The rules of type checking and the notion of interpretation are
-directly applicable to unrestricted formulas. The encoding into a monomorphic
-logic (Section~\ref{sec_trans}) is sound and complete on unrestricted formulas,
-and the proofs require
-%% Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} require
-%% (I'm no fan of forward references)
-no adjustments. This prepares the ground for TFF2, which is expected to lift the
-restriction and support more elaborate forms of dependent types. Implementations
-of TFF1 are encouraged to support unrestricted formulas, treating them according
-to the semantics given here, if practicable.
+%On the other hand, all the notions and procedures described in this
+%specification---except for type skolemization---are independent of this
+%restriction. The rules of type checking and the notion of interpretation are
+%directly applicable to unrestricted formulas. The encoding into a monomorphic
+%logic (Section~\ref{sec_trans}) is sound and complete on unrestricted formulas,
+%and the proofs require
+%%% Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} require
+%%% (I'm no fan of forward references)
+%no adjustments. This prepares the ground for TFF2, which is expected to lift the
+%restriction and support more elaborate forms of dependent types. Implementations
+%of TFF1 are encouraged to support unrestricted formulas, treating them according
+%to the semantics given here, if practicable.
 
 \ourparagraph{Terms and Formulas.} Apart from the differences described above,
 the terms and formulas of TFF1 are identical to those of TFF0, as defined in the
@@ -223,7 +222,7 @@ values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 \verb+tff(update_t, type,+\\
 \verb+    update : !>[A : $tType, B : $tType]:+\\
 \verb+                 ((map(A, B) * A * B) > map(A, B))).+
-\par\medskip %% deliberate (between declarations and axioms)
+\par%\medskip %% deliberate (between declarations and axioms)
 \pagebreak[2] %% TYPESETTING
 \verb+tff(lookup_update_same, axiom,+\\
 \verb+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
@@ -240,7 +239,7 @@ values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 \verb+    ![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:+\\
 \verb+        ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>+\kern-10mm\\
 \verb+         M = N)).+
-\par\medskip %% deliberate (between axioms and conjecture)
+\par%\medskip %% deliberate (between axioms and conjecture)
 \pagebreak[2] %% TYPESETTING
 \verb+tff(update_idem, conjecture,+\\
 \verb+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
