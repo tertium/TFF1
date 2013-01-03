@@ -50,17 +50,17 @@ The binder {\tt !>} in form (d) denotes universal quantification.
 If $\varsigma$ is of form (c), it must be enclosed in parentheses.
 All type variables must be bound by a {\tt !>}-binder.
 
-Here are a few examples:\enskip
-(a) {\tt \$int}, {\tt monkey}, {\tt banana};\enskip
-(b) {\tt \$o};\enskip
-(c) {\tt monkey\;>\allowbreak\;banana},
-    {\tt (monkey\;*\;banana)\;>\;\$o};\enskip
-(d) {\tt !>[A\;:\;\$tType]:\;((A\;*\;list(A))\;>\;list(A))}.
-
 Form (a) is used for monomorphic constants; form (b), for
 propositional constants, including the predefined symbols {\tt \$true} and
 {\tt \$false}; form (c), for monomorphic functions and predicates;
 and form (d), for polymorphic functions and predicates.
+A few examples:\enskip
+(a) {\tt \$int}, {\tt monkey}, {\tt banana};\enskip
+(b) {\tt \$o};\enskip
+(c) {\tt monkey\;>\allowbreak\;banana},
+    {\tt (monkey\;*\;banana)\allowbreak\;>\allowbreak\;\$o};\enskip
+(d) {\tt !>[A\;:\;\$tType]:\;((A\;*\;list(A))\;>\;list(A))}.
+
 %It is often
 %convenient to regard all forms above as instances of the general syntax
 %\begin{center}

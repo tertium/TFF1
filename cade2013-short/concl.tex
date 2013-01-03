@@ -1,16 +1,16 @@
 \section{Conclusion}
 \label{sec_concl}
 
-This paper described the TPTP TFF1 format, an extension of the monomorphic TFF0 format
-with rank-1 polymorphism. The new format nicely complements the existing TPTP
+The TPTP TFF1 format nicely complements the existing TPTP
 offerings. %, taking over where TFF0 left off.
 For reasoning tools that already
 support polymorphism, TFF1 is a portable alternative to the existing ad hoc
 syntaxes. But more importantly, the format is a vehicle to foster native
-polymorphism support in automatic theorem provers. The time is ripe: After many
+polymorphism support in automatic reasoners.
+The time is ripe: After many
 years of untyped reasoning, we have recently witnessed the rise of
 interpreted arithmetic embedded in monomorphic type systems. TFF1
-lifts the most obvious restrictions of such type systems.
+lifts the most obvious restrictions of such systems.
 
 TFF1 is part of TPTP World. The TPTP library already contains
 nearly a thousand TFF1 problems, and although the format is in its
@@ -19,11 +19,12 @@ Alt-Ergo (via Why3).
 Given that many applications today require polymorphism, it
 is likely that other reasoning tools will gradually follow suit.
 The annual CADE Automated
-System Competition (CASC), will certainly have a
-role to play driving adoption of the format. But regardless of progress in
-prover technology, equipped with a concrete syntax and suitable middleware,
-users can already turn their favorite automatic theorem prover into a
-fairly efficient polymorphic prover.
+System Competition (CASC) will certainly have a
+role to play driving adoption of the format.
+%But regardless of progress in
+%prover technology, equipped with a concrete syntax and suitable middleware,
+%users can already turn their favorite automatic theorem prover into a
+%fairly efficient polymorphic prover.
 
 For SMT (satisfiability modulo theories) solvers, the SMT-LIB 2 format \cite{barrett-et-al-2010} specifies a
 classical many-sorted logic with equality and interpreted arithmetic, much in
