@@ -110,14 +110,16 @@ for predicate symbols.
 Another feature of TFF1 that is not universally supported
 by systems with polymorphic types is explicit
 quantification over type variables.
-For example, while Boogie \cite{leino-ruemmer-2010} and Coq \cite{bertot-casteran-2004}
-allow quantifiers over types, % in their logics,
+In particular,
+%For example,
+%while Boogie \cite{leino-ruemmer-2010} and Coq \cite{bertot-casteran-2004}
+%allow quantifiers over types, % in their logics,
 HOL and other ML-style logics
 consider all type variables
 implicitly universally quantified at the top of a formula.
 %, which
 % recalls the treatment of term variables in TPTP CNF clauses.
-
+%
 %A simple and practical solution for preparing TFF1 problems
 %for ML-style logics is
 The solution is type skolemization.
