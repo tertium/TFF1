@@ -1,0 +1,48 @@
+\documentclass[a4paper]{llncs}
+
+\input{preamble}
+\begin{document}
+\title{
+TFF1: The TPTP Typed First-Order Form \\ with Rank-1
+Polymorphism}
+%\subtitle{Version 1.0}
+
+\author{
+Jasmin Christian Blanchette\inst{1} \and
+Andrei Paskevich\inst{2,3}
+}
+
+\institute{
+Fakultät für Informatik, Technische Universität München, Germany \and
+LRI, Université Paris-Sud 11, CNRS, France \and
+ProVal, INRIA Saclay--\smash{Île}-de-France, France
+}
+
+\maketitle
+
+%\vspace{-2ex}
+\begin{abstract}
+The TPTP World is a well-established infrastructure for automatic theorem
+provers. It defines several concrete syntaxes,
+notably an untyped first-order form (FOF) and a typed first-order form (TFF0),
+that have become de facto standards.
+% in the automated reasoning community.
+This paper introduces the TFF1 format, an extension of TFF0 with
+rank-1 polymorphism. It presents its syntax, typing rules, and semantics, as
+well as a sound and complete translation to TFF0. The format is designed to be
+easy to process by existing reasoning tools that support ML-style polymorphism.
+It opens the door to useful middleware, such as monomorphizers and other
+translation tools that encode polymorphism in FOF or TFF0. Ultimately, the hope
+is that TFF1 will be implemented in popular automatic theorem provers.
+\end{abstract}
+
+\input{intro}
+\input{syn}
+\input{sem}
+\input{apps}
+\input{concl}
+
+\bibliographystyle{splncs03}
+\bibliography{tff1spec}
+
+\end{document}

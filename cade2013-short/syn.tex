@@ -1,0 +1,249 @@
+\section{Syntax} \label{sec_syntax}
+
+Briefly, the types, terms, and formulas of TFF1 are analogous to those of TFF0,
+except that function and predicate symbols can be declared to be polymorphic,
+types can contain type variables, and $n$-ary type constructors are allowed.
+Type variables in type signatures and formulas are explicitly bound. Instances of
+polymorphic symbols are specified by explicit type arguments, rather than
+inferred.
+
+\ourparagraph{Types.} The {\em types\/} of TFF1 are built from {\em type
+variables\/} and {\em type constructors\/} of fixed arities.
+The usual conventions of TPTP
+apply: Type variables start with an uppercase letter and type constructors
+with a lowercase letter. The types \verb+A+, \verb+list(A)+, \verb+list(bird)+,
+and \verb+map(nat,+ \verb+list(B))+ are all examples of well-formed types. A
+type is {\em polymorphic} if it contains any type variables; otherwise, it is {\em
+monomorphic.}
+
+As in TFF0, the type {\tt \$i} %(also called \verb+$iType+)
+of individuals is predefined but has no fixed semantics, whereas the
+arithmetic types
+{\tt \$int}, {\tt \$rat}, and {\tt \$real} are modeled by $\mathbb{Z}$,
+$\mathbb{Q}$, and $\mathbb{R}$ \cite{sutcliffe-et-al-2012-tff0}.
+It is perfectly acceptable for a TFF
+implementation to restrict itself to ``pure TFF\kern.04ex$k$,''
+without arithmetic. %For clarity,
+TFF\kern.04ex$k$ with arithmetic is sometimes labeled ``TFA\kern.04ex$k$.''
+
+\ourparagraph{Type Signatures.}
+Each function and predicate symbol occurring in a formula must be associated
+with a {\em type signature\/} that specifies the types of the arguments and, for
+functions, the return type. Type signatures can take any of the following forms:
+%
+\begin{enumerate}
+\item[(a)] a type (predefined or user-defined);
+\item[(b)] the Boolean pseudotype {\tt \$o}; % (also called {\tt \$oType});
+\item[(c)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$}
+\ for $n > 0$, where $\tau_1,\dots,\tau_n$ are types and $\tilde \tau$ is
+a type or {\tt \$o};
+\item[(d)] {\tt !>[$\alpha_1$\;:\;\$tType,}\;{\tt ${\dots}$,}\;{\tt
+$\alpha_n$\;:\;\$tType]:\;$\varsigma$}
+\ for $n > 0$, where $\alpha_1,\dots,\alpha_n$ are distinct
+type variables and $\varsigma$ has one of the previous three forms.
+%\footnote{This restriction is necessary for the TPTP World's Prolog-based parser.}
+%The converse is not true: Some $\alpha_i$ cannot occur in $\tau$.
+\end{enumerate}
+%
+The parentheses in form (c) are omitted if $n = 1$.
+The binder {\tt !>} in form (d) denotes universal quantification.
+If $\varsigma$ is of form (c), it must be enclosed in parentheses.
+All type variables must be bound by a {\tt !>}-binder.
+
+Here are a few examples:\enskip
+(a) {\tt \$int}, {\tt monkey}, {\tt banana};\enskip
+(b) {\tt \$o};\enskip
+(c) {\tt monkey\;>\allowbreak\;banana},
+    {\tt (monkey\;*\;banana)\;>\;\$o};\enskip
+(d) {\tt !>[A\;:\;\$tType]:\;((A\;*\;list(A))\;>\;list(A))}.
+
+Form (a) is used for monomorphic constants; form (b), for
+propositional constants, including the predefined symbols {\tt \$true} and
+{\tt \$false}; form (c), for monomorphic functions and predicates;
+and form (d), for polymorphic functions and predicates.
+%It is often
+%convenient to regard all forms above as instances of the general syntax
+%\begin{center}
+%{\tt !>[$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:} {\tt
+%(($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$)}
+%\end{center}
+%where $m$ and $n$ can be 0. % and $\tilde \tau$ can be any type or {\tt \$o}.
+
+%%%% GEOFF: Add examples here.
+
+Type variables that are bound by {\tt !>} without
+occurring in the type signature's body are called \emph{\theghost{} type variables.}
+These make it possible to specify operations and relations directly on types and
+provide a convenient way to encode type classes.
+For example, we can declare a polymorphic propositional
+constant {\tt is\_linear} with the type signature
+{\tt !>[A} {\tt :} {\tt \$tType]:} {\tt \$o} and use it as a guard to restrict the
+axioms specifying that a binary predicate {\tt less\_eq} with the type signature
+{\tt !>[A} {\tt :} {\tt \$tType]:} {\tt ((A} {\tt *} {\tt A)} {\tt >} {\tt \$o)}
+is a linear order to those types that satisfy the {\tt is\_linear} predicate.
+
+%A type with a quantifier prefix is called {\em polytype},
+%otherwise we call it {\em monotype}.
+%A monomorphic type is called {\em sort}.
+%Notice that a monotype can be a polymorphic type,
+%i.e.~contain type variables.
+
+\ourparagraph{Type Declarations.} Type constructors
+%, like function and predicate symbols,
+can optionally be declared.
+The following declarations introduce a nullary type
+constructor {\tt bird}, a unary type constructor {\tt list},
+and a binary type constructor {\tt map}:
+\begin{quote}
+\verb+tff(bird_t, type, bird: $tType).+
+\par
+\verb+tff(list_t, type, list: $tType > $tType).+
+\par
+\verb+tff(map_t, type, map: ($tType * $tType) > $tType).+
+\end{quote}
+If a type constructor is used before being declared, its arity is
+determined by the first occurrence. Any later declaration
+must give it the same arity.
+
+A declaration of a function or predicate symbol specifies its type signature.
+Every type variable occurring in a type signature must be bound by a
+{\tt !>}-binder.
+The following declarations introduce a monomorphic
+constant {\tt pi}, a polymorphic predicate
+{\tt is\_empty}, and a pair of polymorphic functions {\tt cons} and {\tt lookup}:
+\begin{quote}
+\verb+tff(pi_t, type, pi: $real).+
+\par
+\verb+tff(is_empty_t, type, is_empty : !>[A : $tType]: (list(A) > $o)).+\kern-10mm
+\par
+\pagebreak[2] %% TYPESETTING
+\verb+tff(cons_t, type,+\\
+\verb+    cons : !>[A : $tType]: ((A * list(A)) > list(A))).+
+\par
+\pagebreak[2] %% TYPESETTING
+\verb+tff(lookup_t, type,+\\
+\verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
+\end{quote}
+If a function or predicate symbol is used before being declared, a
+default type signature is assumed:\ {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$i}
+for functions and {\tt (\$i\;*\;${\cdots}$\;*\;\$i)\;>\;\$o} for predicates.
+If a symbol is declared after its first use, the declared signature
+must agree with the assumed signature.
+%
+If a type constructor, function symbol, or predicate symbol is declared more
+than once, it must be given the same type signature up to renaming of bound
+type variables.
+All symbols share the same namespace; in particular, a type constructor
+cannot have the same name as a function or predicate symbol.
+
+\ourparagraph{Function and Predicate Application.} To keep the required type
+inference to a minimum, every use of a polymorphic symbol must explicitly
+specify the type instance. A function or predicate symbol with a type signature
+\[\hbox{{\tt !>[$\alpha_1$\;:\;\$tType,\;${\dots}$,\;$\alpha_m$\;:\;\$tType]:\;%
+(($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$)}}\]
+must be applied to $m$ type arguments and $n$ term arguments. Given the above
+type signatures for {\tt is\_empty}, {\tt cons}, and {\tt lookup}, the term
+\hbox{\tt lookup(\$int,\;\,list(A),\;\,M,\;\,2)}
+and the atom
+\hbox{\tt is\_empty(\$i,\;\,cons(\$i,\;X,\;nil(\$i)))}
+are well-formed and contain free occurrences of the type variable {\tt A}
+and the term variables {\tt M} and {\tt X}.
+
+In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
+instantiated with actual types. In particular, \verb+$o+, \verb+$tType+,
+and {\tt !>}-binders cannot occur in type arguments of polymorphic symbols.
+
+\ourparagraph{Type and Term Variables.}
+Every variable in a TFF1 formula must be bound. The variable's type must be specified
+at binding time:
+\begin{quote}
+\begin{verbatim}
+tff(bird_list_not_empty, axiom,
+    ![B : bird, Bs : list(bird)]:
+        ~ is_empty(bird, cons(bird, B, Bs))).
+\end{verbatim}
+\end{quote}
+If the type and the preceding colon ({\tt :}) are omitted, the variable is given
+type~{\tt\$i}. Every type variable occurring in a TFF1 formula
+(whether in a type argument or in the type of a bound variable)
+must also be bound, with the pseudotype {\tt\$tType}:
+\begin{quote}
+\begin{verbatim}
+tff(lookup_update_same, axiom,
+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:
+        lookup(A, B, update(A, B, M, K, V), K) = V).
+\end{verbatim}
+\end{quote}
+
+\pagebreak[2] %% TYPESETTING
+
+A single quantifier cluster can bind both type variables and term variables.
+%If the type of a term variable contains a type variable, the latter must be bound
+%before the former.
+Universal and existential quantifiers over type variables are allowed under the
+propositional connectives, including equivalence, as well as under other
+quantifiers over type variables, but not in the scope of a quantifier over a
+term variable.
+Rationale: A statement of the form ``for every integer $k$, there exists a type
+$\alpha$ such that $\ldots$''\ effectively makes~$\alpha$ a dependent type.
+On such statements, type skolemization (Section~\ref{ssec:skol}) is impossible,
+and there is no easy translation to ML-style polymorphic formalisms.
+Moreover, type handling in an automatic prover would be more difficult were
+such constructions allowed, since they require paramodulation into types.
+
+On the other hand, all the notions and procedures described in this
+specification---except for type skolemization---are independent of this
+restriction. The rules of type checking and the notion of interpretation are
+directly applicable to unrestricted formulas. The encoding into a monomorphic
+logic (Section~\ref{sec_trans}) is sound and complete on unrestricted formulas,
+and the proofs require
+%% Theorems \ref{thm:mon_sound}~and~\ref{thm:mon_compl} require
+%% (I'm no fan of forward references)
+no adjustments. This prepares the ground for TFF2, which is expected to lift the
+restriction and support more elaborate forms of dependent types. Implementations
+of TFF1 are encouraged to support unrestricted formulas, treating them according
+to the semantics given here, if practicable.
+
+\ourparagraph{Terms and Formulas.} Apart from the differences described above,
+the terms and formulas of TFF1 are identical to those of TFF0, as defined in the
+TFF0 specification \cite{sutcliffe-et-al-2012-tff0}.
+
+\ourparagraph{Example.} The following problem gives the general flavor of TFF1.
+It first declares and axiomatizes {\tt lookup} and {\tt update} operations on
+maps, then conjectures that {\tt update} is idempotent for fixed keys and
+values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
+
+\begin{quote}
+\verb+tff(map_t, type, map : ($tType * $tType) > $tType).+
+\par
+\verb+tff(lookup_t, type,+\\
+\verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
+\par
+\pagebreak[1] %% TYPESETTING
+\verb+tff(update_t, type,+\\
+\verb+    update : !>[A : $tType, B : $tType]:+\\
+\verb+                 ((map(A, B) * A * B) > map(A, B))).+
+\par\medskip %% deliberate (between declarations and axioms)
+\pagebreak[2] %% TYPESETTING
+\verb+tff(lookup_update_same, axiom,+\\
+\verb+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
+\verb+        lookup(A, B, update(A, B, M, K, V), K) = V).+
+\par
+\pagebreak[1] %% TYPESETTING
+\verb+tff(lookup_update_diff, axiom,+\\
+\verb+    ![A : $tType, B : $tType, M : map(A, B), V : B, K : A, L : A]:+\kern-10mm\\
+\verb+        (K != L => lookup(A, B, update(A, B, M, K, V), L) =+\\
+\verb+                   lookup(A, B, M, L))).+
+\par
+\pagebreak[1] %% TYPESETTING
+\verb+tff(map_ext, axiom,+\\
+\verb+    ![A : $tType, B : $tType, M : map(A, B), N : map(A, B)]:+\\
+\verb+        ((![K : A]: lookup(A, B, M, K) = lookup(A, B, N, K)) =>+\kern-10mm\\
+\verb+         M = N)).+
+\par\medskip %% deliberate (between axioms and conjecture)
+\pagebreak[2] %% TYPESETTING
+\verb+tff(update_idem, conjecture,+\\
+\verb+    ![A : $tType, B : $tType, M : map(A, B), K : A, V : B]:+\\
+\verb+        update(A, B, update(A, B, M, K, V), K, V) =+\\
+\verb+        update(A, B, M, K, V)).+
+\end{quote}

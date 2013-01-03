@@ -1,0 +1,200 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+\usepackage{mathptmx}
+\usepackage{amsmath,amssymb}
+\usepackage[scaled=.82]{beramono}
+%\usepackage{xproof}
+\usepackage{stmaryrd}
+\usepackage{textcomp}
+\usepackage{url}
+\usepackage{array}
+\usepackage{cite}
+%\usepackage[final]{graphicx}
+%\usepackage{bm}
+%\usepackage{xcolor}
+%\usepackage{multicol}
+
+\urlstyle{tt}
+
+\DeclareSymbolFont{letters}{OML}{txmi}{m}{it} % Redefines Greek
+%letters and other symbols (e.g. \partial) to match the TXfonts
+
+%%% Not so crazy calligraphic font
+%\DeclareMathAlphabet{\mathcal}{OT1}{pzc}{m}{it}
+
+%% Pour la redaction %%%
+%\usepackage[notref,notcite]{showkeys}
+%\usepackage{todonotes} %\usepackage{fixme}
+%\usepackage{draftwatermark}
+%\usepackage{everypage}
+%\usepackage{datetime}
+%\AddEverypageHook{\makebox(100,0){DRAFT : \today\ \xxivtime}}
+%% Pour la redaction %%%
+
+%\newcommand{\rinfer}[2]{\infer{#2}{#1}}
+%\newcommand{\rdeduce}[2]{\deduce{#2}{#1}}
+
+%\newcommand{\limp}{\supset}
+%\newcommand{\lequ}{\equiv}
+\newcommand{\limp}{\rightarrow}
+\newcommand{\revlimp}{\leftarrow}
+\newcommand{\lequ}{\leftarrow\kern-1.75ex\rightarrow} %% TYPESETTING
+\newcommand{\inlequ}{\kern.4875ex\not\kern-.4875ex\lequ} %% TYPESETTING
+\newcommand{\llb}{\llbracket} \newcommand{\rrb}{\rrbracket}
+\newcommand{\la}{\langle} \newcommand{\ra}{\rangle}
+\newcommand{\eqdef}{\:\triangleq\:}
+\newcommand{\inlineeqdef}{\mathrel{\triangleq}}
+\newcommand\eq{\approx}
+
+%\newcommand\typvers{_\mathrm{T}}
+\newcommand\typvers{_\mathsf{T}} %% easier to read at low resolutions
+
+\newcommand{\FOLT}{\ensuremath{\mathbf{FOL}\typvers}}
+%\newcommand{\LKT}{\ensuremath{\mathbf{LK}\typvers}}
+
+\newcommand{\VT}{\mathbb{V}\typvers}
+\newcommand{\FT}{\mathbb{F}\typvers}
+\newcommand{\VI}{\mathbb{V}}
+\newcommand{\FI}{\mathbb{F}}
+\newcommand{\PI}{\mathbb{P}}
+
+\newcommand{\ALL}{\forall}
+%\newcommand{\ALL}{{\prod}}
+%\newcommand{\ALL}{\mathrm{\Pi}}
+
+%\newcommand{\MI}{\mathrm{MI}}
+%\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\FV}{\mathrm{FV}}
+\newcommand{\FVT}{\mathrm{FV}\typvers}
+
+%\newcommand{\TWU}{\text{\sc Tw}}
+%\newcommand{\DIS}{\text{\sc Dis}}
+%\newcommand{\PAR}{\text{\sc Par}}
+%\newcommand{\DEC}{\text{\sc Dec}}
+%\newcommand{\DECc}{\DEC^\circ}
+%\newcommand{\EXP}{\text{\sc Exp}}
+%\newcommand{\EXPc}{\EXP^\circ}
+%\newcommand{\GRD}{\text{\sc Grd}}
+%\newcommand{\PIU}{\text{\sc PI}_U}
+
+\newcommand{\MON}{\mathcal{M}}
+\newcommand{\ELI}{\mathcal{E}}
+\newcommand{\SKO}{\mathcal{S}}
+%\newcommand{\SKOM}{\SKO\text{\textsuperscript{\kern.1ex\bfseries\textminus}}}
+%\newcommand{\SKOP}{\SKO\text{\textsuperscript{\kern.1ex\bfseries+}}}
+\newcommand{\SKOP}{\SKO\text{\textsuperscript{\kern.1ex\bfseries\textminus}}}
+\newcommand{\SKOM}{\SKO\text{\textsuperscript{\kern.1ex\bfseries+}}}
+
+%\newcommand{\BOLDMON}{\mathcal{M}\hspace{-2.1875ex}\mathcal{M}\hspace{-2.1875ex}\mathcal{M}}
+\newcommand{\BOLDMON}{\mathcal{M\hspace{-2.65ex}M}}
+
+%\newcommand{\UF}{W}
+%\newcommand{\UT}{U}
+
+\newcommand{\eval}[1]{\llb#1\rrb^\cI_{\theta,\xi}}
+\newcommand{\evalT}[1]{\llb#1\rrb^\cI_{\theta}}
+\newcommand{\evalG}[1]{\llb#1\rrb^\cI}
+\newcommand{\evalM}[1]{\llb#1\rrb^\cM}
+
+%\newcommand{\LKTU}{\ensuremath{\mathbf{LK}^U\typvers}}
+
+%\newcommand{\types}{\mathcal{T}(\FT,\VT)}
+%\newcommand{\sorts}{\mathcal{T}(\FT)}
+\newcommand{\sorts}{\mathbb{D}}
+\newcommand{\univ}{\mathbb{U}}
+
+\newcommand{\typeof}{\mathrm{Ty}}
+\newcommand{\wit}{\mathrm{Wt}}
+\newcommand{\ghost}{\mathrm{Ph}}
+\newcommand{\theghost}{phantom}
+\newcommand{\theGhost}{Phantom}
+%\newcommand{\ghost}{\mathrm{Gh}}
+%\newcommand{\theghost}{ghost}
+%\newcommand{\theGhost}{Ghost}
+
+%\DeclareMathOperator{\dom}{Dom}
+%\newcommand{\dom}{\operatorname{Dom\,}}
+
+%\newcommand{\dom}{\mathcal{D}}
+%\newcommand{\cP}{\mathcal{P}}
+
+\newcommand{\cI}{\mathfrak{I}}
+\newcommand{\cM}{\mathfrak{M}}
+
+\newcommand{\bbS}{\mathbb{S}}
+\newcommand{\bbN}{\mathbb{N}}
+
+\newcommand{\und}{\mathsf{U}}
+%\newcommand{\typ}{\mathsf{T}}
+\newcommand{\typ}{\mathsf{D}}
+
+\newcommand{\tsA}{\mathsf{A}}
+\newcommand{\tsS}{\mathsf{S}}
+\newcommand{\tsP}{\mathsf{P}}
+\newcommand{\tsM}{\mathsf{M}}
+\newcommand{\tsK}{\mathsf{K}}
+\newcommand{\tsF}{\mathsf{F}}
+\newcommand{\tsI}{\mathsf{I}}
+\newcommand{\tsC}{\mathsf{C}}
+\newcommand{\tsL}{\mathsf{L}}
+\newcommand{\tsB}{\mathsf{B}}
+
+%\newcommand{\toty}{\mathtt{to}}
+%\newcommand{\fromty}{\mathtt{from}}
+%\newcommand{\tdeco}{\mathtt{deco}}
+
+\newcommand{\lsA}{\mathtt{A}}
+\newcommand{\lsS}{\mathtt{S}}
+\newcommand{\lsK}{\mathtt{K}}
+\newcommand{\lsF}{\mathtt{F}}
+\newcommand{\lsR}{\mathtt{R}}
+\newcommand{\lsM}{\mathtt{M}}
+\newcommand{\lsget}{\mathtt{get}}
+\newcommand{\lsset}{\mathtt{set}}
+\newcommand{\lsnull}{\mathtt{null}}
+\newcommand{\lstrue}{\mathtt{True}}
+\newcommand{\lsfalse}{\mathtt{False}}
+\newcommand{\lslength}{\mathtt{length}}
+\newcommand{\lsfinite}{\mathtt{finite}}
+\newcommand{\lsisunit}{\mathtt{isUnit}}
+\newcommand{\lszero}{\mathtt{0}}
+\newcommand{\lsone}{\mathtt{1}}
+\newcommand{\lssix}{\mathtt{6}}
+\newcommand{\lsseven}{\mathtt{7}}
+\newcommand{\lsfortytwo}{\mathtt{42}}
+\newcommand{\lsI}{\mathtt{I}}
+
+%\newcommand{\pty}[1]{\overline{#1}}
+%\newcommand{\spty}[1]{\Bar{#1}}
+%\newcommand{\sspty}[1]{\scriptscriptstyle{\pty{#1}}}
+
+\newcommand{\ty}{\mathrel{:}}
+%\DeclareMathOperator{\vb}{|}
+\newcommand\vb{\mid}
+
+%%% TYPESETTING
+\renewcommand\labelitemi{\raise.065ex\hbox{\small\textbullet}}
+
+\hyphenation{mono-mor-phic poly-mor-phic prop-o-si-tion-al
+her-brand-i-za-tion dis-equa-lity hand-ling}
+
+\let\ourparagraph=\paragraph
+%\newcommand\ourparagraph[1]{\paragraph{\upshape\bfseries#1}}
+
+%\newcommand\sym[1]{\mathtt{#1}}
+%\newcommand\sym[1]{\mathit{#1}}
+\newcommand\sym[1]{\mathsf{#1}}
+
+\newcommand\GAM{\gamma}
+%\newcommand\GAM{\mathrm{\Gamma}}
+\newcommand\DEL{\mathrm{\Delta}}
+
+\newcommand\ourfrac[2]{\frac{\,#1\,}{\,#2\,}}
+\newcommand\rand{\mathrel{\land}}
+
+\newcommand\afterDot{\;}
+\newcommand\vthinspace{\kern.08333ex}
+
+\renewcommand\iff{iff}
+%\renewcommand\iff{if and only if}
