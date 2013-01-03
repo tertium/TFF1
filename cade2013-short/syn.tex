@@ -203,14 +203,10 @@ term variable.
 %of TFF1 are encouraged to support unrestricted formulas, treating them according
 %to the semantics given here, if practicable.
 
-\ourparagraph{Terms and Formulas.} Apart from the differences described above,
-the terms and formulas of TFF1 are identical to those of TFF0, as defined in the
-TFF0 specification \cite{sutcliffe-et-al-2012-tff0}.
-
 \ourparagraph{Example.} The following problem gives the general flavor of TFF1.
-It first declares and axiomatizes {\tt lookup} and {\tt update} operations on
-maps, then conjectures that {\tt update} is idempotent for fixed keys and
-values. Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
+It declares and axiomatizes {\tt lookup} and {\tt update} operations on
+maps and conjectures that {\tt update} is idempotent for fixed keys and
+values. %Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 
 \begin{quote}
 \verb+tff(map_t, type, map : ($tType * $tType) > $tType).+

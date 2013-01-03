@@ -25,11 +25,9 @@ We use the symbols ${\times}$, ${\to}$, and ${\ALL}$
 to write type signatures, and write $\omicron$ %(lowercase omicron)
 for the
 Boolean pseudotype {\tt \$o}. It is convenient to treat
-equality ($\eq$), negation ($\lnot$), conjunction ($\rand$), and universal
-quantification ($\forall$) as logical symbols and regard disequality
-($\not\eq$), disjunction ($\lor$), implication ($\limp$), reverse implication
-($\revlimp$), equivalence ($\lequ$), inequivalence ($\inlequ$), and existential
-quantification ($\exists$) as abbreviations.
+$\eq$, $\lnot$, $\rand$, and $\forall$ as logical symbols and regard
+$\bot$, $\top$, $\not\eq$, $\lor$, $\limp$, $\revlimp$, $\lequ$, $\inlequ$, and
+$\exists$ as abbreviations.
 %The symbols $\top$ and $\bot$ stand for ``true'' and ``false'',
 %respectively.
 %
@@ -45,13 +43,13 @@ type argument; hence, it is preferable to treat it as a logical symbol.
 %is denoted by $\FV(\varphi)$. The formula $\varphi$ is {\em closed\/}
 %if both $\FVT(\varphi)$ and $\FV(\varphi)$ are empty.
 
-A {\em type substitution\/} $\rho$ is a mapping of type variables
-to types. A {\em monomorphic\/} type substitution
-maps every type variable either to itself or to a monomorphic type.
-%
-Given a function $h$, the expression $h[x \mapsto a]$
-denotes the function that maps $x$ to $a$ and
-every other element $y$ in $h$'s domain to $h(y)$.
+%A {\em type substitution\/} $\rho$ is a mapping of type variables
+%to types. A {\em monomorphic\/} type substitution
+%maps every type variable either to itself or to a monomorphic type.
+%%
+%Given a function $h$, the expression $h[x \mapsto a]$
+%denotes the function that maps $x$ to $a$ and
+%every other element $y$ in $h$'s domain to $h(y)$.
 
 %
 %A type $\tau$ is said to {\em match\/} another type $\tau'$ whenever there exists a
@@ -68,19 +66,19 @@ A type judgment $\GAM \,\vdash t \ty \tau$ expresses that the term $t$
 is {\em well-typed\/} and has type $\tau$ in context~$\GAM$.
 A type judgment $\GAM \,\vdash \varphi \ty \omicron$ expresses that the formula
 $\varphi$ is {\em well-typed\/} in~$\GAM$.
-We write $f \ty \forall \alpha_1\dots\alpha_m .\;
-\tau_1 \times \dots \times \tau_n \to \tau$ and
-$p \ty \forall \alpha_1\dots\alpha_m .\;
-\tau_1 \times \dots \times \tau_n \to \omicron$ to specify
-type signatures of function and predicate symbols,
-where $m$ and $n$ can be 0.
-
-The typing rules of TFF1 are given below:
+%We write $f \ty \forall \alpha_1\dots\alpha_m .\;
+%\tau_1 \times \dots \times \tau_n \to \tau$ and
+%$p \ty \forall \alpha_1\dots\alpha_m .\;
+%\tau_1 \times \dots \times \tau_n \to \omicron$ to specify
+%type signatures of function and predicate symbols,
+%where $m$ and $n$ can be 0.
+%
+The typing rules of TFF1 are as follows:
 %in Figure~\ref{fig:typing}.
 
 %% TYPESETTING: cheat
-\vskip.25\abovedisplayshortskip
-\vskip.75\abovedisplayskip
+\vskip.5\abovedisplayshortskip
+\vskip.5\abovedisplayskip
 
 \centerline{$\displaystyle \ourfrac{}{\GAM \,\vdash\, u \ty \GAM(u)}$}
 
@@ -151,9 +149,9 @@ As a result, we can avoid explicit renaming of type variables,
 and the last typing rule's premise becomes
 $\GAM \,\vdash\, \varphi \ty \omicron$.
 
-Since every type variable in a polymorphic type signature
-must be bound in it, it is impossible for a term to have two
-different types in the same context.
+%Since every type variable in a polymorphic type signature
+%must be bound in it, it is impossible for a term to have two
+%different types in the same context.
 
 %A closed TFF1 formula $\varphi$ is {\em well-typed\/} \iff{}
 %the judgment $\GAM \vdash \varphi \ty \omicron$ is derivable
