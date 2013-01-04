@@ -54,12 +54,12 @@ Form (a) is used for monomorphic constants; form (b), for
 propositional constants, including the predefined symbols {\tt \$true} and
 {\tt \$false}; form (c), for monomorphic functions and predicates;
 and form (d), for polymorphic functions and predicates.
-A few examples:\enskip
-(a) {\tt \$int}, {\tt monkey}, {\tt banana};\enskip
-(b) {\tt \$o};\enskip
-(c) {\tt monkey\;>\allowbreak\;banana},
-    {\tt (monkey\;*\;banana)\allowbreak\;>\allowbreak\;\$o};\enskip
-(d) {\tt !>[A\;:\;\$tType]:\;((A\;*\;list(A))\;>\;list(A))}.
+%A few examples:\enskip
+%(a) {\tt \$int}, {\tt monkey}, {\tt banana};\enskip
+%(b) {\tt \$o};\enskip
+%(c) {\tt monkey\;>\allowbreak\;banana},
+%    {\tt (monkey\;*\;banana)\allowbreak\;>\allowbreak\;\$o};\enskip
+%(d) {\tt !>[A\;:\;\$tType]:\;((A\;*\;list(A))\;>\;list(A))}.
 
 %It is often
 %convenient to regard all forms above as instances of the general syntax
@@ -162,6 +162,7 @@ tff(bird_list_not_empty, axiom,
         ~ is_empty(bird, cons(bird, B, Bs))).
 \end{verbatim}
 \end{quote}
+
 If the type and the preceding colon ({\tt :}) are omitted, the variable is given
 type~{\tt\$i}. Every type variable occurring in a TFF1 formula
 (whether in a type argument or in the type of a bound variable)
@@ -173,8 +174,6 @@ tff(lookup_update_same, axiom,
         lookup(A, B, update(A, B, M, K, V), K) = V).
 \end{verbatim}
 \end{quote}
-
-\pagebreak[2] %% TYPESETTING
 
 A single quantifier cluster can bind both type variables and term variables.
 %If the type of a term variable contains a type variable, the latter must be bound
