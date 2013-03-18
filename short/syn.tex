@@ -29,11 +29,11 @@ TFF\kern.04ex$k$ with arithmetic is sometimes labeled ``TFA\kern.04ex$k$.''
 \ourparagraph{Type Signatures.}
 Each function and predicate symbol occurring in a formula must be associated
 with a {\em type signature\/} that specifies the types of the arguments and, for
-functions, the return type. Type signatures can take any of the following forms:
+functions, the result type. Type signatures can take any of the following forms:
 %
 \begin{enumerate}
 \item[(a)] a type (predefined or user-defined);
-\item[(b)] the Boolean pseudotype {\tt \$o}; % (also called {\tt \$oType});
+\item[(b)] the Boolean pseudotype {\tt \$o}  (the result ``type'' of predicate symbols);
 \item[(c)] {\tt ($\tau_1$\;*\;${\cdots}$\;*\;$\tau_n$)\;>\;$\tilde \tau$}
 \ for $n > 0$, where $\tau_1,\dots,\tau_n$ are types and $\tilde \tau$ is
 a type or {\tt \$o};
@@ -45,7 +45,7 @@ type variables and $\varsigma$ has one of the previous three forms.
 %The converse is not true: Some $\alpha_i$ cannot occur in $\tau$.
 \end{enumerate}
 %
-The parentheses in form (c) are omitted if $n = 1$.
+In accordance with TFF0, the parentheses in form (c) are omitted if $n = 1$.
 The binder {\tt !>} in form (d) denotes universal quantification.
 If $\varsigma$ is of form (c), it must be enclosed in parentheses.
 All type variables must be bound by a {\tt !>}-binder.
