@@ -12,11 +12,13 @@ years of untyped reasoning, we have recently witnessed the rise of
 interpreted arithmetic embedded in monomorphic type systems. TFF1
 lifts the most obvious restrictions of such systems.
 
-TFF1 is part of TPTP World. The TPTP library already contains
+%TFF1 is part of TPTP World.
+The TPTP library already contains
 nearly a thousand TFF1 problems, and although the format is in its
 infancy, it is supported by several applications, including the SMT solver
 Alt-Ergo (via Why3).
-Work has commenced in Saarbr\"ucken to add polymorphism to SPASS \cite{wand-weidenbach-2012}.
+Work has commenced in Saarbr\"ucken to add polymorphism to the
+superposition prover SPASS \cite{wand-weidenbach-2012}.
 Given that many applications require polymorphism, other reasoning tools are
 likely to follow suit.
 The annual CADE Automated System Competition (CASC) will surely have a role
@@ -30,8 +32,8 @@ Rank-1 polymorphism is, of course, no panacea; higher ranks and dependent types
 could be part of a future TFF2.
 
 For SMT (satisfiability modulo theories) solvers, the SMT-LIB 2 format \cite{barrett-et-al-2010} specifies a
-classical many-sorted logic with equality and interpreted arithmetic, much in
-the style of TFF0 but with parametric symbol declarations (overloading).
+classical many-sorted logic %with equality and interpreted arithmetic,
+much in the style of TFF0 but with parametric symbol declarations (overloading).
 Polymorphism would make sense there as well, as witnessed by Alt-Ergo.
 However, the SMT community is still recovering from the %major
 upgrade to SMT-LIB 2 and busy defining a standard proof format;
@@ -45,9 +47,15 @@ reasonable format to implement in an SMT solver if polymorphism is desired.
 \paragraph{\textbf{\upshape\ackname.}}
 %
 The present specification is largely the result of consensus among
-participants of the {\tt polymorphic-tptp-tff} mailing list, especially
-Fran\c{c}ois Bobot, Chad Brown, Florian Rabe, Philipp R\"ummer, Stephan Schulz,
-Geoff Sutcliffe, and Josef Urban.
+participants of the {\tt polymorphic-tptp-tff} mailing list,
+especially Fran\c{c}ois Bobot, Chad Brown, Florian Rabe, Philipp R\"ummer,
+Stephan Schulz, Geoff Sutcliffe, and Josef
+
+\pagebreak
+%%% TYPESETTING: MEGAHACK
+
+\noindent
+Urban.
 We are grateful to Geoff Sutcliffe, TPTP Master of Ceremonies, for giving TFF1
 his benediction and adapting the TPTP BNF and other infrastructure.
 He, Mark Summerfield, and several anonymous reviewers suggested many textual
