@@ -45,7 +45,7 @@ type argument; hence, it is preferable to treat it as a logical symbol.
 
 %A {\em type substitution\/} $\rho$ is a mapping of type variables
 %to types. A {\em monomorphic\/} type substitution
-%maps every type variable either to itself or to a monomorphic type.
+%maps every type variable either to itself or to a ground type.
 %%
 %Given a function $h$, the expression $h[x \mapsto a]$
 %denotes the function that maps $x$ to $a$ and
@@ -178,7 +178,7 @@ $\evalT{\kappa(\tau_1,\dots,\tau_n)} \eqdef \kappa^{\cI}\bigl(\evalT{\tau_1},\,\
 %
 Since type evaluation depends only on the values of $\theta$
 on the type variables occurring in a type, we write $\evalG{\tau}$
-to denote the domain of a monomorphic type $\tau$.
+to denote the domain of a ground type $\tau$.
 %We use the notation $[\alpha_1\,\mapsto\,D_1,\,\dots,\,\alpha_m\,\mapsto\,D_m]$
 %to specify $\theta$ for types whose free type variables are among
 %$\alpha_1,\dots,\alpha_m$.
