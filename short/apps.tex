@@ -8,37 +8,36 @@ TPTP syntaxes, from which parsers are generated.%
 \footnote{\url{http://www.cs.miami.edu/~tptp/TPTP/SyntaxBNF.html}}
 Some TPTP tools still need to be ported to TFF1; this is ongoing work.
 
-%%% @Andrei: I swapped the following two para because I can then refer to
-%%% "Sledgehammer-like" tool.
-
-Sledgehammer \cite{paulson-blanchette-2010}, a tool that bridges the interactive
-theorem prover Isabelle\slash HOL and various automatic provers, has been
-extended to output pure TFF1 problems for Alt-Ergo and Why3
-(in addition to FOF, TFF0, and THF0). For the first time, Sledgehammer
-exploits the polymorphic potential of these tools---without having
-to implement their native file formats.
-Moreover, using Sledgehammer, we produced 987~problems to populate the TPTP
-library.%
-\footnote{\url{http://www.cs.miami.edu/~tptp/TPTP/Proposals/TFF1.html}}
-%PFF (``\relax{P}olymorphic T\relax{FF}'')
-%domain of the TPTP library.
-By extending the tool with a TFF1 parser,
-we hope to transform it into a versatile translator to FOF and
-TFF0 \cite{blanchette-et-al-2013-types}.
-
 %%% TODO: update: grep "pure"
 The Why3 \cite{bobot-et-al-2011} environment, which defines its own ML-like
 polymorphic specification language, can parse pure TFF1. Why3 translates
 between TFF1 and a wide range of
 formats, including FOF, SMT-LIB, and
 Alt-Ergo's native syntax \cite{couchot-lescuyer-2007,bobot-paskevich-2011}.
-This support is exploited by a new Sledgehammer-like tool for HOL Light
-\cite{kaliszyk-urban-2013}.
+This support is exploited by the new  tool for HOL Light.
 In addition, Why3's TFF1 parser is being ported to
 Alt-Ergo \cite{bobot-et-al-2008}, so that it can directly process TFF1. % problems.
 %without taking a detour through Why3.
 %Code sharing is facilitated here by the use of
 %a common implementation language (OCaml).
+
+HOL(y)Hammer \cite{kaliszyk-urban-2013}
+and Sledgehammer \cite{paulson-blanchette-2010}
+integrate various automatic provers
+in the proof assistants HOL~Light and Isabelle\slash HOL. They have been
+extended to output pure TFF1 problems for Alt-Ergo and Why3
+(in addition to FOF, TFF0, and THF0).
+%For the first time, Sledgehammer
+%exploits the polymorphic potential of these tools---without having
+%to implement their native file formats.
+%Moreover,
+Using Sledgehammer, we produced 987~problems to populate the TPTP library.%
+\footnote{\url{http://www.cs.miami.edu/~tptp/TPTP/Proposals/TFF1.html}}
+%PFF (``\relax{P}olymorphic T\relax{FF}'')
+%domain of the TPTP library.
+By extending the tool with a TFF1 parser,
+we hope to transform it into a versatile translator to FOF and
+TFF0 \cite{blanchette-et-al-2013-types}.
 
 %Other tools, notably an LF-based type checker similar to TwHelFTC for THF0, are
 %in development.
