@@ -1,0 +1,105 @@
+----------------------- REVIEW 1 ---------------------
+PAPER: 6
+TITLE: TFF1: The TPTP Typed First-Order Form with Rank-1 Polymorphism
+AUTHORS: Jasmin Christian Blanchette and Andrei Paskevich
+
+OVERALL EVALUATION: 0 (borderline paper)
+REVIEWER'S CONFIDENCE: 3 (medium)
+Originality and significance: 1 (poor)
+Technical quality and completeness: 2 (fair)
+Comparison with related work and completeness of references: 2 (fair)
+Quality of presentation, clarity, readability: 3 (good)
+
+----------- REVIEW -----------
+The paper presents a short description of a polymorphic first-order
+format. The motivation is to promote a polymorphic version of the
+typed first-order form recently adopted for TPTP. In the presented
+polymorphic form, types are built from type variables and type
+constructors. A polymorphic type is a type including some type
+variable. The paper presents extensively the syntax and the related
+conventions (3 pages). Then, the semantics is discussed in 2 pages
+including the typing rules. There is absolutely no surprise in the
+presentation of these two sections on Syntax and Semantics. But the
+reader could be surprised by the fact that the applications of TFF1
+are only very briefly discussed. Indeed, only a short paragraph is
+dedicated to the implementation of TFF1 in Sledgehammer and
+All-Ergo/Why3. It would have been interesting to have a a detailed
+report on the experiments with TFF1, in order to assess the impact of
+TFF1 in practice. The current paper is just a manifesto for promoting
+TFF1 in future developments of automated reasoners.
+
+There is a clear consensus on the importance of developing expressive
+reasoners. The use of TFF1 clearly goes in the right direction, and we
+should support this kind of initiative. The paper is well-written.
+Unfortunately, it is not substantial enough. To me, a "system
+description" is not the right way to present TFF1 and its
+benefits. This is why I see it as a borderline paper.
+
+
+----------------------- REVIEW 2 ---------------------
+PAPER: 6
+TITLE: TFF1: The TPTP Typed First-Order Form with Rank-1 Polymorphism
+AUTHORS: Jasmin Christian Blanchette and Andrei Paskevich
+
+OVERALL EVALUATION: 2 (accept)
+REVIEWER'S CONFIDENCE: 4 (high)
+Originality and significance: 4 (very good)
+Technical quality and completeness: 4 (very good)
+Comparison with related work and completeness of references: 4 (very good)
+Quality of presentation, clarity, readability: 5 (excellent)
+
+----------- REVIEW -----------
+This paper introduce TFF1 format by way of an overview of it.
+
+The paper seems like a good advertisement and reference of interest to the CADE community.
+
+
+p2  Since the type parameters are explicitly bound, why is the capitalization rules needed?
+
+p2, say what makes $o a "pseudotype"
+
+p2 "parentheses in form (c) are omitted if n=1".  Why not always omit them?  (If the presence of the parens is for some compatibility with TFF0, then I suggest rethinking that design decision in order to produce a cleaner, improved TFF1 syntax.)
+
+p2, "If sigma is of form (c), it must be enclosed in parentheses".  This just seems awkward to me.  That is, this rule and the wording used to describe it seems to miss out on the well-known wonders of parsing.  Instead of saying (and defining) it this way, why not just say what the binding powers of *, >, etc. are and say that the parens can be used around any type?
+
+p3.  Are "tff" and "type" keywords?  If so, please make the type setting suggest so (and/or say so in the text).  What is the role of the identifiers that end with "_t"?
+
+p6 "polymorphism ... likely that other reasoning tools will gradually follow suit"  This is entirely possible and may indeed be a good thing.  However, a similar (and easier to argue) point could be made that quantifiers are required by many applications and therefore it is likely that most SMT solvers will take the effort to incorporate good support for quantifiers--but this hope has not yet played out in practice, where Z3 seems substantially better than other SMT solvers at handling quantifiers and several SMT solvers (like OpenSMT) don't support quantifiers at all.  My message is:  Regarding polymorphism, there continues to be some resistance, but one should keep pushing the idea (if one believes in it).
+
+
+----------------------- REVIEW 3 ---------------------
+PAPER: 6
+TITLE: TFF1: The TPTP Typed First-Order Form with Rank-1 Polymorphism
+AUTHORS: Jasmin Christian Blanchette and Andrei Paskevich
+
+OVERALL EVALUATION: 2 (accept)
+REVIEWER'S CONFIDENCE: 3 (medium)
+Originality and significance: 3 (good)
+Technical quality and completeness: 4 (very good)
+Comparison with related work and completeness of references: 4 (very good)
+Quality of presentation, clarity, readability: 4 (very good)
+
+----------- REVIEW -----------
+This system description proposes a new entry into the TPTP family of
+language description.  The theoretical idea is quite straightforward:
+we admit first-order typed formulas with rank-1 polymorphism, that is,
+only outermost type quantification, where the quantifiers can only be
+instantiated with simple types.  This is clearly a step forward in
+terms of addressing practical concerns in applying theorem proving to
+problems from domains such as programming languages.
+
+The syntax is heavy-weight and idiosyncratic, but no more so than
+other language in the TPTP family.  In particular, from the
+application perspective I find it a bit unfortunate that type
+instantiations must be explicitly given.  Type inference for the
+rank-1 fragment is so well-understood it seems hardly a burden on the
+implementer to conform with more standard presentation of syntax.  It
+seems one might as well go to arbitrary rank polymorphism, if the
+syntax is as explicit as proposed here.
+
+I would also suggest to the authors that in section 2, they present
+the examples in "ordinary" (mathematical) syntax (something along the lines
+of ML or Haskell), and the specific TFF1 syntax.  Currently, it is
+tedious to decipher the specification unless one already has
+understanding of TPTP, and not so easy to make the connection
+to the mathematical notation in section 3.
