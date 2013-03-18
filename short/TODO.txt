@@ -1,16 +1,4 @@
-TODO:
-
-  * It seems one might as well go to arbitrary rank polymorphism, if the syntax
-    is as explicit as proposed here.
-
-
 MAYBE:
-
-  * have the examples in "ordinary" (mathematical) syntax in Sect. 2 (something
-    along the lines of ML or Haskell), and the specific TFF1 syntax.
-
-  * p3. Are "tff" and "type" keywords? If so, please make the type setting
-    suggest so (and/or say so in the text).
 
   * p6 "polymorphism ... likely that other reasoning tools will gradually follow
     suit" This is entirely possible and may indeed be a good thing. However, a
@@ -30,10 +18,15 @@ MAYBE:
 
 KIND OF DONE:
 
+  * p3. Are "tff" and "type" keywords? If so, please make the type setting
+    suggest so (and/or say so in the text).
+    DID: Added a sentence in intro pointing to TFF0 spec.
+
   * In particular, from the application perspective I find it a bit unfortunate
     that type instantiations must be explicitly given. Type inference for the
     rank-1 fragment is so well-understood it seems hardly a burden on the
     implementer to conform with more standard presentation of syntax.
+    DID: Added $_ syntax.
 
 
 DONE:
@@ -61,4 +54,13 @@ IGNORED:
 
   * It would have been interesting to have a detailed report on the experiments
     with TFF1, to assess the impact of TFF1 in practice.
-    RATIONALE: No space on 7 pages
+    RATIONALE: No space on 7 pages.
+
+  * It seems one might as well go to arbitrary rank polymorphism, if the syntax
+    is as explicit as proposed here.
+    RATIONALE: The extension to higher-rank polymorphism is mentioned in the
+    conclusion already.
+
+  * have the examples in "ordinary" (mathematical) syntax in Sect. 2 (something
+    along the lines of ML or Haskell), and the specific TFF1 syntax.
+    RATIONALE: No space!
