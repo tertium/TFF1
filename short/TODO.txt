@@ -28,6 +28,11 @@ KIND OF DONE:
     implementer to conform with more standard presentation of syntax.
     DID: Added $_ syntax.
 
+  * It seems one might as well go to arbitrary rank polymorphism, if the syntax
+    is as explicit as proposed here.
+    DID: The extension to higher-rank polymorphism is now mentioned in the
+    conclusion.
+
 
 DONE:
 
@@ -55,11 +60,6 @@ IGNORED:
   * It would have been interesting to have a detailed report on the experiments
     with TFF1, to assess the impact of TFF1 in practice.
     RATIONALE: No space on 7 pages.
-
-  * It seems one might as well go to arbitrary rank polymorphism, if the syntax
-    is as explicit as proposed here.
-    RATIONALE: The extension to higher-rank polymorphism is mentioned in the
-    conclusion already.
 
   * have the examples in "ordinary" (mathematical) syntax in Sect. 2 (something
     along the lines of ML or Haskell), and the specific TFF1 syntax.
