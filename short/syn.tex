@@ -132,8 +132,9 @@ must agree with the assumed signature.
 If a type constructor, function symbol, or predicate symbol is declared more
 than once, it must be given the same type signature up to renaming of bound
 type variables.
-All symbols share the same namespace; in particular, a type constructor
-cannot have the same name as a function or predicate symbol.
+All symbols share the same namespace.
+%; in particular, a type constructor
+% cannot have the same name as a function or predicate symbol.
 
 \ourparagraph{Function and Predicate Application.} To keep the required type
 inference to a minimum, every use of a polymorphic symbol must explicitly
@@ -152,6 +153,18 @@ In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
 instantiated with actual types. In particular, \verb+$o+, \verb+$tType+,
 and {\tt !>}-binders cannot occur in type arguments of polymorphic symbols.
 
+For systems that implement type inference, the following %nonstandard
+extension of TFF1 might be useful. When a type argument of
+a polymorphic symbol can be inferred automatically, it may be
+replaced with the wildcard {\tt \$\_}. For example:
+{\tt is\_empty(\$\_,\allowbreak\;\,cons(\$\_,\allowbreak\;X,\;nil(\$\_)))}.
+Although {\tt nil}'s type argument cannot be inferred from the types of
+its term arguments (since there are none), it can be
+deduced from {\texttt X}'s type.
+%The producer of a TFF1 problem must be aware of the type
+%inference algorithm implemented in the consumer to omit only redundant type
+%arguments.
+
 \ourparagraph{Type and Term Variables.}
 Every variable in a TFF1 formula must be bound. The variable's type must be specified
 at binding time:
@@ -162,6 +175,8 @@ tff(bird_list_not_empty, axiom,
         ~ is_empty(bird, cons(bird, B, Bs))).
 \end{verbatim}
 \end{quote}
+
+\pagebreak[3] %% TYPESETTING
 
 If the type and the preceding colon ({\tt :}) are omitted, the variable is given
 type~{\tt\$i}. Every type variable occurring in a TFF1 formula

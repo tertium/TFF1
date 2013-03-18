@@ -1,12 +1,10 @@
 TODO:
 
-  * In particular, from the application perspective I find it a bit unfortunate
-    that type instantiations must be explicitly given. Type inference for the
-    rank-1 fragment is so well-understood it seems hardly a burden on the
-    implementer to conform with more standard presentation of syntax.
-
   * It seems one might as well go to arbitrary rank polymorphism, if the syntax
     is as explicit as proposed here.
+
+
+MAYBE:
 
   * have the examples in "ordinary" (mathematical) syntax in Sect. 2 (something
     along the lines of ML or Haskell), and the specific TFF1 syntax.
@@ -33,7 +31,12 @@ TODO:
     of polymorphisms provided by Why3 and Sledgehammer
 
 
-MAYBE:
+KIND OF DONE:
+
+  * In particular, from the application perspective I find it a bit unfortunate
+    that type instantiations must be explicitly given. Type inference for the
+    rank-1 fragment is so well-understood it seems hardly a burden on the
+    implementer to conform with more standard presentation of syntax.
 
 
 DONE:

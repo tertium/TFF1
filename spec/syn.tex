@@ -153,16 +153,17 @@ In keeping with TFF1's rank-1 polymorphic nature, type variables can only be
 instantiated with actual types. In particular, \verb+$o+, \verb+$tType+,
 and {\tt !>}-binders cannot occur in type arguments of polymorphic symbols.
 
-For systems that implement type inference, the following nonstandard extension
-of TFF1 might be useful. When a type argument of
+For systems that implement type inference, the following %nonstandard
+extension of TFF1 might be useful. When a type argument of
 a polymorphic symbol can be inferred automatically, it may be
 replaced with the wildcard {\tt \$\_}. For example:
 \[\hbox{{\tt is\_empty(\$\_,} {\tt cons(\$\_,\;X,\;nil(\$\_)))}}\]
 Although {\tt nil}'s type argument cannot be inferred locally from the types of
 its term arguments (since there are none), the Hindley--Milner type inference
-can deduce it. The producer of a TFF1 problem must be aware of the type
-inference algorithm implemented in the consumer to omit only redundant type
-arguments.
+can deduce it from {\texttt X}'s type.
+The producer of a TFF1 problem must be aware of
+the type inference algorithm implemented in the consumer to omit only redundant
+type arguments.
 
 \ourparagraph{Type and Term Variables.}
 Every variable in a TFF1 formula must be bound. The variable's type must be specified
