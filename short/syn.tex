@@ -22,9 +22,9 @@ arithmetic types
 {\tt \$int}, {\tt \$rat}, and {\tt \$real} are modeled by $\mathbb{Z}$,
 $\mathbb{Q}$, and $\mathbb{R}$ \cite{sutcliffe-et-al-2012-tff0}.
 It is perfectly acceptable for a TFF
-implementation to restrict itself to ``pure TFF\kern.04ex$k$,''
+implementation to restrict itself to ``pure TFF\kern.06ex$k$,''
 without arithmetic. %For clarity,
-TFF\kern.04ex$k$ with arithmetic is sometimes labeled ``TFA\kern.04ex$k$.''
+TFF\kern.06ex$k$ with arithmetic is sometimes labeled ``TFA\kern.06ex$k$.''
 
 \ourparagraph{Type Signatures.}
 Each function and predicate symbol occurring in a formula must be associated
@@ -95,11 +95,11 @@ The following declarations introduce a nullary type
 constructor {\tt bird}, a unary type constructor {\tt list},
 and a binary type constructor {\tt map}:
 \begin{quote}
-\verb+tff(bird_t, type, bird: $tType).+
+\verb+tff(bird, type, bird: $tType).+
 \par
-\verb+tff(list_t, type, list: $tType > $tType).+
+\verb+tff(list, type, list: $tType > $tType).+
 \par
-\verb+tff(map_t, type, map: ($tType * $tType) > $tType).+
+\verb+tff(map, type, map: ($tType * $tType) > $tType).+
 \end{quote}
 If a type constructor is used before being declared, its arity is
 determined by the first occurrence. Any later declaration
@@ -112,15 +112,15 @@ The following declarations introduce a monomorphic
 constant {\tt pi}, a polymorphic predicate
 {\tt is\_empty}, and a pair of polymorphic functions {\tt cons} and {\tt lookup}:
 \begin{quote}
-\verb+tff(pi_t, type, pi: $real).+
+\verb+tff(pi, type, pi: $real).+
 \par
-\verb+tff(is_empty_t, type, is_empty : !>[A : $tType]: (list(A) > $o)).+\kern-10mm
-\par
-\pagebreak[2] %% TYPESETTING
-\verb+tff(cons_t, type, cons : !>[A : $tType]: ((A * list(A)) > list(A))).+
+\verb+tff(is_empty, type, is_empty : !>[A : $tType]: (list(A) > $o)).+\kern-10mm
 \par
 \pagebreak[2] %% TYPESETTING
-\verb+tff(lookup_t, type,+\\
+\verb+tff(cons, type, cons : !>[A : $tType]: ((A * list(A)) > list(A))).+
+\par
+\pagebreak[2] %% TYPESETTING
+\verb+tff(lookup, type,+\\
 \verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
 \end{quote}
 If a function or predicate symbol is used before being declared, a
@@ -208,13 +208,13 @@ maps and conjectures that {\tt update} is idempotent for fixed keys and
 values. %Its SZS status \cite{sutcliffe-2008-szs} is Theorem.
 
 \begin{quote}
-\verb+tff(map_t, type, map : ($tType * $tType) > $tType).+
+\verb+tff(map, type, map : ($tType * $tType) > $tType).+
 \par
-\verb+tff(lookup_t, type,+\\
+\verb+tff(lookup, type,+\\
 \verb+    lookup : !>[A : $tType, B : $tType]: ((map(A, B) * A) > B)).+\kern-10mm
 \par
 \pagebreak[1] %% TYPESETTING
-\verb+tff(update_t, type,+\\
+\verb+tff(update, type,+\\
 \verb+    update : !>[A : $tType, B : $tType]:+\\
 \verb+                 ((map(A, B) * A * B) > map(A, B))).+
 \par%\medskip %% deliberate (between declarations and axioms)
