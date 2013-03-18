@@ -1,0 +1,57 @@
+TODO:
+
+  * In particular, from the application perspective I find it a bit unfortunate
+    that type instantiations must be explicitly given. Type inference for the
+    rank-1 fragment is so well-understood it seems hardly a burden on the
+    implementer to conform with more standard presentation of syntax.
+
+  * It seems one might as well go to arbitrary rank polymorphism, if the syntax
+    is as explicit as proposed here.
+
+  * have the examples in "ordinary" (mathematical) syntax in Sect. 2 (something
+    along the lines of ML or Haskell), and the specific TFF1 syntax.
+
+  * p2 Since the type parameters are explicitly bound, why is the capitalization
+    rules needed?
+
+  * p3. Are "tff" and "type" keywords? If so, please make the type setting
+    suggest so (and/or say so in the text).
+
+  * p6 "polymorphism ... likely that other reasoning tools will gradually follow
+    suit" This is entirely possible and may indeed be a good thing. However, a
+    similar (and easier to argue) point could be made that quantifiers are
+    required by many applications and therefore it is likely that most SMT
+    solvers will take the effort to incorporate good support for
+    quantifiers--but this hope has not yet played out in practice, where Z3
+    seems substantially better than other SMT solvers at handling quantifiers
+    and several SMT solvers (like OpenSMT) don't support quantifiers at all. My
+    message is: Regarding polymorphism, there continues to be some resistance,
+    but one should keep pushing the idea (if one believes in it).
+
+  * add: unsurpringly, preliminary experiments show that it's better to use
+    Alt-Ergo's polymorphism directly than to use any of the complete encodings
+    of polymorphisms provided by Why3 and Sledgehammer
+
+
+MAYBE:
+
+
+DONE:
+
+  * p2 "parentheses in form (c) are omitted if n=1".
+
+  * p2, say what makes $o a "pseudotype"
+
+  * What is the role of the identifiers that end with "_t"?
+
+
+IGNORED:
+
+  * p2, "If sigma is of form (c), it must be enclosed in parentheses". This just
+    seems awkward to me. That is, this rule and the wording used to describe it
+    seems to miss out on the well-known wonders of parsing. Instead of saying
+    (and defining) it this way, why not just say what the binding powers of *,
+    >, etc. are and say that the parens can be used around any type?
+
+  * It would have been interesting to have a detailed report on the experiments
+    with TFF1, to assess the impact of TFF1 in practice.
