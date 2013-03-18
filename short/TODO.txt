@@ -1,16 +1,5 @@
 MAYBE:
 
-  * p6 "polymorphism ... likely that other reasoning tools will gradually follow
-    suit" This is entirely possible and may indeed be a good thing. However, a
-    similar (and easier to argue) point could be made that quantifiers are
-    required by many applications and therefore it is likely that most SMT
-    solvers will take the effort to incorporate good support for
-    quantifiers--but this hope has not yet played out in practice, where Z3
-    seems substantially better than other SMT solvers at handling quantifiers
-    and several SMT solvers (like OpenSMT) don't support quantifiers at all. My
-    message is: Regarding polymorphism, there continues to be some resistance,
-    but one should keep pushing the idea (if one believes in it).
-
   * add: unsurpringly, preliminary experiments show that it's better to use
     Alt-Ergo's polymorphism directly than to use any of the complete encodings
     of polymorphisms provided by Why3 and Sledgehammer
@@ -32,6 +21,18 @@ KIND OF DONE:
     is as explicit as proposed here.
     DID: The extension to higher-rank polymorphism is now mentioned in the
     conclusion.
+
+  * p6 "polymorphism ... likely that other reasoning tools will gradually follow
+    suit" This is entirely possible and may indeed be a good thing. However, a
+    similar (and easier to argue) point could be made that quantifiers are
+    required by many applications and therefore it is likely that most SMT
+    solvers will take the effort to incorporate good support for
+    quantifiers--but this hope has not yet played out in practice, where Z3
+    seems substantially better than other SMT solvers at handling quantifiers
+    and several SMT solvers (like OpenSMT) don't support quantifiers at all. My
+    message is: Regarding polymorphism, there continues to be some resistance,
+    but one should keep pushing the idea (if one believes in it).
+    DID: Added reference to preliminary work on SPASS.
 
 
 DONE:
