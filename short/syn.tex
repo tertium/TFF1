@@ -160,12 +160,12 @@ extension of TFF1 might be useful. When a type argument of
 a polymorphic symbol can be inferred automatically, it may be
 replaced with the wildcard {\tt \$\_}. For example:
 {\tt is\_empty(\$\_,\allowbreak\;\,cons(\$\_,\allowbreak\;X,\;nil(\$\_)))}.
-Although {\tt nil}'s type argument cannot be inferred from the types of
-its term arguments (since there are none), it can be
-deduced from {\texttt X}'s type.
-%The producer of a TFF1 problem must be aware of the type
-%inference algorithm implemented in the consumer to omit only redundant type
-%arguments.
+%Although {\tt nil}'s type argument cannot be inferred from the types of
+%its term arguments (since there are none), it can be
+%deduced from {\texttt X}'s type.
+The producer of a TFF1 problem must be aware of the type
+inference algorithm implemented in the consumer to omit only redundant type
+arguments.
 
 \ourparagraph{Type and Term Variables.}
 Every variable in a TFF1 formula must be bound. The variable's type must be specified
